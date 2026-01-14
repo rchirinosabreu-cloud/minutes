@@ -16,7 +16,7 @@ const generatePDFFromHTML = async (htmlString, filename) => {
     position: absolute;
     left: -9999px;
     top: 0;
-    width: 800px; /* Fixed width A4-like */
+    width: 1400px;
     z-index: -9999;
   `;
   
@@ -36,14 +36,14 @@ const generatePDFFromHTML = async (htmlString, filename) => {
       scale: 2, // 2x scale for better resolution (Retina-like)
       useCORS: true, // Allow cross-origin images
       logging: false,
-      backgroundColor: '#E5E5E5', // Match the body background color
-      windowWidth: 800
+      backgroundColor: '#F6F7FB',
+      windowWidth: 1400
     });
 
     const imgData = canvas.toDataURL('image/png');
     
-    // Initialize PDF (A4 Portrait)
-    const pdf = new jsPDF('p', 'mm', 'a4');
+    // Initialize PDF (A4 Landscape)
+    const pdf = new jsPDF('l', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
     

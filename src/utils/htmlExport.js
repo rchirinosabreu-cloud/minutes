@@ -4,6 +4,15 @@ import { createMetricCard } from './chartVisualization';
 
 export const generateSummaryHTML = (data, sourceTitle) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  const sharedStyles = `
+    @page { size: A4 landscape; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: ${COLORS.bg}; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
+    tr:nth-child(even) { background: ${COLORS.bg}; }
+    .card, section, .block { break-inside: avoid; page-break-inside: avoid; }
+  `;
   
   // Data extraction with fallbacks
   const meetingTitle = data.meeting_title || '';
@@ -21,9 +30,10 @@ export const generateSummaryHTML = (data, sourceTitle) => {
 <head>
   <meta charset="UTF-8">
   <title>Resumen - ${sourceTitle}</title>
+  <style>${sharedStyles}</style>
 </head>
 <body style="${STYLES.body}">
-  <div style="${STYLES.container}">
+  <div style="${STYLES.container}" class="block">
     
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
@@ -65,7 +75,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
       ` : ''}
 
       <!-- Topics & Details Grid -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
         <section style="${STYLES.card}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.target}
@@ -107,7 +117,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
                       <div style="font-weight: 600; color: ${COLORS.dark};">${action.task}</div>
                       <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
                    </div>
-                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: ${action.priority === 'Alta' ? '#FEE2E2' : '#EFF6FF'}; color: ${action.priority === 'Alta' ? '#DC2626' : '#2563EB'};">
+                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${action.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${action.priority === 'Alta' ? COLORS.textDark : COLORS.primary};">
                       ${action.priority || 'General'}
                    </div>
                 </div>
@@ -131,6 +141,15 @@ export const generateSummaryHTML = (data, sourceTitle) => {
 
 export const generateAnalysisHTML = (data, sourceTitle) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  const sharedStyles = `
+    @page { size: A4 landscape; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: ${COLORS.bg}; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
+    tr:nth-child(even) { background: ${COLORS.bg}; }
+    .card, section, .block { break-inside: avoid; page-break-inside: avoid; }
+  `;
 
   const topics = data.meeting_topics || [];
   const insights = data.consulting_insights || [];
@@ -144,9 +163,10 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
 <head>
   <meta charset="UTF-8">
   <title>Análisis Estratégico - ${sourceTitle}</title>
+  <style>${sharedStyles}</style>
 </head>
 <body style="${STYLES.body}">
-  <div style="${STYLES.container}">
+  <div style="${STYLES.container}" class="block">
     
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
@@ -174,7 +194,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
        </div>
     </div>
 
-    <div style="padding: ${SPACING.xl}; background: #fff;">
+    <div style="padding: ${SPACING.xl}; background: ${COLORS.bg};">
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
@@ -234,7 +254,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
                     <div style="${STYLES.cardText}">${rec.description}</div>
                  </div>
                  ${rec.priority ? `
-                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: ${rec.priority === 'Alta' ? '#FEE2E2' : '#EFF6FF'}; color: ${rec.priority === 'Alta' ? '#DC2626' : '#2563EB'}; height: fit-content;">
+                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
                       ${rec.priority}
                    </div>
                  ` : ''}
