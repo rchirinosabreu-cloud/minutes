@@ -7,7 +7,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
   const sharedStyles = `
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: ${COLORS.bg}; }
+    body { margin: 0; background: ${GRADIENTS.canvas}; }
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
     tr:nth-child(even) { background: ${COLORS.bg}; }
@@ -144,7 +144,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
   const sharedStyles = `
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: ${COLORS.bg}; }
+    body { margin: 0; background: ${GRADIENTS.canvas}; }
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
     tr:nth-child(even) { background: ${COLORS.bg}; }

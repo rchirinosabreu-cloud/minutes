@@ -69,10 +69,10 @@ export const createBarChart = (data, color = COLORS.primary) => {
  */
 export const createMetricCard = (label, value, subtext = '', color = COLORS.primary) => {
   return `
-    <div style="padding: 18px; border-radius: 16px; background: ${COLORS.white}; border: 1px solid ${COLORS.border}; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.08);">
+    <div style="padding: 20px; border-radius: 16px; background: ${COLORS.white}; border: 1px solid ${COLORS.border}; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.08);">
       <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: ${COLORS.textLight}; margin-bottom: 8px;">${label}</div>
-      <div style="font-size: 32px; font-weight: 800; color: ${color}; line-height: 1;">${value}</div>
-      ${subtext ? `<div style="font-size: 12px; color: ${COLORS.textLight}; margin-top: 4px;">${subtext}</div>` : ''}
+      <div style="font-size: 36px; font-weight: 800; color: ${color}; line-height: 1;">${value}</div>
+      ${subtext ? `<div style="font-size: 13px; color: ${COLORS.textLight}; margin-top: 6px;">${subtext}</div>` : ''}
     </div>
   `;
 };
