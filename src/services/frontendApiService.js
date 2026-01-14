@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // API Keys
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY = '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';
 const FIREFLIES_API_KEY = 'f42ce5bc-ad1a-4d10-973f-3df2c75327e6';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
