@@ -19,7 +19,7 @@ export const createPercentageCircle = (percentage, color = COLORS.primary, size 
       <div style="position: relative; width: ${size}px; height: ${size}px;">
         <svg width="${size}" height="${size}" viewBox="0 0 60 60" style="transform: rotate(-90deg);">
           <!-- Background Circle -->
-          <circle cx="30" cy="30" r="${radius}" fill="none" stroke="#E5E7EB" stroke-width="6" />
+          <circle cx="30" cy="30" r="${radius}" fill="none" stroke="${COLORS.accentLavender}" stroke-width="6" />
           <!-- Progress Circle -->
           <circle cx="30" cy="30" r="${radius}" fill="none" stroke="${color}" stroke-width="6" 
                   stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" stroke-linecap="round" />
@@ -69,7 +69,7 @@ export const createBarChart = (data, color = COLORS.primary) => {
  */
 export const createMetricCard = (label, value, subtext = '', color = COLORS.primary) => {
   return `
-    <div style="padding: 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid ${COLORS.border}; box-shadow: 0 8px 18px rgba(17, 24, 39, 0.06);">
+    <div style="padding: 18px; border-radius: 16px; background: ${COLORS.white}; border: 1px solid ${COLORS.border}; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.08);">
       <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: ${COLORS.textLight}; margin-bottom: 8px;">${label}</div>
       <div style="font-size: 32px; font-weight: 800; color: ${color}; line-height: 1;">${value}</div>
       ${subtext ? `<div style="font-size: 12px; color: ${COLORS.textLight}; margin-top: 4px;">${subtext}</div>` : ''}

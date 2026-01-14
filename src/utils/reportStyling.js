@@ -21,15 +21,15 @@ export const GRADIENTS = {
   header: COLORS.white,
   primary: COLORS.primary,
   secondary: COLORS.secondary,
-  limeSoft: COLORS.accentLime,
-  purpleSoft: COLORS.accentLavender,
-  graySoft: COLORS.bg,
-  cover: COLORS.bg,
+  limeSoft: `linear-gradient(135deg, ${COLORS.accentLime} 0%, ${COLORS.bg} 100%)`,
+  purpleSoft: `linear-gradient(135deg, ${COLORS.accentLavender} 0%, ${COLORS.bg} 100%)`,
+  graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
+  cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 55%, ${COLORS.bg} 100%)`,
 };
 
 export const TYPOGRAPHY = {
   fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-  h1: "font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;",
+  h1: "font-size: 36px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;",
   h2: "font-size: 22px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3;",
   h3: "font-size: 18px; font-weight: 600; line-height: 1.4;",
   body: "font-size: 14px; line-height: 1.7; color: #111827;",
@@ -48,7 +48,7 @@ export const SPACING = {
 export const STYLES = {
   // Global
   body: `font-family: ${TYPOGRAPHY.fontFamily}; background-color: ${COLORS.bg}; margin: 0; padding: 32px; color: ${COLORS.text}; -webkit-font-smoothing: antialiased; print-color-adjust: exact; -webkit-print-color-adjust: exact;`,
-  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #F6F7FB; border-radius: 24px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 18px 40px rgba(17, 24, 39, 0.08);",
+  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #F6F7FB; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
   
   // Header / Cover
   coverPage: `min-height: 620px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
@@ -63,14 +63,14 @@ export const STYLES = {
   // Sections
   content: `padding: ${SPACING.xl};`,
   section: `margin-bottom: ${SPACING.xl}; page-break-inside: avoid; break-inside: avoid;`,
-  sectionTitleBox: `margin-bottom: ${SPACING.md}; display: flex; align-items: center; gap: ${SPACING.sm};`,
+  sectionTitleBox: `margin-bottom: ${SPACING.md}; display: flex; align-items: center; gap: ${SPACING.sm}; padding: ${SPACING.xs} ${SPACING.sm}; background: ${COLORS.white}; border-radius: 999px; border: 1px solid ${COLORS.border}; width: fit-content;`,
   sectionTitle: `${TYPOGRAPHY.h2} color: ${COLORS.dark}; margin: 0;`,
   
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;",
-  card: `background: ${COLORS.white}; border-radius: 16px; padding: ${SPACING.md}; box-shadow: 0 8px 18px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
-  cardLime: `background: ${COLORS.accentLime}; border: 1px solid ${COLORS.accentLime};`,
-  cardPurple: `background: ${COLORS.primary}; color: white; border: none;`,
+  card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.md}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
+  cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
+  cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
