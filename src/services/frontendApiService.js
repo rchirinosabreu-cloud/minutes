@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const FIREFLIES_API_KEY = import.meta.env.VITE_FIREFLIES_API_KEY || '';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://minutes-production.up.railway.app';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'delightful-nourishment-production.up.railway.app';
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
 const FIREFLIES_API_URL = 'https://api.fireflies.ai/graphql';
 
