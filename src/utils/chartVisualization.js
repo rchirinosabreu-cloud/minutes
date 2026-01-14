@@ -19,7 +19,7 @@ export const createPercentageCircle = (percentage, color = COLORS.primary, size 
       <div style="position: relative; width: ${size}px; height: ${size}px;">
         <svg width="${size}" height="${size}" viewBox="0 0 60 60" style="transform: rotate(-90deg);">
           <!-- Background Circle -->
-          <circle cx="30" cy="30" r="${radius}" fill="none" stroke="#E5E7EB" stroke-width="6" />
+          <circle cx="30" cy="30" r="${radius}" fill="none" stroke="${COLORS.accentLavender}" stroke-width="6" />
           <!-- Progress Circle -->
           <circle cx="30" cy="30" r="${radius}" fill="none" stroke="${color}" stroke-width="6" 
                   stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" stroke-linecap="round" />
@@ -49,7 +49,7 @@ export const createBarChart = (data, color = COLORS.primary) => {
         return `
           <div style="display: flex; align-items: center; gap: 12px; font-size: 12px;">
             <div style="width: 80px; text-align: right; color: ${COLORS.textLight}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.label}</div>
-            <div style="flex: 1; background: #F3F4F6; height: 8px; border-radius: 4px; overflow: hidden;">
+            <div style="flex: 1; background: ${COLORS.border}; height: 8px; border-radius: 4px; overflow: hidden;">
               <div style="width: ${width}%; background: ${color}; height: 100%; border-radius: 4px;"></div>
             </div>
             <div style="width: 30px; font-weight: 600; color: ${COLORS.textDark};">${item.value}%</div>
@@ -69,10 +69,10 @@ export const createBarChart = (data, color = COLORS.primary) => {
  */
 export const createMetricCard = (label, value, subtext = '', color = COLORS.primary) => {
   return `
-    <div style="padding: 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid ${COLORS.border}; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+    <div style="padding: 20px; border-radius: 16px; background: ${COLORS.white}; border: 1px solid ${COLORS.border}; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.08);">
       <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: ${COLORS.textLight}; margin-bottom: 8px;">${label}</div>
-      <div style="font-size: 32px; font-weight: 800; color: ${color}; line-height: 1;">${value}</div>
-      ${subtext ? `<div style="font-size: 12px; color: ${COLORS.textLight}; margin-top: 4px;">${subtext}</div>` : ''}
+      <div style="font-size: 36px; font-weight: 800; color: ${color}; line-height: 1;">${value}</div>
+      ${subtext ? `<div style="font-size: 13px; color: ${COLORS.textLight}; margin-top: 6px;">${subtext}</div>` : ''}
     </div>
   `;
 };
@@ -84,7 +84,7 @@ export const createMetricCard = (label, value, subtext = '', color = COLORS.prim
  */
 export const createProgressBar = (percentage, color = COLORS.primary) => {
   return `
-    <div style="width: 100%; height: 8px; background: #E5E7EB; border-radius: 4px; overflow: hidden; margin-top: 8px;">
+    <div style="width: 100%; height: 8px; background: ${COLORS.border}; border-radius: 4px; overflow: hidden; margin-top: 8px;">
       <div style="width: ${percentage}%; height: 100%; background: ${color};"></div>
     </div>
   `;
