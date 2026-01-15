@@ -97,6 +97,21 @@ export const formatList = (items) => {
   `;
 };
 
+export const formatListAsCards = (items) => {
+  if (!items) return '';
+  const listItems = Array.isArray(items) ? items : [items];
+
+  return `
+    <div style="${STYLES.listGrid}">
+      ${listItems.map((item, index) => `
+        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}">
+          <div style="${TYPOGRAPHY.body}">${item}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+};
+
 export const getBrainStudioLogoSVG = () => `
 <img src="https://horizons-cdn.hostinger.com/1af5ba22-48aa-4ebb-9e41-db8e711d6980/f994308f948d72e8aace1a0365fab777.png" alt="Brain Studio" style="width: 140px; height: auto; display: block;" />
 `;

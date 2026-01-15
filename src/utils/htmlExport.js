@@ -1,5 +1,5 @@
 
-import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList } from './reportStyling';
+import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList, formatListAsCards } from './reportStyling';
 import { createMetricCard } from './chartVisualization';
 
 export const generateSummaryHTML = (data, sourceTitle) => {
@@ -200,9 +200,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.target}
             <h2 style="${STYLES.sectionTitle}">Contexto y Temas</h2>
          </div>
-         <div style="${STYLES.card}">
-            ${formatList(topics)}
-         </div>
+         ${formatListAsCards(topics)}
        </section>
 
        <section style="${STYLES.section}">
@@ -210,9 +208,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.lightning}
             <h2 style="${STYLES.sectionTitle}">Insight Consultivo</h2>
          </div>
-         <div style="${STYLES.card}">
-            ${formatList(insights)}
-         </div>
+         ${formatListAsCards(insights)}
        </section>
 
        <section style="${STYLES.section}">
@@ -220,9 +216,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.bulb}
             <h2 style="${STYLES.sectionTitle}">Observaciones Críticas</h2>
          </div>
-         <div style="${STYLES.card}">
-            ${formatList(observations)}
-         </div>
+         ${formatListAsCards(observations)}
        </section>
 
        <section style="${STYLES.section}">
@@ -246,9 +240,9 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.calendar}
             <h2 style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</h2>
          </div>
-         <div style="display: flex; flex-direction: column; gap: ${SPACING.sm};">
+         <div style="${STYLES.listGrid}">
             ${recommendations.map((rec) => `
-              <div style="${STYLES.card} display: flex; justify-content: space-between; gap: ${SPACING.md};">
+              <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
                     <div style="font-weight: 600; color: ${COLORS.dark};">${rec.title}</div>
                     <div style="${STYLES.cardText}">${rec.description}</div>
