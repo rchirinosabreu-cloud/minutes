@@ -26,8 +26,6 @@ export const GRADIENTS = {
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
   cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
   canvas: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
-  cardLavender: `linear-gradient(135deg, ${COLORS.white} 0%, ${COLORS.accentLavender} 100%)`,
-  cardLime: `linear-gradient(135deg, ${COLORS.white} 0%, ${COLORS.accentLime} 100%)`,
 };
 
 export const TYPOGRAPHY = {
@@ -72,8 +70,7 @@ export const STYLES = {
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
   card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
-  cardSoft: `background: ${GRADIENTS.cardLavender}; border: 1px solid ${COLORS.accentLavender};`,
-  cardLime: `background: ${GRADIENTS.cardLime}; border: 1px solid ${COLORS.accentLime};`,
+  cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
   
   // Typography helpers
