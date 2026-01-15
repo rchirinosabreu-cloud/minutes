@@ -84,7 +84,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
             ${formatList(topics)}
         </section>
         
-        <section style="${STYLES.card}">
+        <section style="${STYLES.card} ${STYLES.cardSoft}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.lightning}
               <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
@@ -99,7 +99,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
              ${ICONS.bulb}
              <h2 style="${STYLES.sectionTitle}">Acuerdos y Compromisos</h2>
           </div>
-          <div style="${STYLES.card}">
+          <div style="${STYLES.card} ${STYLES.cardSoft}">
              ${formatList(agreements)}
           </div>
       </section>
@@ -232,7 +232,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
          </div>
          <div style="${STYLES.cardGrid}">
             ${opportunities.map((item) => `
-              <div style="${STYLES.card}">
+              <div style="${STYLES.card} ${STYLES.cardSoft}">
                  <h3 style="${STYLES.cardTitle}">${item.title}</h3>
                  <p style="${STYLES.cardText}">${item.description}</p>
               </div>

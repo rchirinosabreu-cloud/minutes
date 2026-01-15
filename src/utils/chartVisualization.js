@@ -1,5 +1,5 @@
 
-import { COLORS } from './reportStyling';
+import { COLORS, GRADIENTS } from './reportStyling';
 
 // Utility for creating SVG charts for the PDF reports
 
