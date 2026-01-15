@@ -76,7 +76,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
 
       <!-- Topics & Details Grid -->
       <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
-        <section style="${STYLES.card} ${STYLES.cardSoft}">
+        <section style="${STYLES.card}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.target}
               <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
