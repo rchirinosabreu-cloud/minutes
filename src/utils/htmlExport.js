@@ -1,9 +1,18 @@
 
-import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList } from './reportStyling';
+import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList, formatListAsCards } from './reportStyling';
 import { createMetricCard } from './chartVisualization';
 
 export const generateSummaryHTML = (data, sourceTitle) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  const sharedStyles = `
+    @page { size: A4 landscape; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: ${GRADIENTS.canvas}; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
+    tr:nth-child(even) { background: ${COLORS.bg}; }
+    .card, section, .block { break-inside: avoid; page-break-inside: avoid; }
+  `;
   
   // Data extraction with fallbacks
   const meetingTitle = data.meeting_title || '';
@@ -21,9 +30,10 @@ export const generateSummaryHTML = (data, sourceTitle) => {
 <head>
   <meta charset="UTF-8">
   <title>Resumen - ${sourceTitle}</title>
+  <style>${sharedStyles}</style>
 </head>
 <body style="${STYLES.body}">
-  <div style="${STYLES.container}">
+  <div style="${STYLES.container}" class="block">
     
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
@@ -65,8 +75,8 @@ export const generateSummaryHTML = (data, sourceTitle) => {
       ` : ''}
 
       <!-- Topics & Details Grid -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
-        <section style="${STYLES.card}">
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
+        <section style="${STYLES.card} ${STYLES.cardSoft}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.target}
               <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
@@ -74,7 +84,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
             ${formatList(topics)}
         </section>
         
-        <section style="${STYLES.card}">
+        <section style="${STYLES.card} ${STYLES.cardSoft}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.lightning}
               <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
@@ -89,7 +99,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
              ${ICONS.bulb}
              <h2 style="${STYLES.sectionTitle}">Acuerdos y Compromisos</h2>
           </div>
-          <div style="${STYLES.card}">
+          <div style="${STYLES.card} ${STYLES.cardSoft}">
              ${formatList(agreements)}
           </div>
       </section>
@@ -107,7 +117,7 @@ export const generateSummaryHTML = (data, sourceTitle) => {
                       <div style="font-weight: 600; color: ${COLORS.dark};">${action.task}</div>
                       <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
                    </div>
-                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: ${action.priority === 'Alta' ? '#FEE2E2' : '#EFF6FF'}; color: ${action.priority === 'Alta' ? '#DC2626' : '#2563EB'};">
+                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${action.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${action.priority === 'Alta' ? COLORS.textDark : COLORS.primary};">
                       ${action.priority || 'General'}
                    </div>
                 </div>
@@ -131,6 +141,15 @@ export const generateSummaryHTML = (data, sourceTitle) => {
 
 export const generateAnalysisHTML = (data, sourceTitle) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  const sharedStyles = `
+    @page { size: A4 landscape; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: ${GRADIENTS.canvas}; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
+    tr:nth-child(even) { background: ${COLORS.bg}; }
+    .card, section, .block { break-inside: avoid; page-break-inside: avoid; }
+  `;
 
   const topics = data.meeting_topics || [];
   const insights = data.consulting_insights || [];
@@ -144,9 +163,10 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
 <head>
   <meta charset="UTF-8">
   <title>Análisis Estratégico - ${sourceTitle}</title>
+  <style>${sharedStyles}</style>
 </head>
 <body style="${STYLES.body}">
-  <div style="${STYLES.container}">
+  <div style="${STYLES.container}" class="block">
     
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
@@ -174,15 +194,13 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
        </div>
     </div>
 
-    <div style="padding: ${SPACING.xl}; background: #fff;">
+    <div style="padding: ${SPACING.xl}; background: ${COLORS.bg};">
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
             <h2 style="${STYLES.sectionTitle}">Contexto y Temas</h2>
          </div>
-         <div style="${STYLES.card}">
-            ${formatList(topics)}
-         </div>
+         ${formatListAsCards(topics)}
        </section>
 
        <section style="${STYLES.section}">
@@ -190,9 +208,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.lightning}
             <h2 style="${STYLES.sectionTitle}">Insight Consultivo</h2>
          </div>
-         <div style="${STYLES.card}">
-            ${formatList(insights)}
-         </div>
+         ${formatListAsCards(insights)}
        </section>
 
        <section style="${STYLES.section}">
@@ -200,9 +216,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.bulb}
             <h2 style="${STYLES.sectionTitle}">Observaciones Críticas</h2>
          </div>
-         <div style="${STYLES.card}">
-            ${formatList(observations)}
-         </div>
+         ${formatListAsCards(observations)}
        </section>
 
        <section style="${STYLES.section}">
@@ -212,7 +226,7 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
          </div>
          <div style="${STYLES.cardGrid}">
             ${opportunities.map((item) => `
-              <div style="${STYLES.card}">
+              <div style="${STYLES.card} ${STYLES.cardSoft}">
                  <h3 style="${STYLES.cardTitle}">${item.title}</h3>
                  <p style="${STYLES.cardText}">${item.description}</p>
               </div>
@@ -226,15 +240,15 @@ export const generateAnalysisHTML = (data, sourceTitle) => {
             ${ICONS.calendar}
             <h2 style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</h2>
          </div>
-         <div style="display: flex; flex-direction: column; gap: ${SPACING.sm};">
+         <div style="${STYLES.listGrid}">
             ${recommendations.map((rec) => `
-              <div style="${STYLES.card} display: flex; justify-content: space-between; gap: ${SPACING.md};">
+              <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
                     <div style="font-weight: 600; color: ${COLORS.dark};">${rec.title}</div>
                     <div style="${STYLES.cardText}">${rec.description}</div>
                  </div>
                  ${rec.priority ? `
-                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: ${rec.priority === 'Alta' ? '#FEE2E2' : '#EFF6FF'}; color: ${rec.priority === 'Alta' ? '#DC2626' : '#2563EB'}; height: fit-content;">
+                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
                       ${rec.priority}
                    </div>
                  ` : ''}
