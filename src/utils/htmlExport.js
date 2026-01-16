@@ -15,8 +15,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   `;
   
   // Data extraction with fallbacks
-  const meetingTitle = data.meeting_title || '';
-  const meetingDate = data.meeting_date || date;
+  const reportDate = date;
   const meetingDuration = data.meeting_duration || '';
   const participants = data.participants || [];
   const topics = data.meeting_topics || [];
@@ -58,11 +57,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
        <div style="${STYLES.coverMeta}">
          <div>
             <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: ${COLORS.textLight}; margin-bottom: 4px;">Fecha</div>
-            <div style="font-size: 16px; font-weight: 600; color: ${COLORS.dark};">${meetingDate}</div>
-         </div>
-         <div>
-            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: ${COLORS.textLight}; margin-bottom: 4px;">Fuente</div>
-            <div style="font-size: 16px; font-weight: 600; color: ${COLORS.dark};">${sourceTitle}</div>
+             <div style="font-size: 16px; font-weight: 600; color: ${COLORS.dark};">${reportDate}</div>
          </div>
        </div>
     </div>
@@ -120,9 +115,9 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${ICONS.calendar}
              <h2 style="${STYLES.sectionTitle}">Próximos Pasos</h2>
           </div>
-          <div style="display: flex; flex-direction: column; gap: ${SPACING.sm};">
+          <div style="${STYLES.listGrid}">
              ${actions.map(action => `
-                <div style="${STYLES.card} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};">
+                <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};">
                    <div>
                       <div style="font-weight: 600; color: ${COLORS.dark};">${action.task}</div>
                       <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
@@ -203,14 +198,10 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        </div>
        
        <div style="${STYLES.coverMeta}">
-          <div>
-            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 1px;">Documento Origen</div>
-            <div style="font-size: 14px; font-weight: 600; color: ${COLORS.dark}; margin-top: 4px;">${sourceTitle}</div>
-          </div>
-          <div>
+         <div>
              <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 1px;">Fecha de Análisis</div>
              <div style="font-size: 14px; font-weight: 600; color: ${COLORS.dark}; margin-top: 4px;">${date}</div>
-          </div>
+         </div>
        </div>
     </div>
 
@@ -271,9 +262,14 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
                       ${rec.priority}
                    </div>
-                 ` : ''}
-              </div>
-            `).join('')}
+                   ${rec.priority ? `
+                     <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
+                        ${rec.priority}
+                     </div>
+                   ` : ''}
+                </div>
+              `;
+            }).join('')}
             ${recommendations.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
          </div>
        </section>
