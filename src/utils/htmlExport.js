@@ -56,7 +56,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
        <div style="${STYLES.coverMeta}">
          <div>
             <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: ${COLORS.textLight}; margin-bottom: 4px;">Fecha</div>
-             <div style="font-size: 16px; font-weight: 600; color: ${COLORS.dark};">${reportDate}</div>
+             <div style="font-size: 16px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
          </div>
        </div>
     </div>
@@ -120,7 +120,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${actions.map(action => `
                 <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};" class="list-card">
                    <div>
-                      <div style="font-weight: 600; color: ${COLORS.dark};">${action.task}</div>
+                      <div style="font-weight: 600; color: ${COLORS.text};">${action.task}</div>
                       <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
                    </div>
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${action.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${action.priority === 'Alta' ? COLORS.textDark : COLORS.primary};">
@@ -184,7 +184,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
        <div style="position: absolute; top: 40px; right: 40px;">
-         <div style="font-size: 64px; font-weight: 800; color: ${COLORS.dark}; opacity: 0.05;">2026</div>
+         <div style="font-size: 64px; font-weight: 800; color: ${COLORS.title}; opacity: 0.05;">2026</div>
        </div>
        
        <div>
@@ -199,7 +199,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <div style="${STYLES.coverMeta}">
          <div>
              <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 1px;">Fecha de Análisis</div>
-             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.dark}; margin-top: 4px;">${date}</div>
+             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 4px;">${date}</div>
          </div>
        </div>
     </div>
@@ -254,7 +254,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${recommendations.map((rec, index) => `
               <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
-                    <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.dark};">${rec.title}</div>
+                    <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.title};">${rec.title}</div>
                     <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
                  </div>
                  ${rec.priority ? `
