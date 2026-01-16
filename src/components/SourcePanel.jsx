@@ -1,11 +1,14 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { PlayCircle } from 'lucide-react';
 import FirefliesPanel from './FirefliesPanel';
 import MultiFileUpload from './MultiFileUpload';
 import FileList from './FileList';
+import { Button } from '@/components/ui/button';
+import { toast } from 'react-hot-toast';
 
-const SourcePanel = ({ onSelectSource, selectedSource }) => {
+const SourcePanel = ({ onSelectSource, selectedSource, analysisReady, onStartAnalysis }) => {
   // Local state to manage the list of all files/sources
   const [files, setFiles] = useState([]);
 
@@ -57,6 +60,19 @@ const SourcePanel = ({ onSelectSource, selectedSource }) => {
     setFiles(prev => [...prev, meetingAsFile]);
   }, []);
 
+  const handleStartAnalysis = () => {
+    if (files.length === 0) {
+      toast.error('Agrega al menos una fuente antes de iniciar el análisis.');
+      return;
+    }
+
+    const confirmed = window.confirm('¿Deseas iniciar el análisis con las fuentes cargadas?');
+    if (confirmed) {
+      onStartAnalysis();
+      toast.success('Análisis iniciado. Ya puedes generar reportes.');
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -75,6 +91,30 @@ const SourcePanel = ({ onSelectSource, selectedSource }) => {
 
         {/* File List */}
         <FileList files={files} onRemove={handleRemoveFile} />
+
+        <div className="bg-[#0f0a1a] rounded-xl border border-purple-900/30 p-4 space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-white">Listo para analizar</p>
+              <p className="text-xs text-gray-400">
+                Confirma cuando estés listo para iniciar el análisis de las fuentes cargadas.
+              </p>
+            </div>
+            {analysisReady && (
+              <span className="text-[10px] uppercase tracking-wide bg-green-500/10 text-green-300 px-2 py-1 rounded-full border border-green-500/30">
+                Activo
+              </span>
+            )}
+          </div>
+          <Button
+            onClick={handleStartAnalysis}
+            disabled={files.length === 0}
+            className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white"
+          >
+            <PlayCircle className="w-4 h-4 mr-2" />
+            Iniciar el análisis
+          </Button>
+        </div>
 
         {/* Fireflies Integration */}
         <div className="border-t border-purple-800/30 pt-8">
