@@ -118,18 +118,13 @@ export const formatListAsCards = (items) => {
 };
 
 export const getBrainStudioLogoSVG = () => `
-<svg width="164" height="48" viewBox="0 0 164 48" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-  <defs>
-    <linearGradient id="brainGradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#4F46E5"/>
-      <stop offset="100%" stop-color="#6D5CE7"/>
-    </linearGradient>
-  </defs>
+<svg width="220" height="64" viewBox="0 0 220 64" xmlns="http://www.w3.org/2000/svg" style="display:block;">
   <g fill="none" fill-rule="evenodd">
-    <rect x="0" y="6" width="36" height="36" rx="18" fill="url(#brainGradient)"/>
-    <path d="M14 18c-3.3 0-6 2.4-6 5.6 0 2.2 1.1 4.1 3.2 4.9.2 2.8 2.6 5 5.5 5h4.6c3 0 5.5-2.3 5.6-5.3 1.6-.9 2.6-2.6 2.6-4.6 0-3.2-2.7-5.6-6-5.6-.8-2.5-3.1-4.2-5.8-4.2-2.6 0-4.8 1.6-5.7 4.2z" fill="#FFFFFF" opacity="0.9"/>
-    <text x="48" y="21" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" fill="#6B7280" letter-spacing="1">BRAIN</text>
-    <text x="48" y="38" font-family="Helvetica Neue, Arial, sans-serif" font-size="16" fill="#111827" font-weight="700">STUDIO</text>
+    <circle cx="32" cy="32" r="26" fill="#16B5A7"/>
+    <path d="M24 24c-3.8 0-6.8 2.9-6.8 6.6 0 2.3 1.1 4.4 3.1 5.5.2 3.2 2.9 5.6 6.2 5.6h5.4c3.3 0 6-2.5 6.2-5.9 1.9-1 3.1-3 3.1-5.2 0-3.7-3-6.6-6.8-6.6-.9-2.8-3.6-4.7-6.8-4.7-3 0-5.6 1.8-6.6 4.7z" fill="#FFFFFF" opacity="0.92"/>
+    <path d="M27 22v20M36 24v18M20 30h24" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    <text x="72" y="28" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="#5A5A5A" letter-spacing="2">BRAIN</text>
+    <text x="72" y="52" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#4B4B4B" font-weight="700" letter-spacing="1">STUDIO</text>
   </g>
 </svg>
 `;
