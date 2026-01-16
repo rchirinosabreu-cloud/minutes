@@ -1,5 +1,5 @@
 
-import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList } from './reportStyling';
+import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList, formatListAsCards } from './reportStyling';
 import { createMetricCard } from './chartVisualization';
 
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
@@ -259,8 +259,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${recommendations.map((rec, index) => `
               <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
-                    <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.title};">${rec.title}</div>
-                    <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
+                    <div style="font-weight: 600; color: ${COLORS.title};">${rec.title}</div>
+                    <div style="${STYLES.cardText}; color: ${COLORS.text};">${rec.description}</div>
                  </div>
                  ${rec.priority ? `
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
