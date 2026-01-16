@@ -1,6 +1,5 @@
 
-import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList, formatListAsCards } from './reportStyling';
-import { createMetricCard } from './chartVisualization';
+import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList } from './reportStyling';
 
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -75,6 +74,10 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${participants.length > 0 ? createMetricCard("Participantes", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
              ${meetingDuration ? createMetricCard("Duración", meetingDuration, "Tiempo total reportado", COLORS.primary) : ''}
           </div>
+          ${formatList([
+            participants.length > 0 ? `Participantes: ${participants.join(", ")}` : null,
+            meetingDuration ? `Duración: ${meetingDuration}` : null
+          ].filter(Boolean))}
         </section>
       ` : ''}
 
@@ -130,6 +133,12 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              `).join('')}
              ${actions.length === 0 ? `<div style="${STYLES.listCard} ${STYLES.cardSoft} color:${COLORS.textLight}; font-style: italic;">No se detectaron acciones específicas.</div>` : ''}
           </div>
+          ${actions.length > 0 ? formatList(actions.map((action) => {
+              const owner = action.owner || 'N/A';
+              const due = action.due_date ? ` • Fecha: ${action.due_date}` : '';
+              const priority = action.priority ? ` • Prioridad: ${action.priority}` : '';
+              return `${action.task} — Responsable: ${owner}${due}${priority}`;
+            })) : `<div style="color:${COLORS.textLight}; font-style: italic;">No se detectaron acciones específicas.</div>`}
       </section>
 
     </div>
@@ -210,7 +219,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.target}
             <div style="${STYLES.sectionTitle}">Contexto y Temas</div>
          </div>
-         ${formatListAsCards(topics)}
+         ${formatList(topics)}
        </section>
 
        <section style="${STYLES.section}">
@@ -218,7 +227,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.lightning}
             <div style="${STYLES.sectionTitle}">Insight Consultivo</div>
          </div>
-         ${formatListAsCards(insights)}
+         ${formatList(insights)}
        </section>
 
        <section style="${STYLES.section}">
@@ -226,7 +235,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.bulb}
             <div style="${STYLES.sectionTitle}">Observaciones Críticas</div>
          </div>
-         ${formatListAsCards(observations)}
+         ${formatList(observations)}
        </section>
 
        <section style="${STYLES.section}">
@@ -243,6 +252,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             `).join('')}
             ${opportunities.length === 0 ? `<div style="${STYLES.listCard} color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>` : ''}
          </div>
+         ${opportunities.length > 0 ? formatList(opportunities.map((item) => `${item.title}: ${item.description}`)) : `<div style="color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>`}
        </section>
 
        <section style="${STYLES.section}">
@@ -266,6 +276,10 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             `).join('')}
             ${recommendations.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
          </div>
+         ${recommendations.length > 0 ? formatList(recommendations.map((rec) => {
+            const priority = rec.priority ? ` • Prioridad: ${rec.priority}` : '';
+            return `${rec.title}: ${rec.description}${priority}`;
+          })) : `<div style="color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>`}
        </section>
     </div>
 
