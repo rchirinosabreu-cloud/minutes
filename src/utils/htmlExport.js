@@ -244,7 +244,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
          </div>
          <div style="${STYLES.listGrid}">
             ${recommendations.map((rec, index) => `
-              <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
+              <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
                     <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.dark};">${rec.title}</div>
                     <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
@@ -256,7 +256,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
                  ` : ''}
               </div>
             `).join('')}
-            ${recommendations.length === 0 ? `<div style="${STYLES.listCard} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
+            ${recommendations.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
          </div>
        </section>
     </div>
