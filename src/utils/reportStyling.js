@@ -6,15 +6,16 @@ export const COLORS = {
   primaryLight: '#E9E7FF',
   secondary: '#D7FF6A',
   secondaryLight: '#E9E7FF',
-  dark: '#111827',
-  textDark: '#111827',
-  text: '#111827',
-  textLight: '#6B7280',
+  dark: '#393d42',
+  textDark: '#1f2124',
+  text: '#1f2124',
+  textLight: '#1f2124',
   border: '#E5E7EB',
   bg: '#F6F7FB',
   white: '#FFFFFF',
   accentLavender: '#E9E7FF',
   accentLime: '#D7FF6A',
+  title: '#393d42',
 };
 
 export const GRADIENTS = {
@@ -30,11 +31,11 @@ export const GRADIENTS = {
 
 export const TYPOGRAPHY = {
   fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-  h1: "font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.12;",
-  h2: "font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25;",
-  h3: "font-size: 18px; font-weight: 600; line-height: 1.4;",
-  body: "font-size: 15px; line-height: 1.7; color: #111827;",
-  small: "font-size: 12px; line-height: 1.6; color: #6B7280;"
+  h1: `font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; color: ${COLORS.title};`,
+  h2: `font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; color: ${COLORS.title};`,
+  h3: `font-size: 18px; font-weight: 600; line-height: 1.4; color: ${COLORS.title};`,
+  body: `font-size: 15px; line-height: 1.7; color: ${COLORS.text};`,
+  small: `font-size: 12px; line-height: 1.6; color: ${COLORS.textLight};`
 };
 
 export const SPACING = {
@@ -54,7 +55,7 @@ export const STYLES = {
   // Header / Cover
   coverPage: `min-height: 620px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
   coverHeader: "display: flex; justify-content: space-between; align-items: flex-start;",
-  coverTitle: `${TYPOGRAPHY.h1} color: ${COLORS.dark}; margin-top: ${SPACING.xl}; max-width: 85%;`,
+  coverTitle: `${TYPOGRAPHY.h1} margin-top: ${SPACING.xl}; max-width: 85%;`,
   coverMeta: `display: flex; gap: ${SPACING.md}; margin-top: ${SPACING.lg}; border-top: 1px solid ${COLORS.border}; padding-top: ${SPACING.md};`,
   
   // Standard Header
@@ -63,15 +64,18 @@ export const STYLES = {
   
   // Sections
   content: `padding: ${SPACING.xl};`,
-  section: `margin-bottom: ${SPACING.xl}; page-break-inside: avoid; break-inside: avoid;`,
+  section: `margin-bottom: ${SPACING.xl}; padding: ${SPACING.lg}; background: ${COLORS.white}; border-radius: 18px; border: 1px solid ${COLORS.border}; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); page-break-inside: avoid; break-inside: avoid;`,
   sectionTitleBox: `margin-bottom: ${SPACING.md}; display: flex; align-items: center; gap: ${SPACING.sm}; padding: ${SPACING.xs} ${SPACING.sm}; background: ${COLORS.white}; border-radius: 999px; border: 1px solid ${COLORS.border}; width: fit-content;`,
-  sectionTitle: `${TYPOGRAPHY.h2} color: ${COLORS.dark}; margin: 0;`,
+  sectionTitle: `${TYPOGRAPHY.h2} margin: 0;`,
   
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
   card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
+  cardSoft: `background: ${COLORS.white}; border-radius: 18px; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.accentLavender}; page-break-inside: avoid; break-inside: avoid;`,
   cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
+  listGrid: `column-count: 2; column-gap: 22px; width: 100%;`,
+  listCard: `display: inline-block; width: 100%; margin: 0 0 22px; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; background: ${COLORS.white}; page-break-inside: avoid; break-inside: avoid;`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
@@ -86,10 +90,9 @@ export const formatList = (items) => {
   const listItems = Array.isArray(items) ? items : [items];
   
   return `
-    <ul style="list-style: none; padding: 0; margin: 0;">
+    <ul class="two-column-list" style="list-style: disc; padding-left: 20px; margin: 0; column-count: 2; column-gap: 22px;">
       ${listItems.map(item => `
-        <li style="position: relative; padding-left: 16px; margin-bottom: 8px; font-size: 14px; color: ${COLORS.text};">
-          <span style="position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: ${COLORS.primary};"></span>
+        <li style="margin-bottom: 8px; font-size: 14px; color: ${COLORS.text}; break-inside: avoid;">
           ${item}
         </li>
       `).join('')}
@@ -102,9 +105,9 @@ export const formatListAsCards = (items) => {
   const listItems = Array.isArray(items) ? items : [items];
 
   return `
-    <div style="${STYLES.listGrid}">
+    <div style="${STYLES.listGrid}" class="list-grid">
       ${listItems.map((item, index) => `
-        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}">
+        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}" class="list-card">
           <div style="${TYPOGRAPHY.body}">${item}</div>
         </div>
       `).join('')}
