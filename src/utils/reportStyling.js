@@ -26,8 +26,6 @@ export const GRADIENTS = {
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
   cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
   canvas: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
-  cardLavender: `linear-gradient(135deg, ${COLORS.white} 0%, ${COLORS.accentLavender} 100%)`,
-  cardLime: `linear-gradient(135deg, ${COLORS.white} 0%, ${COLORS.accentLime} 100%)`,
 };
 
 export const TYPOGRAPHY = {
@@ -72,12 +70,8 @@ export const STYLES = {
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
   card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
-  cardSoft: `background: ${GRADIENTS.cardLavender}; border: 1px solid ${COLORS.accentLavender};`,
-  cardLime: `background: ${GRADIENTS.cardLime}; border: 1px solid ${COLORS.accentLime};`,
+  cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
-  listGrid: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md};`,
-  listCard: `background: ${COLORS.white}; border-radius: 16px; padding: ${SPACING.md}; border: 1px solid ${COLORS.border}; box-shadow: 0 8px 18px rgba(17, 24, 39, 0.06);`,
-  listCardDark: `background: ${COLORS.primary}; color: ${COLORS.white}; border-radius: 16px; padding: ${SPACING.md}; border: 1px solid ${COLORS.primary}; box-shadow: 0 8px 18px rgba(17, 24, 39, 0.12);`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
@@ -110,8 +104,8 @@ export const formatListAsCards = (items) => {
   return `
     <div style="${STYLES.listGrid}">
       ${listItems.map((item, index) => `
-        <div style="${index % 3 === 2 ? STYLES.listCardDark : `${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}`}">
-          <div style="${TYPOGRAPHY.body}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${item}</div>
+        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}">
+          <div style="${TYPOGRAPHY.body}">${item}</div>
         </div>
       `).join('')}
     </div>

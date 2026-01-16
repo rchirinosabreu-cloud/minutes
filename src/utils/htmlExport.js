@@ -86,7 +86,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
 
       <!-- Topics & Details Grid -->
       <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
-        <section style="${STYLES.card} ${STYLES.cardSoft}">
+        <section style="${STYLES.card}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.target}
               <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
@@ -244,11 +244,11 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.chart}
             <h2 style="${STYLES.sectionTitle}">Oportunidades Detectadas</h2>
          </div>
-         <div style="${STYLES.listGrid}">
-            ${opportunities.map((item, index) => `
-              <div style="${index % 3 === 2 ? STYLES.listCardDark : `${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}`}">
-                 <h3 style="${STYLES.cardTitle}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${item.title}</h3>
-                 <p style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${item.description}</p>
+         <div style="${STYLES.cardGrid}">
+            ${opportunities.map((item) => `
+              <div style="${STYLES.card} ${STYLES.cardSoft}">
+                 <h3 style="${STYLES.cardTitle}">${item.title}</h3>
+                 <p style="${STYLES.cardText}">${item.description}</p>
               </div>
             `).join('')}
             ${opportunities.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>` : ''}
@@ -261,8 +261,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             <h2 style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</h2>
          </div>
          <div style="${STYLES.listGrid}">
-            ${recommendations.map((rec, index) => `
-              <div style="${index % 3 === 2 ? STYLES.listCardDark : `${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}`} display: flex; justify-content: space-between; gap: ${SPACING.md};">
+            ${recommendations.map((rec) => `
+              <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
                     <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.dark};">${rec.title}</div>
                     <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
