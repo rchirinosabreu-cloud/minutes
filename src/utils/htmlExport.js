@@ -1,5 +1,6 @@
 
 import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList } from './reportStyling';
+import { createMetricCard } from './chartVisualization';
 
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -46,16 +47,20 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.textLight}; max-width: 600px;">
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; max-width: 640px; line-height: 1.6;">
             Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
          </div>
        </div>
        
        <div style="${STYLES.coverMeta}">
          <div>
-            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: ${COLORS.textLight}; margin-bottom: 4px;">Fecha</div>
-             <div style="font-size: 16px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: ${COLORS.textLight}; margin-bottom: 6px;">Fecha</div>
+             <div style="font-size: 15px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
+         </div>
+         <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: ${COLORS.textLight}; margin-bottom: 6px;">Fuente</div>
+             <div style="font-size: 15px; font-weight: 600; color: ${COLORS.text};">${sourceTitle || 'Reporte de fuentes'}</div>
          </div>
        </div>
     </div>
@@ -64,7 +69,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     <div style="${STYLES.content}">
       
       <!-- Meeting Context -->
-      ${(participants.length > 0 || meetingDuration) ? `
+      ${(participants.length > 0 || meetingDuration || meetingTitle) ? `
         <section style="${STYLES.section}">
           <div style="${STYLES.sectionTitleBox}">
              ${ICONS.users}
@@ -74,10 +79,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${participants.length > 0 ? createMetricCard("Participantes", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
              ${meetingDuration ? createMetricCard("Duración", meetingDuration, "Tiempo total reportado", COLORS.primary) : ''}
           </div>
-          ${formatList([
-            participants.length > 0 ? `Participantes: ${participants.join(", ")}` : null,
-            meetingDuration ? `Duración: ${meetingDuration}` : null
-          ].filter(Boolean))}
+          ${meetingTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 13px; color: ${COLORS.textLight};">Título: ${meetingTitle}</div>` : ''}
         </section>
       ` : ''}
 
@@ -133,12 +135,6 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              `).join('')}
              ${actions.length === 0 ? `<div style="${STYLES.listCard} ${STYLES.cardSoft} color:${COLORS.textLight}; font-style: italic;">No se detectaron acciones específicas.</div>` : ''}
           </div>
-          ${actions.length > 0 ? formatList(actions.map((action) => {
-              const owner = action.owner || 'N/A';
-              const due = action.due_date ? ` • Fecha: ${action.due_date}` : '';
-              const priority = action.priority ? ` • Prioridad: ${action.priority}` : '';
-              return `${action.task} — Responsable: ${owner}${due}${priority}`;
-            })) : `<div style="color:${COLORS.textLight}; font-style: italic;">No se detectaron acciones específicas.</div>`}
       </section>
 
     </div>
@@ -192,28 +188,28 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
     
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
-       <div style="position: absolute; top: 40px; right: 40px;">
-         <div style="font-size: 64px; font-weight: 800; color: ${COLORS.title}; opacity: 0.05;">2026</div>
-       </div>
-       
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.text}; font-weight: 500; max-width: 700px; line-height: 1.6;">
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; font-weight: 500; max-width: 640px; line-height: 1.6;">
             Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
          </div>
        </div>
        
        <div style="${STYLES.coverMeta}">
          <div>
-             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 1px;">Fecha de Análisis</div>
-             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 4px;">${date}</div>
+             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 0.12em;">Fecha de análisis</div>
+             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 6px;">${date}</div>
+         </div>
+         <div>
+             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 0.12em;">Fuente</div>
+             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 6px;">${sourceTitle || 'Análisis integrado'}</div>
          </div>
        </div>
     </div>
 
-    <div style="padding: ${SPACING.xl}; background: ${COLORS.bg};">
+    <div style="${STYLES.content}">
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
@@ -252,7 +248,6 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             `).join('')}
             ${opportunities.length === 0 ? `<div style="${STYLES.listCard} color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>` : ''}
          </div>
-         ${opportunities.length > 0 ? formatList(opportunities.map((item) => `${item.title}: ${item.description}`)) : `<div style="color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>`}
        </section>
 
        <section style="${STYLES.section}">
@@ -276,10 +271,6 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             `).join('')}
             ${recommendations.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
          </div>
-         ${recommendations.length > 0 ? formatList(recommendations.map((rec) => {
-            const priority = rec.priority ? ` • Prioridad: ${rec.priority}` : '';
-            return `${rec.title}: ${rec.description}${priority}`;
-          })) : `<div style="color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>`}
        </section>
     </div>
 

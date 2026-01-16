@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Sparkles, AlertCircle, Mic, Layers, Info } from 'lucide-react';
+import { Sparkles, AlertCircle, Layers, Info } from 'lucide-react';
 import GeneralSummary from './GeneralSummary';
 import CompleteAnalysis from './CompleteAnalysis';
 
-const WorkspacePanel = ({ selectedSource }) => {
+const WorkspacePanel = ({ selectedSource, analysisReady }) => {
   const [reportTitle, setReportTitle] = useState('');
   const [projectSubtitle, setProjectSubtitle] = useState('');
   
@@ -18,18 +18,6 @@ const WorkspacePanel = ({ selectedSource }) => {
     if (!selectedSource) return 'Sin selección';
     if (isMultiSource) return 'Análisis Integrado';
     return selectedSource.data?.title || selectedSource.title || 'Documento';
-  };
-
-  // Prepare content for the analysis components
-  // We pass the RAW files array if possible, or a concatenated string
-  const getContentForAnalysis = () => {
-      // GeneralSummary/CompleteAnalysis expect 'content' string OR we update them to handle objects.
-      // Based on previous edits, they take 'content' string. 
-      // However, for better prompting, passing the structured list is better.
-      // BUT, existing components take 'content' prop.
-      // I will update them to accept 'files' prop optionally, or fallback to 'content' string.
-      // For now, I'll pass the files array as a special prop and also the text for compatibility.
-      return selectedSource?.text || '';
   };
 
   return (
@@ -107,22 +95,34 @@ const WorkspacePanel = ({ selectedSource }) => {
                 </div>
               </div>
 
-              <div className="grid gap-6">
-                {/* 
-                   We pass 'files' array to the components.
-                   They will handle generating the batch prompt.
-                */}
-                <GeneralSummary
-                  files={files}
-                  sourceTitle={getSourceTitle()}
-                  reportMeta={{ reportTitle, projectSubtitle }}
-                />
-                <CompleteAnalysis
-                  files={files}
-                  sourceTitle={getSourceTitle()}
-                  reportMeta={{ reportTitle, projectSubtitle }}
-                />
-              </div>
+              {!analysisReady ? (
+                <div className="bg-[#0f0a1a] rounded-lg p-5 border border-purple-900/30 flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-purple-300 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-white">Confirma el inicio del análisis</p>
+                    <p className="text-xs text-gray-400">
+                      Para generar el resumen y el análisis, presiona <strong>“Iniciar el análisis”</strong> en la sección de fuentes de datos.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid gap-6">
+                  {/* 
+                     We pass 'files' array to the components.
+                     They will handle generating the batch prompt.
+                  */}
+                  <GeneralSummary
+                    files={files}
+                    sourceTitle={getSourceTitle()}
+                    reportMeta={{ reportTitle, projectSubtitle }}
+                  />
+                  <CompleteAnalysis
+                    files={files}
+                    sourceTitle={getSourceTitle()}
+                    reportMeta={{ reportTitle, projectSubtitle }}
+                  />
+                </div>
+              )}
            </div>
         )}
       </div>

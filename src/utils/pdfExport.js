@@ -21,9 +21,13 @@ const generatePDFFromHTML = async (htmlString, filename) => {
   `;
   
   // Inject HTML
-  // Note: innerHTML strips <html>, <head>, and <body> tags, leaving just the content.
-  // This is why we applied STYLES.body to the container above.
-  container.innerHTML = htmlString;
+  // Parse the HTML to extract styles and body content to avoid nesting <html> tags.
+  const parsedDoc = new DOMParser().parseFromString(htmlString, 'text/html');
+  const styleTags = parsedDoc.querySelectorAll('style');
+  styleTags.forEach((styleTag) => {
+    container.appendChild(styleTag.cloneNode(true));
+  });
+  container.innerHTML += parsedDoc.body.innerHTML;
   
   document.body.appendChild(container);
 
