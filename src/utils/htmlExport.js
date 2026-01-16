@@ -24,7 +24,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const actions = data.action_items || [];
   const documentTitle = reportMeta.reportTitle?.trim();
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
-  const meetingContext = reportMeta.meetingContext?.trim();
+  const meetingTitle = data.meeting_title?.trim();
 
   return `
 <!DOCTYPE html>
@@ -47,11 +47,6 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
          <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.textLight}; max-width: 600px;">
             Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
          </div>
-         ${meetingContext ? `
-           <div style="${STYLES.card} ${STYLES.cardSoft} margin-top: ${SPACING.lg};">
-             <div style="${STYLES.cardText}">${meetingContext}</div>
-           </div>
-         ` : ''}
        </div>
        
        <div style="${STYLES.coverMeta}">
@@ -72,7 +67,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${ICONS.users}
              <h2 style="${STYLES.sectionTitle}">Contexto de la reunión</h2>
           </div>
-          <div style="${STYLES.cardGrid}">
+          <div style="${STYLES.listGrid}">
              ${participants.length > 0 ? createMetricCard("Participantes", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
              ${meetingDuration ? createMetricCard("Duración", meetingDuration, "Tiempo total reportado", COLORS.primary) : ''}
           </div>
@@ -86,7 +81,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
               ${ICONS.target}
               <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
             </div>
-            ${formatList(topics)}
+            ${formatListAsCards(topics)}
         </section>
         
         <section style="${STYLES.card} ${STYLES.cardSoft}">
@@ -94,7 +89,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
               ${ICONS.lightning}
               <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
             </div>
-            ${formatList(details)}
+            ${formatListAsCards(details)}
         </section>
       </div>
 
@@ -104,9 +99,11 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${ICONS.bulb}
              <h2 style="${STYLES.sectionTitle}">Acuerdos y Compromisos</h2>
           </div>
-          <div style="${STYLES.card} ${STYLES.cardSoft}">
-             ${formatList(agreements)}
-          </div>
+          ${agreements.length > 0 ? formatListAsCards(agreements) : `
+            <div style="${STYLES.listGrid}">
+              <div style="${STYLES.listCard} ${STYLES.cardSoft} color:${COLORS.textLight}; font-style: italic;">Sin acuerdos explícitos en el material.</div>
+            </div>
+          `}
       </section>
 
       <!-- Action Items -->
@@ -123,11 +120,11 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
                       <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
                    </div>
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${action.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${action.priority === 'Alta' ? COLORS.textDark : COLORS.primary};">
-                      ${action.priority || 'General'}
+                     ${action.priority || 'General'}
                    </div>
                 </div>
              `).join('')}
-             ${actions.length === 0 ? '<div style="color:#6B7280; font-style:italic;">No se detectaron acciones específicas.</div>' : ''}
+             ${actions.length === 0 ? `<div style="${STYLES.listCard} ${STYLES.cardSoft} color:${COLORS.textLight}; font-style: italic;">No se detectaron acciones específicas.</div>` : ''}
           </div>
       </section>
 
@@ -163,7 +160,6 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const recommendations = data.recommendations || [];
   const documentTitle = reportMeta.reportTitle?.trim();
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
-  const meetingContext = reportMeta.meetingContext?.trim();
   
   return `
 <!DOCTYPE html>
@@ -190,11 +186,6 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
          <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.text}; font-weight: 500; max-width: 700px; line-height: 1.6;">
             Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
          </div>
-         ${meetingContext ? `
-           <div style="${STYLES.card} ${STYLES.cardSoft} margin-top: ${SPACING.lg};">
-             <div style="${STYLES.cardText}">${meetingContext}</div>
-           </div>
-         ` : ''}
        </div>
        
        <div style="${STYLES.coverMeta}">
@@ -235,14 +226,14 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.chart}
             <h2 style="${STYLES.sectionTitle}">Oportunidades Detectadas</h2>
          </div>
-         <div style="${STYLES.cardGrid}">
+         <div style="${STYLES.listGrid}">
             ${opportunities.map((item) => `
-              <div style="${STYLES.card} ${STYLES.cardSoft}">
+              <div style="${STYLES.listCard} ${STYLES.cardSoft}">
                  <h3 style="${STYLES.cardTitle}">${item.title}</h3>
                  <p style="${STYLES.cardText}">${item.description}</p>
               </div>
             `).join('')}
-            ${opportunities.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>` : ''}
+            ${opportunities.length === 0 ? `<div style="${STYLES.listCard} color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>` : ''}
          </div>
        </section>
 
@@ -252,8 +243,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             <h2 style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</h2>
          </div>
          <div style="${STYLES.listGrid}">
-            ${recommendations.map((rec) => `
-              <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
+            ${recommendations.map((rec, index) => `
+              <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
                     <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.dark};">${rec.title}</div>
                     <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
@@ -262,15 +253,10 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
                       ${rec.priority}
                    </div>
-                   ${rec.priority ? `
-                     <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
-                        ${rec.priority}
-                     </div>
-                   ` : ''}
-                </div>
-              `;
-            }).join('')}
-            ${recommendations.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
+                 ` : ''}
+              </div>
+            `).join('')}
+            ${recommendations.length === 0 ? `<div style="${STYLES.listCard} color:${COLORS.textLight}; font-style: italic;">Sin recomendaciones explícitas en el material.</div>` : ''}
          </div>
        </section>
     </div>
