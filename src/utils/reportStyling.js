@@ -70,8 +70,11 @@ export const STYLES = {
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
   card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
+  cardSoft: `background: ${COLORS.bg}; border-radius: 18px; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.accentLavender}; page-break-inside: avoid; break-inside: avoid;`,
   cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
+  listGrid: `column-count: 2; column-gap: 22px; width: 100%;`,
+  listCard: `display: inline-block; width: 100%; margin: 0 0 22px; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; background: ${COLORS.white}; page-break-inside: avoid; break-inside: avoid;`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
@@ -102,9 +105,9 @@ export const formatListAsCards = (items) => {
   const listItems = Array.isArray(items) ? items : [items];
 
   return `
-    <div style="${STYLES.listGrid}">
+    <div style="${STYLES.listGrid}" class="list-grid">
       ${listItems.map((item, index) => `
-        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}">
+        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}" class="list-card">
           <div style="${TYPOGRAPHY.body}">${item}</div>
         </div>
       `).join('')}
