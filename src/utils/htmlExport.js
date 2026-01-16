@@ -1,5 +1,5 @@
 
-import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList, formatListAsCards, getCardVariantStyles } from './reportStyling';
+import { STYLES, GRADIENTS, ICONS, COLORS, SPACING, getBrainStudioLogoSVG, formatList, formatListAsCards } from './reportStyling';
 import { createMetricCard } from './chartVisualization';
 
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
@@ -41,8 +41,12 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     <div style="${STYLES.coverPage}">
        <div>
          ${getBrainStudioLogoSVG()}
-         ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 18px; font-weight: 600; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         <h1 style="${STYLES.coverTitle}">Resumen General${meetingTitle ? `<br><span style="color:${COLORS.primary}; font-weight:400;">${meetingTitle}</span>` : ''}</h1>
+         ${documentTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 20px; font-weight: 600; color: ${COLORS.text};">${documentTitle}</div>` : ''}
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 16px; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
+         <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.textLight}; max-width: 600px;">
+            Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
+         </div>
          ${meetingContext ? `
            <div style="${STYLES.card} ${STYLES.cardSoft} margin-top: ${SPACING.lg};">
              <div style="${STYLES.cardText}">${meetingContext}</div>
@@ -76,8 +80,8 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
       ` : ''}
 
       <!-- Topics & Details Grid -->
-      <div style="${STYLES.listGrid}; margin-bottom: ${SPACING.xl};">
-        <section style="${STYLES.card} ${STYLES.cardSoft}">
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
+        <section style="${STYLES.card}">
             <div style="${STYLES.sectionTitleBox}">
               ${ICONS.target}
               <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
@@ -100,7 +104,9 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              ${ICONS.bulb}
              <h2 style="${STYLES.sectionTitle}">Acuerdos y Compromisos</h2>
           </div>
-          ${formatListAsCards(agreements)}
+          <div style="${STYLES.card} ${STYLES.cardSoft}">
+             ${formatList(agreements)}
+          </div>
       </section>
 
       <!-- Action Items -->
@@ -178,8 +184,12 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        
        <div>
          ${getBrainStudioLogoSVG()}
-         ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 18px; font-weight: 600; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         <h1 style="${STYLES.coverTitle}">Análisis Estratégico</h1>
+         ${documentTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 20px; font-weight: 600; color: ${COLORS.text};">${documentTitle}</div>` : ''}
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 16px; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
+         <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.text}; font-weight: 500; max-width: 700px; line-height: 1.6;">
+            Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
+         </div>
          ${meetingContext ? `
            <div style="${STYLES.card} ${STYLES.cardSoft} margin-top: ${SPACING.lg};">
              <div style="${STYLES.cardText}">${meetingContext}</div>
@@ -225,16 +235,13 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.chart}
             <h2 style="${STYLES.sectionTitle}">Oportunidades Detectadas</h2>
          </div>
-         <div style="${STYLES.listGrid}">
-            ${opportunities.map((item, index) => {
-              const variant = getCardVariantStyles(index);
-              return `
-                <div style="${variant.cardStyle}">
-                   <h3 style="${STYLES.cardTitle}; color: ${variant.titleColor};">${item.title}</h3>
-                   <p style="${STYLES.cardText}; color: ${variant.textColor};">${item.description}</p>
-                </div>
-              `;
-            }).join('')}
+         <div style="${STYLES.cardGrid}">
+            ${opportunities.map((item) => `
+              <div style="${STYLES.card} ${STYLES.cardSoft}">
+                 <h3 style="${STYLES.cardTitle}">${item.title}</h3>
+                 <p style="${STYLES.cardText}">${item.description}</p>
+              </div>
+            `).join('')}
             ${opportunities.length === 0 ? `<div style="${STYLES.card} color:${COLORS.textLight}; font-style: italic;">Sin oportunidades explícitas en el material.</div>` : ''}
          </div>
        </section>
@@ -245,13 +252,15 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             <h2 style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</h2>
          </div>
          <div style="${STYLES.listGrid}">
-            ${recommendations.map((rec, index) => {
-              const variant = getCardVariantStyles(index);
-              return `
-                <div style="${variant.cardStyle} display: flex; justify-content: space-between; gap: ${SPACING.md};">
-                   <div>
-                      <div style="font-weight: 600; color: ${variant.titleColor};">${rec.title}</div>
-                      <div style="${STYLES.cardText}; color: ${variant.textColor};">${rec.description}</div>
+            ${recommendations.map((rec) => `
+              <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
+                 <div>
+                    <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.dark};">${rec.title}</div>
+                    <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
+                 </div>
+                 ${rec.priority ? `
+                   <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
+                      ${rec.priority}
                    </div>
                    ${rec.priority ? `
                      <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
