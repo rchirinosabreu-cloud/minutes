@@ -26,8 +26,6 @@ export const GRADIENTS = {
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
   cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
   canvas: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
-  cardLavender: `linear-gradient(135deg, ${COLORS.white} 0%, ${COLORS.accentLavender} 100%)`,
-  cardLime: `linear-gradient(135deg, ${COLORS.white} 0%, ${COLORS.accentLime} 100%)`,
 };
 
 export const TYPOGRAPHY = {
@@ -35,7 +33,7 @@ export const TYPOGRAPHY = {
   h1: "font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.12;",
   h2: "font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25;",
   h3: "font-size: 18px; font-weight: 600; line-height: 1.4;",
-  body: "font-size: 15px; line-height: 1.7; color: #6B7280;",
+  body: "font-size: 15px; line-height: 1.7; color: #111827;",
   small: "font-size: 12px; line-height: 1.6; color: #6B7280;"
 };
 
@@ -72,12 +70,8 @@ export const STYLES = {
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
   card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
-  cardSoft: `background: ${GRADIENTS.cardLavender}; border: 1px solid ${COLORS.accentLavender};`,
-  cardLime: `background: ${GRADIENTS.cardLime}; border: 1px solid ${COLORS.accentLime};`,
+  cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
-  listGrid: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md};`,
-  listCard: `background: ${COLORS.white}; border-radius: 16px; padding: ${SPACING.md}; border: 1px solid ${COLORS.border}; box-shadow: 0 8px 18px rgba(17, 24, 39, 0.06);`,
-  listCardDark: `background: ${COLORS.primary}; color: ${COLORS.white}; border-radius: 16px; padding: ${SPACING.md}; border: 1px solid ${COLORS.primary}; box-shadow: 0 8px 18px rgba(17, 24, 39, 0.12);`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
@@ -94,7 +88,7 @@ export const formatList = (items) => {
   return `
     <ul style="list-style: none; padding: 0; margin: 0;">
       ${listItems.map(item => `
-        <li style="position: relative; padding-left: 16px; margin-bottom: 8px; font-size: 14px; color: ${COLORS.textLight};">
+        <li style="position: relative; padding-left: 16px; margin-bottom: 8px; font-size: 14px; color: ${COLORS.text};">
           <span style="position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: ${COLORS.primary};"></span>
           ${item}
         </li>
@@ -103,34 +97,17 @@ export const formatList = (items) => {
   `;
 };
 
-export const getCardVariantStyles = (index) => {
-  const isDark = index % 3 === 2;
-  const cardStyle = isDark
-    ? STYLES.listCardDark
-    : `${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}`;
-
-  return {
-    cardStyle,
-    textColor: isDark ? COLORS.white : COLORS.textLight,
-    titleColor: isDark ? COLORS.white : COLORS.text,
-    isDark,
-  };
-};
-
 export const formatListAsCards = (items) => {
   if (!items) return '';
   const listItems = Array.isArray(items) ? items : [items];
 
   return `
     <div style="${STYLES.listGrid}">
-      ${listItems.map((item, index) => {
-        const variant = getCardVariantStyles(index);
-        return `
-          <div style="${variant.cardStyle}">
-            <div style="${TYPOGRAPHY.body}; color: ${variant.textColor};">${item}</div>
-          </div>
-        `;
-      }).join('')}
+      ${listItems.map((item, index) => `
+        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}">
+          <div style="${TYPOGRAPHY.body}">${item}</div>
+        </div>
+      `).join('')}
     </div>
   `;
 };
