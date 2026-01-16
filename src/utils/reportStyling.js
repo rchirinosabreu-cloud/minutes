@@ -65,7 +65,7 @@ export const STYLES = {
   
   // Sections
   content: `padding: ${SPACING.xl};`,
-  section: `margin-bottom: ${SPACING.xl}; page-break-inside: avoid; break-inside: avoid;`,
+  section: `margin-bottom: ${SPACING.xl}; padding: ${SPACING.lg}; background: ${COLORS.white}; border-radius: 18px; border: 1px solid ${COLORS.border}; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); page-break-inside: avoid; break-inside: avoid;`,
   sectionTitleBox: `margin-bottom: ${SPACING.md}; display: flex; align-items: center; gap: ${SPACING.sm}; padding: ${SPACING.xs} ${SPACING.sm}; background: ${COLORS.white}; border-radius: 999px; border: 1px solid ${COLORS.border}; width: fit-content;`,
   sectionTitle: `${TYPOGRAPHY.h2} margin: 0;`,
   
@@ -91,10 +91,9 @@ export const formatList = (items) => {
   const listItems = Array.isArray(items) ? items : [items];
   
   return `
-    <ul style="list-style: none; padding: 0; margin: 0;">
+    <ul class="two-column-list" style="list-style: disc; padding-left: 20px; margin: 0; column-count: 2; column-gap: 22px;">
       ${listItems.map(item => `
-        <li style="position: relative; padding-left: 16px; margin-bottom: 8px; font-size: 14px; color: ${COLORS.text};">
-          <span style="position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: ${COLORS.primary};"></span>
+        <li style="margin-bottom: 8px; font-size: 14px; color: ${COLORS.text}; break-inside: avoid;">
           ${item}
         </li>
       `).join('')}
