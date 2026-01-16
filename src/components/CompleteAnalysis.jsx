@@ -8,7 +8,7 @@ import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
 import { ANALYSIS_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
-const CompleteAnalysis = ({ files, content, sourceTitle }) => {
+const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -48,12 +48,12 @@ const CompleteAnalysis = ({ files, content, sourceTitle }) => {
   const handleDownloadPDF = () => {
     if (!analysisData) return;
     toast.loading("Generando PDF...", { duration: 2000 });
-    generateAnalysisPDF(analysisData, sourceTitle);
+    generateAnalysisPDF(analysisData, sourceTitle, reportMeta);
   };
 
   const handleDownloadHTML = () => {
     if (!analysisData) return;
-    const htmlContent = generateAnalysisHTML(analysisData, sourceTitle);
+    const htmlContent = generateAnalysisHTML(analysisData, sourceTitle, reportMeta);
     const filename = `Analisis_BrainStudio_${Date.now()}.html`;
     downloadHTML(htmlContent, filename);
     toast.success("Descargando reporte HTML...");
