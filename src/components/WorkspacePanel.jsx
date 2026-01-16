@@ -8,7 +8,6 @@ import CompleteAnalysis from './CompleteAnalysis';
 const WorkspacePanel = ({ selectedSource }) => {
   const [reportTitle, setReportTitle] = useState('');
   const [projectSubtitle, setProjectSubtitle] = useState('');
-  const [meetingContext, setMeetingContext] = useState('');
   
   // Helper to determine what we are looking at
   const isMultiSource = selectedSource?.type === 'multi-source';
@@ -106,16 +105,6 @@ const WorkspacePanel = ({ selectedSource }) => {
                     className="mt-2 w-full rounded-lg bg-[#130e24] border border-purple-900/30 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
                   />
                 </div>
-                <div>
-                  <label className="text-xs uppercase tracking-wide text-purple-300">Contexto de la reunión</label>
-                  <textarea
-                    value={meetingContext}
-                    onChange={(event) => setMeetingContext(event.target.value)}
-                    placeholder="Describe brevemente el contexto de la reunión."
-                    rows={3}
-                    className="mt-2 w-full rounded-lg bg-[#130e24] border border-purple-900/30 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
-                  />
-                </div>
               </div>
 
               <div className="grid gap-6">
@@ -126,12 +115,12 @@ const WorkspacePanel = ({ selectedSource }) => {
                 <GeneralSummary
                   files={files}
                   sourceTitle={getSourceTitle()}
-                  reportMeta={{ reportTitle, projectSubtitle, meetingContext }}
+                  reportMeta={{ reportTitle, projectSubtitle }}
                 />
                 <CompleteAnalysis
                   files={files}
                   sourceTitle={getSourceTitle()}
-                  reportMeta={{ reportTitle, projectSubtitle, meetingContext }}
+                  reportMeta={{ reportTitle, projectSubtitle }}
                 />
               </div>
            </div>
