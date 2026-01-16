@@ -4,19 +4,19 @@
 export const COLORS = {
   primary: '#5B5CE6',
   primaryLight: '#E9E7FF',
-  secondary: '#D7FF6A',
-  secondaryLight: '#E9E7FF',
+  secondary: '#F6F5FF',
+  secondaryLight: '#E7F1FF',
   dark: '#1f2124',
   textDark: '#1f2124',
   text: '#393d42',
   textLight: '#6B7280',
   border: '#E5E7EB',
   bg: '#F6F7FB',
-  white: '#FFFFFF',
+  white: '#6B7280',
   accentLavender: '#E9E7FF',
-  accentLime: '#D7FF6A',
+  accentPurple: '#6000FF',
   title: '#1f2124',
-  cardGradient: '#f3d9ff',
+  cardGradient: '#F2EDFF',
 };
 
 export const GRADIENTS = {
