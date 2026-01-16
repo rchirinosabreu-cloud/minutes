@@ -6,16 +6,17 @@ export const COLORS = {
   primaryLight: '#E9E7FF',
   secondary: '#D7FF6A',
   secondaryLight: '#E9E7FF',
-  dark: '#393d42',
+  dark: '#1f2124',
   textDark: '#1f2124',
-  text: '#1f2124',
-  textLight: '#1f2124',
+  text: '#393d42',
+  textLight: '#6B7280',
   border: '#E5E7EB',
   bg: '#F6F7FB',
   white: '#FFFFFF',
   accentLavender: '#E9E7FF',
   accentLime: '#D7FF6A',
-  title: '#393d42',
+  title: '#1f2124',
+  cardGradient: '#f3d9ff',
 };
 
 export const GRADIENTS = {
@@ -23,10 +24,10 @@ export const GRADIENTS = {
   primary: COLORS.primary,
   secondary: COLORS.secondary,
   limeSoft: `linear-gradient(135deg, ${COLORS.accentLime} 0%, ${COLORS.bg} 85%)`,
-  purpleSoft: `linear-gradient(135deg, ${COLORS.accentLavender} 0%, ${COLORS.bg} 85%)`,
+  purpleSoft: `linear-gradient(135deg, ${COLORS.cardGradient} 0%, ${COLORS.bg} 85%)`,
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
-  cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
-  canvas: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.accentLavender} 45%, ${COLORS.bg} 100%)`,
+  cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.cardGradient} 45%, ${COLORS.bg} 100%)`,
+  canvas: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.cardGradient} 45%, ${COLORS.bg} 100%)`,
 };
 
 export const TYPOGRAPHY = {
@@ -71,11 +72,11 @@ export const STYLES = {
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
   card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
-  cardSoft: `background: ${COLORS.white}; border-radius: 18px; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.accentLavender}; page-break-inside: avoid; break-inside: avoid;`,
+  cardSoft: `background: ${COLORS.bg}; border-radius: 18px; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.accentLavender}; page-break-inside: avoid; break-inside: avoid;`,
   cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
-  listGrid: `column-count: 2; column-gap: 22px; width: 100%;`,
-  listCard: `display: inline-block; width: 100%; margin: 0 0 22px; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; background: ${COLORS.white}; page-break-inside: avoid; break-inside: avoid;`,
+  listGrid: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;`,
+  listCard: `border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; background: ${COLORS.white}; page-break-inside: avoid; break-inside: avoid;`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
