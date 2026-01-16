@@ -80,14 +80,14 @@ const generatePDFFromHTML = async (htmlString, filename) => {
   }
 };
 
-export const generateSummaryPDF = (data, sourceTitle) => {
-  const htmlContent = generateSummaryHTML(data, sourceTitle);
+export const generateSummaryPDF = (data, sourceTitle, reportMeta) => {
+  const htmlContent = generateSummaryHTML(data, sourceTitle, reportMeta);
   const filename = `Resumen_BrainStudio_${Date.now()}.pdf`;
   generatePDFFromHTML(htmlContent, filename);
 };
 
-export const generateAnalysisPDF = (data, sourceTitle) => {
-  const htmlContent = generateAnalysisHTML(data, sourceTitle);
+export const generateAnalysisPDF = (data, sourceTitle, reportMeta) => {
+  const htmlContent = generateAnalysisHTML(data, sourceTitle, reportMeta);
   const filename = `Analisis_BrainStudio_${Date.now()}.pdf`;
   generatePDFFromHTML(htmlContent, filename);
 };

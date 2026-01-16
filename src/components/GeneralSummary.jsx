@@ -8,7 +8,7 @@ import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
 import { SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
-const GeneralSummary = ({ files, content, sourceTitle }) => {
+const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -52,12 +52,12 @@ const GeneralSummary = ({ files, content, sourceTitle }) => {
   const handleDownloadPDF = () => {
     if (!summaryData) return;
     toast.loading("Generando PDF...", { duration: 2000 });
-    generateSummaryPDF(summaryData, sourceTitle);
+    generateSummaryPDF(summaryData, sourceTitle, reportMeta);
   };
 
   const handleDownloadHTML = () => {
     if (!summaryData) return;
-    const htmlContent = generateSummaryHTML(summaryData, sourceTitle);
+    const htmlContent = generateSummaryHTML(summaryData, sourceTitle, reportMeta);
     const filename = `Resumen_BrainStudio_${Date.now()}.html`;
     downloadHTML(htmlContent, filename);
     toast.success("Descargando reporte HTML...");
