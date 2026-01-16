@@ -105,9 +105,9 @@ export const formatListAsCards = (items) => {
   const listItems = Array.isArray(items) ? items : [items];
 
   return `
-    <div style="${STYLES.listGrid}">
+    <div style="${STYLES.listGrid}" class="list-grid">
       ${listItems.map((item, index) => `
-        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}">
+        <div style="${STYLES.listCard} ${index % 2 === 0 ? STYLES.cardSoft : STYLES.cardLime}" class="list-card">
           <div style="${TYPOGRAPHY.body}">${item}</div>
         </div>
       `).join('')}

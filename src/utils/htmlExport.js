@@ -12,6 +12,11 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
     tr:nth-child(even) { background: ${COLORS.bg}; }
     .card, section, .block { break-inside: avoid; page-break-inside: avoid; }
+    .list-grid { column-count: 2; column-gap: 22px; width: 100%; }
+    .list-card { display: inline-block; width: 100%; margin: 0 0 22px; break-inside: avoid; page-break-inside: avoid; }
+    @media (max-width: 900px) {
+      .list-grid { column-count: 1; }
+    }
   `;
   
   // Data extraction with fallbacks
@@ -31,7 +36,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Resumen - ${sourceTitle}</title>
+  <title>${documentTitle || ''}</title>
   <style>${sharedStyles}</style>
 </head>
 <body style="${STYLES.body}">
@@ -41,9 +46,8 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     <div style="${STYLES.coverPage}">
        <div>
          ${getBrainStudioLogoSVG()}
-         <h1 style="${STYLES.coverTitle}">Resumen General${meetingTitle ? `<br><span style="color:${COLORS.primary}; font-weight:400;">${meetingTitle}</span>` : ''}</h1>
-         ${documentTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 20px; font-weight: 600; color: ${COLORS.text};">${documentTitle}</div>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 16px; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
+         ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
          <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.textLight}; max-width: 600px;">
             Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
          </div>
@@ -65,7 +69,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
         <section style="${STYLES.section}">
           <div style="${STYLES.sectionTitleBox}">
              ${ICONS.users}
-             <h2 style="${STYLES.sectionTitle}">Contexto de la reunión</h2>
+             <div style="${STYLES.sectionTitle}">Contexto de la reunión</div>
           </div>
           <div style="${STYLES.listGrid}">
              ${participants.length > 0 ? createMetricCard("Participantes", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
@@ -110,11 +114,11 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
       <section style="${STYLES.section}">
           <div style="${STYLES.sectionTitleBox}">
              ${ICONS.calendar}
-             <h2 style="${STYLES.sectionTitle}">Próximos Pasos</h2>
+             <div style="${STYLES.sectionTitle}">Próximos Pasos</div>
           </div>
-          <div style="${STYLES.listGrid}">
+          <div style="${STYLES.listGrid}" class="list-grid">
              ${actions.map(action => `
-                <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};">
+                <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};" class="list-card">
                    <div>
                       <div style="font-weight: 600; color: ${COLORS.dark};">${action.task}</div>
                       <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
@@ -151,6 +155,11 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
     th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid ${COLORS.border}; font-size: 13px; color: ${COLORS.text}; }
     tr:nth-child(even) { background: ${COLORS.bg}; }
     .card, section, .block { break-inside: avoid; page-break-inside: avoid; }
+    .list-grid { column-count: 2; column-gap: 22px; width: 100%; }
+    .list-card { display: inline-block; width: 100%; margin: 0 0 22px; break-inside: avoid; page-break-inside: avoid; }
+    @media (max-width: 900px) {
+      .list-grid { column-count: 1; }
+    }
   `;
 
   const topics = data.meeting_topics || [];
@@ -166,7 +175,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Análisis Estratégico - ${sourceTitle}</title>
+  <title>${documentTitle || ''}</title>
   <style>${sharedStyles}</style>
 </head>
 <body style="${STYLES.body}">
@@ -180,9 +189,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        
        <div>
          ${getBrainStudioLogoSVG()}
-         <h1 style="${STYLES.coverTitle}">Análisis Estratégico</h1>
-         ${documentTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 20px; font-weight: 600; color: ${COLORS.text};">${documentTitle}</div>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 16px; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
+         ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
          <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.text}; font-weight: 500; max-width: 700px; line-height: 1.6;">
             Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
          </div>
@@ -200,7 +208,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
-            <h2 style="${STYLES.sectionTitle}">Contexto y Temas</h2>
+            <div style="${STYLES.sectionTitle}">Contexto y Temas</div>
          </div>
          ${formatListAsCards(topics)}
        </section>
@@ -208,7 +216,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.lightning}
-            <h2 style="${STYLES.sectionTitle}">Insight Consultivo</h2>
+            <div style="${STYLES.sectionTitle}">Insight Consultivo</div>
          </div>
          ${formatListAsCards(insights)}
        </section>
@@ -216,7 +224,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.bulb}
-            <h2 style="${STYLES.sectionTitle}">Observaciones Críticas</h2>
+            <div style="${STYLES.sectionTitle}">Observaciones Críticas</div>
          </div>
          ${formatListAsCards(observations)}
        </section>
@@ -224,7 +232,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.chart}
-            <h2 style="${STYLES.sectionTitle}">Oportunidades Detectadas</h2>
+            <div style="${STYLES.sectionTitle}">Oportunidades Detectadas</div>
          </div>
          <div style="${STYLES.listGrid}">
             ${opportunities.map((item) => `
@@ -240,7 +248,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.calendar}
-            <h2 style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</h2>
+            <div style="${STYLES.sectionTitle}">Recomendaciones Estratégicas</div>
          </div>
          <div style="${STYLES.listGrid}">
             ${recommendations.map((rec, index) => `
