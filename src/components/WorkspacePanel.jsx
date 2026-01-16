@@ -1,12 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Sparkles, AlertCircle, Mic, Layers, Info } from 'lucide-react';
 import GeneralSummary from './GeneralSummary';
 import CompleteAnalysis from './CompleteAnalysis';
-import PromptViewer from './PromptViewer';
 
 const WorkspacePanel = ({ selectedSource }) => {
+  const [reportTitle, setReportTitle] = useState('');
+  const [projectSubtitle, setProjectSubtitle] = useState('');
   
   // Helper to determine what we are looking at
   const isMultiSource = selectedSource?.type === 'multi-source';
@@ -83,17 +84,45 @@ const WorkspacePanel = ({ selectedSource }) => {
                   </div>
               </div>
 
+              <div className="bg-[#0f0a1a] rounded-lg p-4 border border-purple-900/20 space-y-4">
+                <div>
+                  <label className="text-xs uppercase tracking-wide text-purple-300">Título del documento</label>
+                  <input
+                    type="text"
+                    value={reportTitle}
+                    onChange={(event) => setReportTitle(event.target.value)}
+                    placeholder="Ej. Reporte Ejecutivo de Talento"
+                    className="mt-2 w-full rounded-lg bg-[#130e24] border border-purple-900/30 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-wide text-purple-300">Subtítulo del proyecto</label>
+                  <input
+                    type="text"
+                    value={projectSubtitle}
+                    onChange={(event) => setProjectSubtitle(event.target.value)}
+                    placeholder="Ej. Horizonte 2026"
+                    className="mt-2 w-full rounded-lg bg-[#130e24] border border-purple-900/30 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                  />
+                </div>
+              </div>
+
               <div className="grid gap-6">
                 {/* 
                    We pass 'files' array to the components.
                    They will handle generating the batch prompt.
                 */}
-                <GeneralSummary files={files} sourceTitle={getSourceTitle()} />
-                <CompleteAnalysis files={files} sourceTitle={getSourceTitle()} />
+                <GeneralSummary
+                  files={files}
+                  sourceTitle={getSourceTitle()}
+                  reportMeta={{ reportTitle, projectSubtitle }}
+                />
+                <CompleteAnalysis
+                  files={files}
+                  sourceTitle={getSourceTitle()}
+                  reportMeta={{ reportTitle, projectSubtitle }}
+                />
               </div>
-
-              {/* Added PromptViewer here at the bottom of the list */}
-              <PromptViewer />
            </div>
         )}
       </div>
