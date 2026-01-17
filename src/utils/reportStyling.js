@@ -32,9 +32,9 @@ export const GRADIENTS = {
 };
 
 export const TYPOGRAPHY = {
-  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-  h1: `font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: ${COLORS.title};`,
-  h2: `font-size: 20px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: ${COLORS.title};`,
+  fontFamily: "'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  h1: `font-size: 36px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: ${COLORS.title};`,
+  h2: `font-size: 21px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: ${COLORS.title};`,
   h3: `font-size: 16px; font-weight: 600; line-height: 1.4; color: ${COLORS.title};`,
   body: `font-size: 14px; line-height: 1.6; color: ${COLORS.text};`,
   small: `font-size: 12px; line-height: 1.6; color: ${COLORS.textLight};`

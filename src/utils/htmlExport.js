@@ -5,6 +5,7 @@ import { createMetricCard } from './chartVisualization';
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   const sharedStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
     body { margin: 0; background: ${GRADIENTS.canvas}; }
@@ -47,7 +48,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
          <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; max-width: 640px; line-height: 1.6;">
             Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
          </div>
@@ -76,31 +77,29 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
              <div style="${STYLES.sectionTitle}">Contexto de la reunión</div>
           </div>
           <div style="${STYLES.listGrid}">
-             ${participants.length > 0 ? createMetricCard("Participantes", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
+             ${participants.length > 0 ? createMetricCard("Personas mencionadas", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
              ${meetingDuration ? createMetricCard("Duración", meetingDuration, "Tiempo total reportado", COLORS.primary) : ''}
           </div>
           ${meetingTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 13px; color: ${COLORS.textLight};">Título: ${meetingTitle}</div>` : ''}
         </section>
       ` : ''}
 
-      <!-- Topics & Details Grid -->
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
-        <section style="${STYLES.card}">
-            <div style="${STYLES.sectionTitleBox}">
-              ${ICONS.target}
-              <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
-            </div>
-            ${formatListAsCards(topics)}
-        </section>
-        
-        <section style="${STYLES.card} ${STYLES.cardSoft}">
-            <div style="${STYLES.sectionTitleBox}">
-              ${ICONS.lightning}
-              <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
-            </div>
-            ${formatListAsCards(details)}
-        </section>
-      </div>
+      <!-- Topics & Details -->
+      <section style="${STYLES.card} margin-bottom: ${SPACING.md};">
+          <div style="${STYLES.sectionTitleBox}">
+            ${ICONS.target}
+            <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
+          </div>
+          ${formatListAsCards(topics)}
+      </section>
+
+      <section style="${STYLES.card} ${STYLES.cardSoft} margin-bottom: ${SPACING.xl};">
+          <div style="${STYLES.sectionTitleBox}">
+            ${ICONS.lightning}
+            <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
+          </div>
+          ${formatListAsCards(details)}
+      </section>
 
       <!-- Agreements -->
       <section style="${STYLES.section}">
@@ -153,6 +152,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
 export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   const sharedStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
     body { margin: 0; background: ${GRADIENTS.canvas}; }
@@ -191,7 +191,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
          <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; font-weight: 500; max-width: 640px; line-height: 1.6;">
             Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
          </div>
