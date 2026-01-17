@@ -118,15 +118,11 @@ export const formatListAsCards = (items) => {
 };
 
 export const getBrainStudioLogoSVG = () => `
-<svg width="220" height="64" viewBox="0 0 220 64" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-  <g fill="none" fill-rule="evenodd">
-    <circle cx="32" cy="32" r="26" fill="#16B5A7"/>
-    <path d="M24 24c-3.8 0-6.8 2.9-6.8 6.6 0 2.3 1.1 4.4 3.1 5.5.2 3.2 2.9 5.6 6.2 5.6h5.4c3.3 0 6-2.5 6.2-5.9 1.9-1 3.1-3 3.1-5.2 0-3.7-3-6.6-6.8-6.6-.9-2.8-3.6-4.7-6.8-4.7-3 0-5.6 1.8-6.6 4.7z" fill="#FFFFFF" opacity="0.92"/>
-    <path d="M27 22v20M36 24v18M20 30h24" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-    <text x="72" y="28" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="#5A5A5A" letter-spacing="2">BRAIN</text>
-    <text x="72" y="52" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#4B4B4B" font-weight="700" letter-spacing="1">STUDIO</text>
-  </g>
-</svg>
+<img
+  src="https://brainstudioagencia.com/wp-content/uploads/2026/01/Recurso-1.svg"
+  alt="BrainStudio"
+  style="display:block; width: 220px; height: auto;"
+/>
 `;
 
 export const ICONS = {
