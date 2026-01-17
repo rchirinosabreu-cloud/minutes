@@ -50,7 +50,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
          ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
          <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; max-width: 640px; line-height: 1.6;">
-            Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
+            Resumen para seguimiento de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
          </div>
        </div>
        
@@ -193,7 +193,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
          ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
          <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; font-weight: 500; max-width: 640px; line-height: 1.6;">
-            Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
+           Lectura estratégica de las fuentes analizadas, organizada por contexto, insights y oportunidades.
          </div>
        </div>
        
