@@ -15,7 +15,7 @@ export const COLORS = {
   white: '#FFFFFF',
   accentLavender: '#E9E7FF',
   accentPurple: '#6D5CE7',
-  accentLime: '#C7F9CC',
+  accentLime: '#F7F9C7',
   title: '#111827',
   cardGradient: '#ECEBFF',
 };
