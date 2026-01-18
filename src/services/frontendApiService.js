@@ -7,6 +7,19 @@ const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-pr
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+const parseReferenceImages = () =>
+  GEMINI_REFERENCE_IMAGES.split(',').map((value) => value.trim()).filter(Boolean);
+
+const blobToBase64 = async (blob) => {
+  const buffer = await blob.arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  bytes.forEach((byte) => {
+    binary += String.fromCharCode(byte);
+  });
+  return btoa(binary);
+};
+
 const frontendApiService = {
   // OpenAI API Call with retry logic
   generateCompletion: async (prompt, systemMessage = "You are a helpful assistant.") => {
