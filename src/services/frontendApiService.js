@@ -3,9 +3,7 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://delightful-nourishment-production.up.railway.app';
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
 const FIREFLIES_API_URL = `${API_BASE_URL}/api/fireflies/graphql`;
-const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-1.5-pro:generateContent`;
-const GEMINI_REFERENCE_IMAGES = import.meta.env.VITE_GEMINI_REFERENCE_IMAGES || '';
-
+const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -80,32 +78,13 @@ const frontendApiService = {
     return combinedContext;
   },
 
-  getGeminiReferenceImages: () => parseReferenceImages(),
-
-  generateGeminiHtmlReport: async (prompt, referenceImages = []) => {
+  generateGeminiHtmlReport: async (prompt) => {
     try {
-      const imageParts = await Promise.all(
-        referenceImages.map(async (url) => {
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error(`No se pudo cargar la imagen de referencia: ${url}`);
-          }
-          const blob = await response.blob();
-          const base64 = await blobToBase64(blob);
-          return {
-            inlineData: {
-              data: base64,
-              mimeType: blob.type || 'image/png'
-            }
-          };
-        })
-      );
-
       const response = await axios.post(GEMINI_API_URL, {
         contents: [
           {
             role: "user",
-            parts: [{ text: prompt }, ...imageParts]
+            parts: [{ text: prompt }]
           }
         ],
         generationConfig: {

@@ -61,8 +61,7 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     try {
       const reportContent = buildSummaryReportContent(summaryData, reportMeta);
       const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
-      const referenceImages = frontendApiService.getGeminiReferenceImages();
-      const htmlContent = await frontendApiService.generateGeminiHtmlReport(prompt, referenceImages);
+      const htmlContent = await frontendApiService.generateGeminiHtmlReport(prompt);
       const filename = `Resumen_BrainStudio_${Date.now()}.html`;
       downloadHTML(htmlContent, filename);
       toast.success("Descargando reporte HTML...", { id: toastId });
