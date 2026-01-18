@@ -58,8 +58,8 @@ export const buildSummaryReportContent = (data, reportMeta = {}) => {
     const actionLines = data.action_items.flatMap((item) => {
       const details = [];
       if (item.task) details.push(`- Tarea: ${item.task}`);
-      if (item.priority) details.push(`  - Prioridad: ${item.priority}`);
-      if (item.owner) details.push(`  - Responsable: ${item.owner}`);
+      if (item.priority) details.push(`  - ${item.priority}`);
+      if (item.owner) details.push(`  - ${item.owner}`);
       if (item.due_date) details.push(`  - Fecha límite: ${item.due_date}`);
       return details;
     });

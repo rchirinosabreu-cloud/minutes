@@ -5,7 +5,7 @@ import { createMetricCard } from './chartVisualization';
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   const sharedStyles = `
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
     body { margin: 0; background: ${GRADIENTS.canvas}; }
@@ -125,7 +125,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
                 <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};" class="list-card">
                    <div>
                       <div style="font-weight: 600; color: ${COLORS.text};">${action.task}</div>
-                      <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
+                      <div style="font-size: 12px; color: ${COLORS.textLight};">${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
                    </div>
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${action.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${action.priority === 'Alta' ? COLORS.textDark : COLORS.primary};">
                      ${action.priority || 'General'}
@@ -152,7 +152,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
 export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   const sharedStyles = `
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
     body { margin: 0; background: ${GRADIENTS.canvas}; }
