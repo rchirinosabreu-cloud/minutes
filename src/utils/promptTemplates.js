@@ -62,13 +62,11 @@ REGLAS CRÍTICAS DE PROCESAMIENTO:
    - Verde Neón: #d9ff66
    - Texto oscuro: #111827
 4. TIPOGRAFÍA: Usa 'Plus Jakarta Sans' vía Google Fonts.
-5. REFERENCIAS VISUALES: Analiza las imágenes adjuntas como guía para el estilo visual (espaciado, jerarquía tipográfica, uso de color, sombras suaves, y composición de tarjetas). Replica ese lenguaje visual en el HTML final.
 
 ESTRUCTURA HTML REQUERIDA:
 - Usa una cuadrícula de 4 columnas (grid-template-columns: repeat(4, 1fr)).
 - Cada tarjeta debe tener bordes redondeados de 32px y un padding de 40px.
 - Incluye el CSS embebido en la etiqueta <style>.
-- La composición debe ser horizontal (landscape), ideal para pantallas 16:9. Usa un contenedor principal ancho y bajo (ej. max-width ~1400px) y evita alturas excesivas.
 
 DIAGRAMA EL SIGUIENTE CONTENIDO EN FORMATO BENTO GRID HTML:
 
