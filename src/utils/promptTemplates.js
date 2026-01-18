@@ -51,29 +51,48 @@ INSTRUCCIONES DE GENERACIÓN:
 `;
 
 export const GEMINI_BENTO_PROMPT_TEMPLATE = `
-Eres un experto en Desarrollo Frontend y Diseño de Interfaces (UI). Tu única tarea es transformar textos de análisis de reuniones en documentos HTML estructurados con un sistema visual "Bento Grid".
+Eres un Desarrollador Senior de Frontend y Diseñador UI/UX. Cuando recibes análisis y resúmenes generados por OpenAI, debes transformarlos en un documento HTML profesional para reportes estratégicos corporativos de alta gama.
+
+FUENTES DE ESTILO VISUAL (REFERENCIAS OBLIGATORIAS):
+Debes analizar y replicar visualmente (espaciados, sombras, radios de borde, jerarquía) los siguientes archivos:
+- Diseño de Métricas: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/01.png
+- Grilla de Hallazgos: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/02.png
+- Cronograma y Planes: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/03.png
+- Líneas de Tiempo: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/04.png
+- Horizontes Estratégicos: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/05.png
+- Resultados y ROI: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/06.png
+- Fases de Acción: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/07.png
+- Secciones de Texto Crítico: https://raw.githubusercontent.com/rchirinosabreu-cloud/minutes/main/assets/diseno/08.png
 
 REGLAS CRÍTICAS DE PROCESAMIENTO:
-1. INTEGRIDAD TOTAL: No resumas, no recortes, no omitas y no modifiques absolutamente ningún texto, título o viñeta del contenido proporcionado. Tu trabajo es DIAGRAMAR, no editar.
-2. SISTEMA VISUAL: Debes usar exclusivamente el estilo Bento Grid con tarjetas (.card) y clases de expansión (.span-2, .span-4).
-3. PALETA DE COLORES: 
-   - Fondo: #f8faf5
-   - Púrpura estratégico: #635bff
-   - Verde Neón: #d9ff66
+1. INTEGRIDAD TOTAL: Prohibido resumir. No recortes, no omitas y no modifiques absolutamente ningún texto, título o viñeta del contenido proporcionado. Tu trabajo es DIAGRAMAR, no editar.
+2. SISTEMA VISUAL: Usa exclusivamente el estilo Bento Grid con tarjetas (.card) y clases de expansión (.span-2, .span-4).
+3. PALETA DE COLORES:
+   - Fondo general: #f8faf5
+   - Púrpura estratégico: #635bff (texto blanco, usar en Estrategia y Acción)
+   - Verde Neón: #d9ff66 (texto oscuro, usar en Contexto y Temas)
    - Texto oscuro: #111827
 4. TIPOGRAFÍA: Usa 'Plus Jakarta Sans' vía Google Fonts.
+5. ICONOGRAFÍA: Utiliza SVGs simples de trazo fino para los iconos superiores de las tarjetas, basándote en los ejemplos de las referencias.
+
+PENSAMIENTO (THINKING):
+Antes de generar el código, decide qué tarjetas deben ser .span-4 basándote en la densidad del texto para evitar que el contenido se vea amontonado.
 
 ESTRUCTURA HTML REQUERIDA:
-- Usa una cuadrícula de 4 columnas (grid-template-columns: repeat(4, 1fr)).
-- Cada tarjeta debe tener bordes redondeados de 32px y un padding de 40px.
+- Contenedor: clase .bento-grid con display: grid, 4 columnas de igual ancho y gap: 24px.
+- Tarjetas (.card): fondo blanco, border-radius: 32px, padding: 40px y box-shadow suave.
+- Clases de diagramación:
+  - .span-4: secciones principales, roadmaps o tablas de acción.
+  - .span-2: insights de longitud media u observaciones.
+  - .card (simple): métricas cortas y porcentajes.
 - Incluye el CSS embebido en la etiqueta <style>.
 
-DIAGRAMA EL SIGUIENTE CONTENIDO EN FORMATO BENTO GRID HTML:
+DIAGRAMA EL SIGUIENTE CONTENIDO EN FORMATO BENTO GRID HTML, SIN ENVOLVER EN BLOQUES DE CÓDIGO:
 
 {{CONTENT}}
 
 INSTRUCCIONES ADICIONALES:
-- Genera el código HTML completo y listo para guardar como archivo .html.
+- Devuelve únicamente el código HTML completo y funcional.
 - Asegúrate de que las secciones más largas usen la clase .span-4 para que ocupen todo el ancho y no se amontone el texto.
-- Respeta cada viñeta y sub-punto del análisis.
+- Respeta cada viñeta y sub-punto del análisis tal cual.
 `;

@@ -2,22 +2,23 @@
 // Utilities for HTML and PDF Report Styling
 
 export const COLORS = {
-  primary: '#4F46E5',
-  primaryLight: '#E4E7FF',
-  secondary: '#F6F7FB',
-  secondaryLight: '#EEF1FF',
+  primary: '#635bff',
+  primaryLight: '#E6E4FF',
+  secondary: '#f8faf5',
+  secondaryLight: '#f3f6ef',
   dark: '#111827',
   textDark: '#111827',
   text: '#1F2937',
   textLight: '#6B7280',
   border: '#E5E7EB',
-  bg: '#F7F7FB',
+  bg: '#f8faf5',
   white: '#FFFFFF',
   accentLavender: '#E9E7FF',
   accentPurple: '#6D5CE7',
   accentBlue: '#D6E3FF',
+  accentLime: '#d9ff66',
   title: '#111827',
-  cardGradient: '#ECEBFF',
+  cardGradient: '#F0EEFF',
 };
 
 export const GRADIENTS = {
@@ -27,16 +28,16 @@ export const GRADIENTS = {
   limeSoft: `linear-gradient(135deg, ${COLORS.accentLime} 0%, ${COLORS.bg} 85%)`,
   purpleSoft: `linear-gradient(135deg, ${COLORS.cardGradient} 0%, ${COLORS.bg} 85%)`,
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
-  cover: `linear-gradient(135deg, #F6F4FF 0%, ${COLORS.cardGradient} 55%, #F2F4FF 100%)`,
-  canvas: `linear-gradient(135deg, #F6F4FF 0%, ${COLORS.cardGradient} 55%, #F2F4FF 100%)`,
+  cover: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #F2F6EC 100%)`,
+  canvas: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #F2F6EC 100%)`,
 };
 
 export const TYPOGRAPHY = {
-  fontFamily: "'DM Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-  h1: `font-size: 36px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: ${COLORS.title};`,
-  h2: `font-size: 21px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: ${COLORS.title};`,
-  h3: `font-size: 16px; font-weight: 600; line-height: 1.4; color: ${COLORS.title};`,
-  body: `font-size: 14px; line-height: 1.6; color: ${COLORS.text};`,
+  fontFamily: "'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  h1: `font-size: 40px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: ${COLORS.title};`,
+  h2: `font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: ${COLORS.title};`,
+  h3: `font-size: 18px; font-weight: 600; line-height: 1.4; color: ${COLORS.title};`,
+  body: `font-size: 15px; line-height: 1.6; color: ${COLORS.text};`,
   small: `font-size: 12px; line-height: 1.6; color: ${COLORS.textLight};`
 };
 
@@ -52,7 +53,7 @@ export const SPACING = {
 export const STYLES = {
   // Global
   body: `font-family: ${TYPOGRAPHY.fontFamily}; background: ${GRADIENTS.canvas}; margin: 0; padding: 32px; color: ${COLORS.text}; -webkit-font-smoothing: antialiased; print-color-adjust: exact; -webkit-print-color-adjust: exact;`,
-  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #F7F7FB; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
+  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #f8faf5; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
   
   // Header / Cover
   coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
@@ -94,7 +95,7 @@ export const formatList = (items) => {
   return `
     <ul class="two-column-list" style="list-style: disc; padding-left: 20px; margin: 0; column-count: 2; column-gap: 22px;">
       ${listItems.map(item => `
-        <li style="margin-bottom: 8px; font-size: 14px; color: ${COLORS.text}; break-inside: avoid;">
+        <li style="margin-bottom: 8px; font-size: 15px; color: ${COLORS.text}; break-inside: avoid;">
           ${item}
         </li>
       `).join('')}
