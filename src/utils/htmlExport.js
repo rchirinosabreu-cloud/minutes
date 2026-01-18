@@ -174,6 +174,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const recommendations = data.recommendations || [];
   const documentTitle = reportMeta.reportTitle?.trim();
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
+  const softSectionStyle = `${STYLES.section} background: ${COLORS.bg}; border: 1px solid ${COLORS.accentLavender};`;
+  const limeSectionStyle = `${STYLES.section} background: ${COLORS.accentLime}; border: 1px solid ${COLORS.accentLime};`;
   
   return `
 <!DOCTYPE html>
@@ -210,12 +212,12 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
     </div>
 
     <div style="${STYLES.content}">
-       <section style="${STYLES.section}">
+       <section style="${softSectionStyle}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
             <div style="${STYLES.sectionTitle}">Contexto y Temas</div>
          </div>
-         ${formatList(topics)}
+         ${formatListAsCards(topics)}
        </section>
 
        <section style="${STYLES.section}">
@@ -223,18 +225,18 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.lightning}
             <div style="${STYLES.sectionTitle}">Insight Consultivo</div>
          </div>
-         ${formatList(insights)}
+         ${formatListAsCards(insights)}
        </section>
 
-       <section style="${STYLES.section}">
+       <section style="${limeSectionStyle}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.bulb}
             <div style="${STYLES.sectionTitle}">Observaciones Críticas</div>
          </div>
-         ${formatList(observations)}
+         ${formatListAsCards(observations)}
        </section>
 
-       <section style="${STYLES.section}">
+       <section style="${softSectionStyle}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.chart}
             <div style="${STYLES.sectionTitle}">Oportunidades Detectadas</div>
