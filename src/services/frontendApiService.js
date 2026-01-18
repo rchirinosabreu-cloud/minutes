@@ -3,6 +3,7 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://delightful-nourishment-production.up.railway.app';
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
 const FIREFLIES_API_URL = `${API_BASE_URL}/api/fireflies/graphql`;
+const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-1.5-pro:generateContent`;
 
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -63,6 +64,34 @@ const frontendApiService = {
     });
 
     return combinedContext;
+  },
+
+  generateGeminiHtmlReport: async (prompt) => {
+    try {
+      const response = await axios.post(GEMINI_API_URL, {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: prompt }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.2
+        }
+      });
+
+      const text = response.data?.candidates?.[0]?.content?.parts?.map((part) => part.text).join('')?.trim();
+      if (!text) {
+        throw new Error("Gemini response was empty.");
+      }
+      return text;
+    } catch (error) {
+      console.error("Gemini API Error:", error);
+      if (error.message === 'Network Error' && !error.response) {
+        throw new Error("Network Error: La llamada a Gemini necesita un proxy/servidor para evitar CORS. Configura el backend /api/gemini o VITE_API_BASE_URL.");
+      }
+      throw new Error(error.response?.data?.error?.message || error.message || "Failed to generate HTML from Gemini");
+    }
   },
 
   // Fireflies GraphQL Call
