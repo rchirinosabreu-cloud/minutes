@@ -3,10 +3,12 @@ import { Brain, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } fr
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
 import { generateAnalysisPDF } from '@/utils/pdfExport';
-import { generateAnalysisHTML } from '@/utils/htmlExport';
+import { buildAnalysisReportContent } from '@/utils/reportContent';
+import { buildBentoHtml } from '@/utils/bentoReportTemplate';
 import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
-import { ANALYSIS_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
+import { parseGeminiCards } from '@/utils/geminiReportParser';
+import { ANALYSIS_PROMPT_TEMPLATE, GEMINI_BENTO_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
 const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
   const [analysisData, setAnalysisData] = useState(null);
@@ -51,12 +53,23 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
     generateAnalysisPDF(analysisData, sourceTitle, reportMeta);
   };
 
-  const handleDownloadHTML = () => {
+  const handleDownloadHTML = async () => {
     if (!analysisData) return;
-    const htmlContent = generateAnalysisHTML(analysisData, sourceTitle, reportMeta);
-    const filename = `Analisis_BrainStudio_${Date.now()}.html`;
-    downloadHTML(htmlContent, filename);
-    toast.success("Descargando reporte HTML...");
+    const toastId = toast.loading("Generando HTML con Gemini...");
+    try {
+      const reportContent = buildAnalysisReportContent(analysisData, reportMeta);
+      const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
+      const referenceImages = frontendApiService.getGeminiReferenceImages();
+      const geminiResponse = await frontendApiService.generateGeminiHtmlReport(prompt, referenceImages);
+      const cards = parseGeminiCards(geminiResponse);
+      const htmlContent = buildBentoHtml(cards);
+      const filename = `Analisis_BrainStudio_${Date.now()}.html`;
+      downloadHTML(htmlContent, filename);
+      toast.success("Descargando reporte HTML...", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    }
   };
 
   return (
