@@ -3,10 +3,10 @@ import { FileText, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink }
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
 import { generateSummaryPDF } from '@/utils/pdfExport';
-import { generateSummaryHTML } from '@/utils/htmlExport';
+import { buildSummaryReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
-import { SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
+import { GEMINI_BENTO_PROMPT_TEMPLATE, SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
 const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
   const [summaryData, setSummaryData] = useState(null);
@@ -55,12 +55,21 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     generateSummaryPDF(summaryData, sourceTitle, reportMeta);
   };
 
-  const handleDownloadHTML = () => {
+  const handleDownloadHTML = async () => {
     if (!summaryData) return;
-    const htmlContent = generateSummaryHTML(summaryData, sourceTitle, reportMeta);
-    const filename = `Resumen_BrainStudio_${Date.now()}.html`;
-    downloadHTML(htmlContent, filename);
-    toast.success("Descargando reporte HTML...");
+    const toastId = toast.loading("Generando HTML con Gemini...");
+    try {
+      const reportContent = buildSummaryReportContent(summaryData, reportMeta);
+      const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
+      const referenceImages = frontendApiService.getGeminiReferenceImages();
+      const htmlContent = await frontendApiService.generateGeminiHtmlReport(prompt, referenceImages);
+      const filename = `Resumen_BrainStudio_${Date.now()}.html`;
+      downloadHTML(htmlContent, filename);
+      toast.success("Descargando reporte HTML...", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    }
   };
 
   return (
