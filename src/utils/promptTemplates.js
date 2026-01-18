@@ -51,69 +51,29 @@ INSTRUCCIONES DE GENERACIÓN:
 `;
 
 export const GEMINI_BENTO_PROMPT_TEMPLATE = `
-Eres un Arquitecto de Interfaces. Tu única misión es transformar el análisis de texto en un reporte HTML Bento Grid.
+Eres un experto en Desarrollo Frontend y Diseño de Interfaces (UI). Tu única tarea es transformar textos de análisis de reuniones en documentos HTML estructurados con un sistema visual "Bento Grid".
 
-REGLAS ESTRUCTURALES OBLIGATORIAS:
-1. CONTENEDOR RAÍZ: Todo el contenido debe estar envuelto en <div class="bento-grid">.
-2. COMPONENTES: Usa exclusivamente etiquetas <div class="card"> para cada sección.
-3. JERARQUÍA DE CLASES:
-   - Para secciones con listas largas o análisis profundos, usa obligatoriamente <div class="card span-4">.
-   - Para métricas, insights cortos o datos numéricos, usa <div class="card span-2"> o <div class="card"> simple.
-4. ESTILO VISUAL:
-   - Aplica la clase .purple para "Insights" y "Recomendaciones".
-   - Aplica la clase .neon para "Contexto" y "Temas".
-5. CABECERA: Siempre inicia con la tarjeta de presentación (Logo, Títulos y Meta-box) usando .span-4 y fondo transparente.
+REGLAS CRÍTICAS DE PROCESAMIENTO:
+1. INTEGRIDAD TOTAL: No resumas, no recortes, no omitas y no modifiques absolutamente ningún texto, título o viñeta del contenido proporcionado. Tu trabajo es DIAGRAMAR, no editar.
+2. SISTEMA VISUAL: Debes usar exclusivamente el estilo Bento Grid con tarjetas (.card) y clases de expansión (.span-2, .span-4).
+3. PALETA DE COLORES: 
+   - Fondo: #f8faf5
+   - Púrpura estratégico: #635bff
+   - Verde Neón: #d9ff66
+   - Texto oscuro: #111827
+4. TIPOGRAFÍA: Usa 'Plus Jakarta Sans' vía Google Fonts.
 
-PROHIBICIONES:
-- Prohibido resumir o parafrasear el texto de entrada.
-- Prohibido usar etiquetas de estilo distintas a las proporcionadas.
-- Prohibido omitir secciones del análisis original.
+ESTRUCTURA HTML REQUERIDA:
+- Usa una cuadrícula de 4 columnas (grid-template-columns: repeat(4, 1fr)).
+- Cada tarjeta debe tener bordes redondeados de 32px y un padding de 40px.
+- Incluye el CSS embebido en la etiqueta <style>.
 
-TIPOGRAFÍA:
-- Usa 'Plus Jakarta Sans' vía Google Fonts.
+DIAGRAMA EL SIGUIENTE CONTENIDO EN FORMATO BENTO GRID HTML:
 
-REFERENCIAS VISUALES:
-- Analiza las imágenes adjuntas como guía para el estilo visual (espaciado, jerarquía tipográfica, uso de color, sombras suaves, y composición de tarjetas). Replica ese lenguaje visual en el HTML final.
-
-ORIENTACIÓN:
-- La composición debe ser horizontal (landscape), ideal para pantallas 16:9.
-
-ESTRUCTURA HTML FIJA (ESQUELETO INMUTABLE):
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root { --purple: #635bff; --neon: #d9ff66; --bg: #f8faf5; --dark: #111827; --card: #ffffff; --border: rgba(0,0,0,0.08); }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--dark); margin: 0; padding: 40px; line-height: 1.6; }
-        .bento-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1600px; margin: 0 auto; }
-        .card { background: var(--card); border-radius: 32px; padding: 40px; border: 1px solid var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.02); display: flex; flex-direction: column; }
-        .span-2 { grid-column: span 2; }
-        .span-4 { grid-column: span 4; }
-        .purple { background: var(--purple); color: white; border: none; }
-        .neon { background: var(--neon); color: var(--dark); border: none; }
-        .label { font-size: 12px; text-transform: uppercase; font-weight: 700; opacity: 0.6; margin-bottom: 12px; }
-    </style>
-</head>
-<body>
-    <div class="bento-grid">
-        {{CONTENIDO_DINAMICO}}
-    </div>
-</body>
-</html>
-
-SALIDA OBLIGATORIA (SOLO JSON):
-Eres un arquitecto de datos. Tu tarea es recibir un análisis de reunión y devolver un JSON con un array de objetos llamado "cards". Cada objeto debe representar una tarjeta del diseño Bento y debe tener estas propiedades:
-
-- title: El título de la sección.
-- content: El texto completo (en formato HTML simple como <ul><li> si es necesario).
-- size: "span-2" o "span-4".
-- style: "purple", "neon" o "default".
-- icon: El nombre de un icono SVG (opcional).
-
-IMPORTANTE: No resumas nada. Usa "span-4" para las secciones con mucho texto. La primera tarjeta debe ser la cabecera (Logo, Títulos y Meta-box) usando size "span-4" y style "default".
-
-ENTRADA PARA DIAGRAMAR:
 {{CONTENT}}
+
+INSTRUCCIONES ADICIONALES:
+- Genera el código HTML completo y listo para guardar como archivo .html.
+- Asegúrate de que las secciones más largas usen la clase .span-4 para que ocupen todo el ancho y no se amontone el texto.
+- Respeta cada viñeta y sub-punto del análisis.
 `;

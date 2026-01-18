@@ -4,10 +4,8 @@ import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
 import { generateSummaryPDF } from '@/utils/pdfExport';
 import { buildSummaryReportContent } from '@/utils/reportContent';
-import { buildBentoHtml } from '@/utils/bentoReportTemplate';
 import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
-import { parseGeminiCards } from '@/utils/geminiReportParser';
 import { GEMINI_BENTO_PROMPT_TEMPLATE, SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
 const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
@@ -63,10 +61,7 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     try {
       const reportContent = buildSummaryReportContent(summaryData, reportMeta);
       const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
-      const referenceImages = frontendApiService.getGeminiReferenceImages();
-      const geminiResponse = await frontendApiService.generateGeminiHtmlReport(prompt, referenceImages);
-      const cards = parseGeminiCards(geminiResponse);
-      const htmlContent = buildBentoHtml(cards);
+      const htmlContent = await frontendApiService.generateGeminiHtmlReport(prompt);
       const filename = `Resumen_BrainStudio_${Date.now()}.html`;
       downloadHTML(htmlContent, filename);
       toast.success("Descargando reporte HTML...", { id: toastId });
