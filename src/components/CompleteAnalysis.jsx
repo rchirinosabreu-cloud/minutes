@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Brain, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Brain, Loader2, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
 import { buildAnalysisReportContent } from '@/utils/reportContent';
@@ -8,47 +8,11 @@ import { generateAnalysisPDF } from '@/utils/pdfExport';
 import { toast } from 'react-hot-toast';
 import { ANALYSIS_PROMPT_TEMPLATE, GEMINI_BENTO_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
-const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
+const CompleteAnalysis = ({ files, content, reportMeta }) => {
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [htmlLoading, setHtmlLoading] = useState(false);
-  const [htmlProgress, setHtmlProgress] = useState(0);
-  const htmlProgressTimer = useRef(null);
-
-  useEffect(() => {
-    return () => {
-      if (htmlProgressTimer.current) {
-        clearInterval(htmlProgressTimer.current);
-      }
-    };
-  }, []);
-
-  const startHtmlProgress = () => {
-    if (htmlProgressTimer.current) {
-      clearInterval(htmlProgressTimer.current);
-    }
-    setHtmlLoading(true);
-    setHtmlProgress(5);
-    htmlProgressTimer.current = setInterval(() => {
-      setHtmlProgress((prev) => {
-        if (prev >= 90) return 90;
-        const next = prev + Math.random() * 8 + 4;
-        return Math.min(next, 90);
-      });
-    }, 700);
-  };
-
-  const finishHtmlProgress = () => {
-    if (htmlProgressTimer.current) {
-      clearInterval(htmlProgressTimer.current);
-    }
-    setHtmlProgress(100);
-    setTimeout(() => {
-      setHtmlLoading(false);
-      setHtmlProgress(0);
-    }, 600);
-  };
 
   const handleGenerate = async () => {
     if ((!files || files.length === 0) && !content) return;
@@ -85,7 +49,7 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
   const handleDownloadHTML = async () => {
     if (!analysisData) return;
     const toastId = toast.loading("Generando HTML con Gemini...");
-    startHtmlProgress();
+    setHtmlLoading(true);
     try {
       const reportContent = buildAnalysisReportContent(analysisData, reportMeta);
       const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
@@ -97,7 +61,7 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
       console.error(err);
       toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
     } finally {
-      finishHtmlProgress();
+      setHtmlLoading(false);
     }
   };
 
@@ -162,13 +126,6 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
                 <ExternalLink className="w-4 h-4 mr-2" />
                 {htmlLoading ? 'Generando HTML...' : 'Descargar HTML'}
               </Button>
-              <Button 
-                onClick={handleDownloadPDF} 
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Descargar PDF
-              </Button>
             </div>
           </div>
 
@@ -176,13 +133,10 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
             <div className="bg-indigo-950/40 border border-indigo-800/40 rounded-lg p-4">
               <div className="flex items-center justify-between text-xs text-indigo-200 mb-2">
                 <span>Generando reporte con Gemini</span>
-                <span>{Math.round(htmlProgress)}%</span>
+                <span>Procesando...</span>
               </div>
               <div className="h-2 bg-indigo-900/60 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-violet-400 transition-all duration-500"
-                  style={{ width: `${htmlProgress}%` }}
-                />
+                <div className="h-full w-full bg-gradient-to-r from-indigo-500 to-violet-400 animate-pulse" />
               </div>
             </div>
           )}
