@@ -1,5 +1,6 @@
 
 // Utilities for HTML and PDF Report Styling
+import brainstudioLogo from '@/assets/logo.svg?raw';
 
 export const COLORS = {
   primary: '#635bff',
@@ -64,6 +65,7 @@ export const STYLES = {
   // Standard Header
   header: `background: ${COLORS.white}; padding: ${SPACING.lg} ${SPACING.xl}; border-bottom: 1px solid ${COLORS.border}; display: flex; justify-content: space-between; align-items: center;`,
   reportBadge: `background: ${COLORS.accentLavender}; color: ${COLORS.primary}; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;`,
+  documentHeader: `background: ${COLORS.white}; padding: ${SPACING.md} ${SPACING.xl}; border-radius: 18px; border: 1px solid ${COLORS.border}; display: flex; justify-content: space-between; align-items: center; margin-bottom: ${SPACING.lg};`,
   
   // Sections
   content: `padding: ${SPACING.xl}; background: ${COLORS.secondary};`,
@@ -118,13 +120,25 @@ export const formatListAsCards = (items) => {
   `;
 };
 
-export const getBrainStudioLogoSVG = () => `
-<img
-  src="https://brainstudioagencia.com/wp-content/uploads/2026/01/Recurso-1.svg"
-  alt="BrainStudio"
-  style="display:block; width: 220px; height: auto;"
-/>
-`;
+const getLogoDataUri = () => {
+  const encodedLogo = encodeURIComponent(brainstudioLogo)
+    .replace(/%0A/g, '')
+    .replace(/%0D/g, '')
+    .replace(/%09/g, ' ')
+    .replace(/%20/g, ' ');
+  return `data:image/svg+xml,${encodedLogo}`;
+};
+
+export const getBrainStudioLogoSVG = (variant = 'default') => {
+  const width = variant === 'small' ? '140px' : '220px';
+  return `
+    <img
+      src="${getLogoDataUri()}"
+      alt="BrainStudio"
+      style="display:block; width: ${width}; height: auto;"
+    />
+  `;
+};
 
 export const ICONS = {
   logoSmall: `<div style="width:24px; height:24px; background:${COLORS.primary}; border-radius:4px;"></div>`, // Placeholder if needed

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { FileText, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
+import { FileText, Loader2, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
-import { generateSummaryPDF } from '@/utils/pdfExport';
 import { buildSummaryReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
@@ -12,6 +11,7 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [htmlLoading, setHtmlLoading] = useState(false);
 
   const handleGenerate = async () => {
     // Check inputs
@@ -49,15 +49,10 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     }
   };
 
-  const handleDownloadPDF = () => {
-    if (!summaryData) return;
-    toast.loading("Generando PDF...", { duration: 2000 });
-    generateSummaryPDF(summaryData, sourceTitle, reportMeta);
-  };
-
   const handleDownloadHTML = async () => {
     if (!summaryData) return;
     const toastId = toast.loading("Generando HTML con Gemini...");
+    setHtmlLoading(true);
     try {
       const reportContent = buildSummaryReportContent(summaryData, reportMeta);
       const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
@@ -68,6 +63,8 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     } catch (err) {
       console.error(err);
       toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    } finally {
+      setHtmlLoading(false);
     }
   };
 
@@ -115,20 +112,23 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
             <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
                <Button 
                 onClick={handleDownloadHTML} 
+                disabled={htmlLoading}
                 className="flex-1 bg-purple-900/50 hover:bg-purple-800/50 text-purple-100 border border-purple-500/30"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Descargar HTML
-              </Button>
-              <Button 
-                onClick={handleDownloadPDF} 
-                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Descargar PDF
+                {htmlLoading ? 'Generando HTML...' : 'Descargar HTML'}
               </Button>
             </div>
           </div>
+
+          {htmlLoading && (
+            <div className="bg-purple-950/40 border border-purple-800/40 rounded-lg p-4">
+              <div className="text-xs text-purple-200 mb-2">Generando reporte con Gemini</div>
+              <div className="progress-loop bg-purple-900/60">
+                <div className="progress-loop-bar bg-gradient-to-r from-purple-500 to-violet-400" />
+              </div>
+            </div>
+          )}
           
           <div className="text-left text-sm text-gray-300 space-y-2">
             <p><strong className="text-purple-400">Temas:</strong> {summaryData.meeting_topics?.join(", ")}</p>
