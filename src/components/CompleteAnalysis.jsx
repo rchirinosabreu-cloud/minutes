@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Brain, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
+import { Brain, Loader2, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
-import { generateAnalysisPDF } from '@/utils/pdfExport';
 import { buildAnalysisReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
@@ -12,6 +11,7 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [htmlLoading, setHtmlLoading] = useState(false);
 
   const handleGenerate = async () => {
     if ((!files || files.length === 0) && !content) return;
@@ -45,15 +45,10 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
     }
   };
 
-  const handleDownloadPDF = () => {
-    if (!analysisData) return;
-    toast.loading("Generando PDF...", { duration: 2000 });
-    generateAnalysisPDF(analysisData, sourceTitle, reportMeta);
-  };
-
   const handleDownloadHTML = async () => {
     if (!analysisData) return;
     const toastId = toast.loading("Generando HTML con Gemini...");
+    setHtmlLoading(true);
     try {
       const reportContent = buildAnalysisReportContent(analysisData, reportMeta);
       const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
@@ -64,6 +59,8 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
     } catch (err) {
       console.error(err);
       toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    } finally {
+      setHtmlLoading(false);
     }
   };
 
@@ -111,20 +108,23 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
             <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
                <Button 
                 onClick={handleDownloadHTML} 
+                disabled={htmlLoading}
                 className="flex-1 bg-indigo-900/50 hover:bg-indigo-800/50 text-indigo-100 border border-indigo-500/30"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Descargar HTML
-              </Button>
-              <Button 
-                onClick={handleDownloadPDF} 
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Descargar PDF
+                {htmlLoading ? 'Generando HTML...' : 'Descargar HTML'}
               </Button>
             </div>
           </div>
+
+          {htmlLoading && (
+            <div className="bg-indigo-950/40 border border-indigo-800/40 rounded-lg p-4">
+              <div className="text-xs text-indigo-200 mb-2">Generando reporte con Gemini</div>
+              <div className="progress-loop bg-indigo-900/60">
+                <div className="progress-loop-bar bg-gradient-to-r from-indigo-500 to-violet-400" />
+              </div>
+            </div>
+          )}
           
           <div className="text-left text-sm text-gray-300 space-y-2">
              <p><strong className="text-indigo-400">Insight:</strong> {analysisData.consulting_insights?.[0]?.substring(0, 100) || 'Análisis generado'}...</p>
