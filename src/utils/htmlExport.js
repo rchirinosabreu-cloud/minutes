@@ -260,8 +260,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
 
     <!-- Footer -->
     <footer style="${STYLES.footer}">
-       <span>Brainstudio Intelligence</span>
-       <span>Documento Confidencial</span>
+       <span>BrainStudio Intelligence</span>
+       <span>Confidencial</span>
     </footer>
   </div>
 </body>
