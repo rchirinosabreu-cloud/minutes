@@ -27,3 +27,26 @@
     @apply bg-[#6d28d9];
   }
 }
+
+@keyframes progress-loop {
+  0% {
+    transform: translateX(-60%);
+  }
+  100% {
+    transform: translateX(160%);
+  }
+}
+
+.progress-loop {
+  position: relative;
+  overflow: hidden;
+  height: 8px;
+  border-radius: 9999px;
+}
+
+.progress-loop-bar {
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  animation: progress-loop 1.2s ease-in-out infinite;
+}
