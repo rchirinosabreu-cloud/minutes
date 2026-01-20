@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
 import { buildSummaryReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
+import { generateSummaryPDF } from '@/utils/pdfExport';
 import { toast } from 'react-hot-toast';
 import { GEMINI_BENTO_PROMPT_TEMPLATE, SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
@@ -101,6 +102,17 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
       toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
     } finally {
       finishHtmlProgress();
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!summaryData) return;
+    try {
+      generateSummaryPDF(summaryData, sourceTitle, reportMeta);
+      toast.success("Descargando PDF...");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al generar el PDF");
     }
   };
 

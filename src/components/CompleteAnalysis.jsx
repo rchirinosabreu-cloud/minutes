@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
 import { buildAnalysisReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
+import { generateAnalysisPDF } from '@/utils/pdfExport';
 import { toast } from 'react-hot-toast';
 import { ANALYSIS_PROMPT_TEMPLATE, GEMINI_BENTO_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
@@ -97,6 +98,17 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
       toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
     } finally {
       finishHtmlProgress();
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    if (!analysisData) return;
+    try {
+      generateAnalysisPDF(analysisData, sourceTitle, reportMeta);
+      toast.success("Descargando PDF...");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al generar el PDF");
     }
   };
 
