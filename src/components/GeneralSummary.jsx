@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FileText, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
-import { generateSummaryPDF } from '@/utils/pdfExport';
 import { buildSummaryReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
 import { toast } from 'react-hot-toast';
@@ -84,12 +83,6 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleDownloadPDF = () => {
-    if (!summaryData) return;
-    toast.loading("Generando PDF...", { duration: 2000 });
-    generateSummaryPDF(summaryData, sourceTitle, reportMeta);
   };
 
   const handleDownloadHTML = async () => {

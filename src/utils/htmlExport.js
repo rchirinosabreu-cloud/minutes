@@ -132,8 +132,8 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
 
     <!-- Footer -->
     <footer style="${STYLES.footer}">
-      <span>BrainStudio Intelligence</span>
-      <span>Confidencial</span>
+      <span>Brainstudio Intelligence</span>
+      <span>Documento Confidencial</span>
     </footer>
   </div>
 </body>
