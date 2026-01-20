@@ -49,25 +49,17 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
          ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; max-width: 640px; line-height: 1.6;">
-            Resumen para seguimiento de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
-         </div>
-       </div>
-       
-       <div style="${STYLES.coverMeta}">
-         <div>
-            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: ${COLORS.textLight}; margin-bottom: 6px;">Fecha</div>
-             <div style="font-size: 15px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
-         </div>
-         <div>
-            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: ${COLORS.textLight}; margin-bottom: 6px;">Fuente</div>
-             <div style="font-size: 15px; font-weight: 600; color: ${COLORS.text};">${sourceTitle || 'Reporte de fuentes'}</div>
-         </div>
+         <div style="margin-top: ${SPACING.lg}; font-size: 14px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;">Fecha</div>
+         <div style="margin-top: 6px; font-size: 16px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
        </div>
     </div>
 
     <!-- Content -->
     <div style="${STYLES.content}">
+      <div style="${STYLES.documentHeader}">
+        ${getBrainStudioLogoSVG('small')}
+        <div style="${STYLES.reportBadge}">Resumen General</div>
+      </div>
       
       <!-- Meeting Context -->
       ${(participants.length > 0 || meetingDuration || meetingTitle) ? `
@@ -192,24 +184,16 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
          ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; font-weight: 500; max-width: 640px; line-height: 1.6;">
-           Lectura estratégica de las fuentes analizadas, organizada por contexto, insights y oportunidades.
-         </div>
-       </div>
-       
-       <div style="${STYLES.coverMeta}">
-         <div>
-             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 0.12em;">Fecha de análisis</div>
-             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 6px;">${date}</div>
-         </div>
-         <div>
-             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 0.12em;">Fuente</div>
-             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 6px;">${sourceTitle || 'Análisis integrado'}</div>
-         </div>
+         <div style="margin-top: ${SPACING.lg}; font-size: 14px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;">Fecha</div>
+         <div style="margin-top: 6px; font-size: 16px; font-weight: 600; color: ${COLORS.text};">${date}</div>
        </div>
     </div>
 
     <div style="${STYLES.content}">
+       <div style="${STYLES.documentHeader}">
+         ${getBrainStudioLogoSVG('small')}
+         <div style="${STYLES.reportBadge}">Análisis Estratégico</div>
+       </div>
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
@@ -276,8 +260,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
 
     <!-- Footer -->
     <footer style="${STYLES.footer}">
-       <span>${sourceTitle}</span>
-       <span>${date}</span>
+       <span>BrainStudio Intelligence</span>
+       <span>Confidencial</span>
     </footer>
   </div>
 </body>
