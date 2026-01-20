@@ -6,6 +6,7 @@ Este servicio funciona como proxy para las llamadas a OpenAI y evita CORS en el 
 
 - `OPENAI_API_KEY` (obligatoria): clave de OpenAI.
 - `FIREFLIES_API_KEY` (opcional): clave de Fireflies para las integraciones.
+- `GEMINI_API_KEY` (obligatoria para reportes HTML): clave de Gemini.
 - `PORT` (opcional): Railway lo asigna automáticamente.
 
 ## Endpoints
@@ -13,6 +14,7 @@ Este servicio funciona como proxy para las llamadas a OpenAI y evita CORS en el 
 - `POST /api/openai/v1/chat/completions`
 - `POST /api/openai/v1/audio/transcriptions`
 - `POST /api/fireflies/graphql`
+- `POST /api/gemini/v1beta/models/gemini-1.5-pro:generateContent`
 - `GET /health`
 
 ## Configuración del frontend

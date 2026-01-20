@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const firefliesApiKey = process.env.FIREFLIES_API_KEY;
+const geminiApiKey = process.env.GEMINI_API_KEY;
 
 app.use(cors());
 
@@ -18,6 +19,10 @@ if (!openaiApiKey) {
 
 if (!firefliesApiKey) {
   console.warn('[minutes-backend] FIREFLIES_API_KEY is not set. Fireflies proxy calls will fail.');
+}
+
+if (!geminiApiKey) {
+  console.warn('[minutes-backend] GEMINI_API_KEY is not set. Gemini proxy calls will fail.');
 }
 
 app.get('/health', (_req, res) => {
@@ -49,6 +54,21 @@ app.use(
     onProxyReq: (proxyReq) => {
       if (firefliesApiKey) {
         proxyReq.setHeader('Authorization', `Bearer ${firefliesApiKey}`);
+      }
+    },
+  })
+);
+
+app.use(
+  '/api/gemini',
+  createProxyMiddleware({
+    target: 'https://generativelanguage.googleapis.com',
+    changeOrigin: true,
+    secure: true,
+    pathRewrite: (path) => path.replace(/^\/api\/gemini/, ''),
+    onProxyReq: (proxyReq) => {
+      if (geminiApiKey) {
+        proxyReq.setHeader('x-goog-api-key', geminiApiKey);
       }
     },
   })

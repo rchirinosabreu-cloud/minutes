@@ -5,6 +5,7 @@ import { createMetricCard } from './chartVisualization';
 export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   const sharedStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
     body { margin: 0; background: ${GRADIENTS.canvas}; }
@@ -47,16 +48,20 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.textLight}; max-width: 600px;">
-            Resumen de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; max-width: 640px; line-height: 1.6;">
+            Resumen para seguimiento de los temas, acuerdos y próximos pasos identificados en los archivos analizados.
          </div>
        </div>
        
        <div style="${STYLES.coverMeta}">
          <div>
-            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: ${COLORS.textLight}; margin-bottom: 4px;">Fecha</div>
-             <div style="font-size: 16px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: ${COLORS.textLight}; margin-bottom: 6px;">Fecha</div>
+             <div style="font-size: 15px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
+         </div>
+         <div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: ${COLORS.textLight}; margin-bottom: 6px;">Fuente</div>
+             <div style="font-size: 15px; font-weight: 600; color: ${COLORS.text};">${sourceTitle || 'Reporte de fuentes'}</div>
          </div>
        </div>
     </div>
@@ -65,37 +70,36 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     <div style="${STYLES.content}">
       
       <!-- Meeting Context -->
-      ${(participants.length > 0 || meetingDuration) ? `
+      ${(participants.length > 0 || meetingDuration || meetingTitle) ? `
         <section style="${STYLES.section}">
           <div style="${STYLES.sectionTitleBox}">
              ${ICONS.users}
              <div style="${STYLES.sectionTitle}">Contexto de la reunión</div>
           </div>
           <div style="${STYLES.listGrid}">
-             ${participants.length > 0 ? createMetricCard("Participantes", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
+             ${participants.length > 0 ? createMetricCard("Personas mencionadas", `${participants.length}`, participants.slice(0, 3).join(", "), COLORS.primary) : ''}
              ${meetingDuration ? createMetricCard("Duración", meetingDuration, "Tiempo total reportado", COLORS.primary) : ''}
           </div>
+          ${meetingTitle ? `<div style="margin-top: ${SPACING.sm}; font-size: 13px; color: ${COLORS.textLight};">Título: ${meetingTitle}</div>` : ''}
         </section>
       ` : ''}
 
-      <!-- Topics & Details Grid -->
-      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.md}; margin-bottom: ${SPACING.xl};">
-        <section style="${STYLES.card}">
-            <div style="${STYLES.sectionTitleBox}">
-              ${ICONS.target}
-              <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
-            </div>
-            ${formatListAsCards(topics)}
-        </section>
-        
-        <section style="${STYLES.card} ${STYLES.cardSoft}">
-            <div style="${STYLES.sectionTitleBox}">
-              ${ICONS.lightning}
-              <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
-            </div>
-            ${formatListAsCards(details)}
-        </section>
-      </div>
+      <!-- Topics & Details -->
+      <section style="${STYLES.card} margin-bottom: ${SPACING.md};">
+          <div style="${STYLES.sectionTitleBox}">
+            ${ICONS.target}
+            <h3 style="${STYLES.cardTitle}">Temas Tratados</h3>
+          </div>
+          ${formatListAsCards(topics)}
+      </section>
+
+      <section style="${STYLES.card} ${STYLES.cardSoft} margin-bottom: ${SPACING.xl};">
+          <div style="${STYLES.sectionTitleBox}">
+            ${ICONS.lightning}
+            <h3 style="${STYLES.cardTitle}">Puntos Clave</h3>
+          </div>
+          ${formatListAsCards(details)}
+      </section>
 
       <!-- Agreements -->
       <section style="${STYLES.section}">
@@ -121,7 +125,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
                 <div style="${STYLES.listCard} ${STYLES.cardSoft} display: flex; justify-content: space-between; align-items: center; padding: ${SPACING.sm} ${SPACING.md};" class="list-card">
                    <div>
                       <div style="font-weight: 600; color: ${COLORS.text};">${action.task}</div>
-                      <div style="font-size: 12px; color: ${COLORS.textLight};">Responsable: ${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
+                      <div style="font-size: 12px; color: ${COLORS.textLight};">${action.owner || 'N/A'}${action.due_date ? ` • Fecha: ${action.due_date}` : ''}</div>
                    </div>
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${action.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${action.priority === 'Alta' ? COLORS.textDark : COLORS.primary};">
                      ${action.priority || 'General'}
@@ -148,6 +152,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
 export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const date = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   const sharedStyles = `
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     @page { size: A4 landscape; margin: 14mm; }
     * { box-sizing: border-box; }
     body { margin: 0; background: ${GRADIENTS.canvas}; }
@@ -183,34 +188,34 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
     
     <!-- Cover Page -->
     <div style="${STYLES.coverPage}">
-       <div style="position: absolute; top: 40px; right: 40px;">
-         <div style="font-size: 64px; font-weight: 800; color: ${COLORS.title}; opacity: 0.05;">2026</div>
-       </div>
-       
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 18px; font-weight: 500; color: ${COLORS.textLight};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 18px; color: ${COLORS.text}; font-weight: 500; max-width: 700px; line-height: 1.6;">
-            Síntesis consultiva basada en las fuentes analizadas, organizada por contexto, insights y oportunidades.
+         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
+         <div style="margin-top: ${SPACING.lg}; font-size: 15px; color: ${COLORS.textLight}; font-weight: 500; max-width: 640px; line-height: 1.6;">
+           Lectura estratégica de las fuentes analizadas, organizada por contexto, insights y oportunidades.
          </div>
        </div>
        
        <div style="${STYLES.coverMeta}">
          <div>
-             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 1px;">Fecha de Análisis</div>
-             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 4px;">${date}</div>
+             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 0.12em;">Fecha de análisis</div>
+             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 6px;">${date}</div>
+         </div>
+         <div>
+             <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: ${COLORS.textLight}; letter-spacing: 0.12em;">Fuente</div>
+             <div style="font-size: 14px; font-weight: 600; color: ${COLORS.text}; margin-top: 6px;">${sourceTitle || 'Análisis integrado'}</div>
          </div>
        </div>
     </div>
 
-    <div style="padding: ${SPACING.xl}; background: ${COLORS.bg};">
+    <div style="${STYLES.content}">
        <section style="${STYLES.section}">
          <div style="${STYLES.sectionTitleBox}">
             ${ICONS.target}
             <div style="${STYLES.sectionTitle}">Contexto y Temas</div>
          </div>
-         ${formatListAsCards(topics)}
+         ${formatList(topics)}
        </section>
 
        <section style="${STYLES.section}">
@@ -218,7 +223,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.lightning}
             <div style="${STYLES.sectionTitle}">Insight Consultivo</div>
          </div>
-         ${formatListAsCards(insights)}
+         ${formatList(insights)}
        </section>
 
        <section style="${STYLES.section}">
@@ -226,7 +231,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${ICONS.bulb}
             <div style="${STYLES.sectionTitle}">Observaciones Críticas</div>
          </div>
-         ${formatListAsCards(observations)}
+         ${formatList(observations)}
        </section>
 
        <section style="${STYLES.section}">
@@ -254,8 +259,8 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
             ${recommendations.map((rec, index) => `
               <div style="${STYLES.card} ${STYLES.cardSoft} display: flex; justify-content: space-between; gap: ${SPACING.md};">
                  <div>
-                    <div style="font-weight: 600; color: ${index % 3 === 2 ? COLORS.white : COLORS.title};">${rec.title}</div>
-                    <div style="${STYLES.cardText}; color: ${index % 3 === 2 ? COLORS.white : COLORS.text};">${rec.description}</div>
+                    <div style="font-weight: 600; color: ${COLORS.title};">${rec.title}</div>
+                    <div style="${STYLES.cardText}; color: ${COLORS.text};">${rec.description}</div>
                  </div>
                  ${rec.priority ? `
                    <div style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 6px; background: ${rec.priority === 'Alta' ? COLORS.accentLime : COLORS.accentLavender}; color: ${rec.priority === 'Alta' ? COLORS.textDark : COLORS.primary}; height: fit-content;">
