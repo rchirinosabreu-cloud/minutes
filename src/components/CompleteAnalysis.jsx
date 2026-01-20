@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Brain, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
@@ -12,6 +12,43 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [htmlLoading, setHtmlLoading] = useState(false);
+  const [htmlProgress, setHtmlProgress] = useState(0);
+  const htmlProgressTimer = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (htmlProgressTimer.current) {
+        clearInterval(htmlProgressTimer.current);
+      }
+    };
+  }, []);
+
+  const startHtmlProgress = () => {
+    if (htmlProgressTimer.current) {
+      clearInterval(htmlProgressTimer.current);
+    }
+    setHtmlLoading(true);
+    setHtmlProgress(5);
+    htmlProgressTimer.current = setInterval(() => {
+      setHtmlProgress((prev) => {
+        if (prev >= 90) return 90;
+        const next = prev + Math.random() * 8 + 4;
+        return Math.min(next, 90);
+      });
+    }, 700);
+  };
+
+  const finishHtmlProgress = () => {
+    if (htmlProgressTimer.current) {
+      clearInterval(htmlProgressTimer.current);
+    }
+    setHtmlProgress(100);
+    setTimeout(() => {
+      setHtmlLoading(false);
+      setHtmlProgress(0);
+    }, 600);
+  };
 
   const handleGenerate = async () => {
     if ((!files || files.length === 0) && !content) return;
@@ -54,6 +91,7 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
   const handleDownloadHTML = async () => {
     if (!analysisData) return;
     const toastId = toast.loading("Generando HTML con Gemini...");
+    startHtmlProgress();
     try {
       const reportContent = buildAnalysisReportContent(analysisData, reportMeta);
       const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
@@ -64,6 +102,8 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
     } catch (err) {
       console.error(err);
       toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    } finally {
+      finishHtmlProgress();
     }
   };
 
@@ -111,10 +151,11 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
             <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
                <Button 
                 onClick={handleDownloadHTML} 
+                disabled={htmlLoading}
                 className="flex-1 bg-indigo-900/50 hover:bg-indigo-800/50 text-indigo-100 border border-indigo-500/30"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Descargar HTML
+                {htmlLoading ? 'Generando HTML...' : 'Descargar HTML'}
               </Button>
               <Button 
                 onClick={handleDownloadPDF} 
@@ -125,6 +166,21 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
               </Button>
             </div>
           </div>
+
+          {htmlLoading && (
+            <div className="bg-indigo-950/40 border border-indigo-800/40 rounded-lg p-4">
+              <div className="flex items-center justify-between text-xs text-indigo-200 mb-2">
+                <span>Generando reporte con Gemini</span>
+                <span>{Math.round(htmlProgress)}%</span>
+              </div>
+              <div className="h-2 bg-indigo-900/60 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-indigo-500 to-violet-400 transition-all duration-500"
+                  style={{ width: `${htmlProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
           
           <div className="text-left text-sm text-gray-300 space-y-2">
              <p><strong className="text-indigo-400">Insight:</strong> {analysisData.consulting_insights?.[0]?.substring(0, 100) || 'Análisis generado'}...</p>

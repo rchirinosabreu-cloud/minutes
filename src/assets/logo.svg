@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="600" height="200" viewBox="0 0 600 200"
-  xmlns="http://www.w3.org/2000/svg">
-
-  <image
-    href="https://brainstudioagencia.com/wp-content/uploads/2026/01/Recurso-1.svg"
-    x="0" y="0"
-    width="600" height="200"
-    preserveAspectRatio="xMidYMid meet"
-  />
+<svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brainstudio">
+  <defs>
+    <linearGradient id="brainstudio-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#635bff" />
+      <stop offset="100%" stop-color="#6D5CE7" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="200" fill="none" />
+  <g transform="translate(40,40)">
+    <rect width="120" height="120" rx="28" fill="url(#brainstudio-gradient)" />
+    <path d="M52 40h34c14 0 24 8 24 22 0 8-4 14-10 18 8 4 12 10 12 20 0 16-12 24-28 24H52V40zm30 34c8 0 12-4 12-10 0-6-4-10-12-10H74v20h8zm2 46c10 0 14-4 14-12 0-8-4-12-14-12H74v24h10z" fill="#ffffff" />
+  </g>
+  <g transform="translate(190,75)">
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif" font-size="48" font-weight="700" fill="#111827">Brainstudio</text>
+    <text x="2" y="40" font-family="'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="500" fill="#6B7280">Intelligence</text>
+  </g>
 </svg>
