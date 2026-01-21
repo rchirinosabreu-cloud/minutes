@@ -1,6 +1,5 @@
 
 // Utilities for HTML and PDF Report Styling
-import brainstudioLogo from '@/assets/logo.svg?raw';
 
 export const COLORS = {
   primary: '#635bff',
@@ -60,7 +59,6 @@ export const STYLES = {
   coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
   coverHeader: "display: flex; justify-content: space-between; align-items: flex-start;",
   coverTitle: `${TYPOGRAPHY.h1} margin-top: ${SPACING.lg}; max-width: 85%;`,
-  coverBadge: `display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: ${COLORS.accentLime}; color: ${COLORS.textDark}; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;`,
   coverSubtitle: `font-size: 28px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: ${COLORS.primary}; margin-top: ${SPACING.xs};`,
   coverMeta: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.lg}; margin-top: ${SPACING.lg}; border-top: 1px solid ${COLORS.border}; padding-top: ${SPACING.md};`,
   coverMetaLabel: `font-size: 13px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;`,
@@ -122,15 +120,6 @@ export const formatListAsCards = (items) => {
       `).join('')}
     </div>
   `;
-};
-
-const getLogoDataUri = () => {
-  const encodedLogo = encodeURIComponent(brainstudioLogo)
-    .replace(/%0A/g, '')
-    .replace(/%0D/g, '')
-    .replace(/%09/g, ' ')
-    .replace(/%20/g, ' ');
-  return `data:image/svg+xml,${encodedLogo}`;
 };
 
 export const getBrainStudioLogoSVG = (variant = 'default') => {
