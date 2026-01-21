@@ -93,8 +93,6 @@ DIAGRAMA EL SIGUIENTE CONTENIDO EN FORMATO BENTO GRID HTML, SIN ENVOLVER EN BLOQ
 
 INSTRUCCIONES ADICIONALES:
 - PORTADA OBLIGATORIA: Antes de la grilla, crea una portada con el logo de BrainStudio, un texto pequeño que diga el valor de TIPO_REPORTE (ej. "Resumen general" o "Análisis estratégico"), el TITULO_DOCUMENTO y el SUBTITULO_PROYECTO como únicos títulos visibles en la portada.
-- CONSISTENCIA: La portada de "Resumen general" y "Análisis estratégico" debe mantener el mismo orden, tamaños y estructura visual; solo cambia el texto del badge.
-- FONDO: Aplica un degradado muy sutil en la portada (tono marfil claro a blanco suave), sin afectar la legibilidad.
 - METADATOS DE PORTADA: En la portada muestra FECHA_GENERACION y DURACION_REUNION. Si DURACION_REUNION está vacío, no muestres texto de reemplazo ni "No especificada".
 - LOGO: Usa el SVG de BrainStudio proporcionado en la URL https://brainstudioagencia.com/wp-content/uploads/2026/01/Recurso-1.svg. Si no carga, usa un placeholder neutro sin inventar logos.
 - NO INVENTAR: No agregues otros títulos o subtítulos en la portada. No muestres los labels TITULO_DOCUMENTO/SUBTITULO_PROYECTO/TIPO_REPORTE/FECHA_GENERACION/DURACION_REUNION como texto literal.

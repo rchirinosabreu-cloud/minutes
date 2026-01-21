@@ -28,12 +28,10 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const details = data.discussion_details || [];
   const agreements = data.agreements || [];
   const actions = data.action_items || [];
-  const coverTitle = reportMeta.reportTitle?.trim();
-  const documentTitle = coverTitle || 'Resumen General';
+  const documentTitle = reportMeta.reportTitle?.trim() || 'Resumen General';
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
   const meetingTitle = data.meeting_title?.trim();
-  const displayDuration = meetingDuration;
-  const coverBadgeLabel = 'Resumen general';
+  const displayDuration = meetingDuration ? meetingDuration : 'No disponible';
 
   return `
 <!DOCTYPE html>
@@ -50,8 +48,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     <div style="${STYLES.coverPage}">
        <div>
          ${getBrainStudioLogoSVG()}
-         <div style="${STYLES.coverBadge}">${coverBadgeLabel}</div>
-         ${coverTitle ? `<h1 style="${STYLES.coverTitle}">${coverTitle}</h1>` : ''}
+         ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
          ${projectSubtitle ? `<div style="${STYLES.coverSubtitle}">${projectSubtitle}</div>` : ''}
          <div style="${STYLES.coverMeta}">
            <div>
@@ -176,12 +173,10 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const observations = data.observations || [];
   const opportunities = data.opportunities || [];
   const recommendations = data.recommendations || [];
-  const coverTitle = reportMeta.reportTitle?.trim();
-  const documentTitle = coverTitle || 'Análisis Estratégico';
+  const documentTitle = reportMeta.reportTitle?.trim() || 'Análisis Estratégico';
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
   const meetingDuration = data.meeting_duration || '';
-  const displayDuration = meetingDuration;
-  const coverBadgeLabel = 'Análisis estratégico';
+  const displayDuration = meetingDuration ? meetingDuration : 'No disponible';
   
   return `
 <!DOCTYPE html>
@@ -198,8 +193,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
     <div style="${STYLES.coverPage}">
        <div>
          ${getBrainStudioLogoSVG()}
-         <div style="${STYLES.coverBadge}">${coverBadgeLabel}</div>
-         ${coverTitle ? `<h1 style="${STYLES.coverTitle}">${coverTitle}</h1>` : ''}
+         ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
          ${projectSubtitle ? `<div style="${STYLES.coverSubtitle}">${projectSubtitle}</div>` : ''}
          <div style="${STYLES.coverMeta}">
            <div>
