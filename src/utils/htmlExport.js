@@ -28,9 +28,10 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
   const details = data.discussion_details || [];
   const agreements = data.agreements || [];
   const actions = data.action_items || [];
-  const documentTitle = reportMeta.reportTitle?.trim();
+  const documentTitle = reportMeta.reportTitle?.trim() || 'Resumen General';
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
   const meetingTitle = data.meeting_title?.trim();
+  const displayDuration = meetingDuration ? meetingDuration : 'No disponible';
 
   return `
 <!DOCTYPE html>
@@ -48,9 +49,17 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 14px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;">Fecha</div>
-         <div style="margin-top: 6px; font-size: 16px; font-weight: 600; color: ${COLORS.text};">${reportDate}</div>
+         ${projectSubtitle ? `<div style="${STYLES.coverSubtitle}">${projectSubtitle}</div>` : ''}
+         <div style="${STYLES.coverMeta}">
+           <div>
+             <div style="${STYLES.coverMetaLabel}">Fecha</div>
+             <div style="${STYLES.coverMetaValue}">${reportDate}</div>
+           </div>
+           <div>
+             <div style="${STYLES.coverMetaLabel}">Duración</div>
+             <div style="${STYLES.coverMetaValue}">${displayDuration}</div>
+           </div>
+         </div>
        </div>
     </div>
 
@@ -133,7 +142,7 @@ export const generateSummaryHTML = (data, sourceTitle, reportMeta = {}) => {
     <!-- Footer -->
     <footer style="${STYLES.footer}">
       <span>Brainstudio Intelligence</span>
-      <span>Documento Confidencial</span>
+      <span>Confidencial</span>
     </footer>
   </div>
 </body>
@@ -164,8 +173,10 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
   const observations = data.observations || [];
   const opportunities = data.opportunities || [];
   const recommendations = data.recommendations || [];
-  const documentTitle = reportMeta.reportTitle?.trim();
+  const documentTitle = reportMeta.reportTitle?.trim() || 'Análisis Estratégico';
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
+  const meetingDuration = data.meeting_duration || '';
+  const displayDuration = meetingDuration ? meetingDuration : 'No disponible';
   
   return `
 <!DOCTYPE html>
@@ -183,9 +194,17 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
        <div>
          ${getBrainStudioLogoSVG()}
          ${documentTitle ? `<h1 style="${STYLES.coverTitle}">${documentTitle}</h1>` : ''}
-         ${projectSubtitle ? `<div style="margin-top: ${SPACING.xs}; font-size: 19px; font-weight: 500; color: ${COLORS.primary};">${projectSubtitle}</div>` : ''}
-         <div style="margin-top: ${SPACING.lg}; font-size: 14px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;">Fecha</div>
-         <div style="margin-top: 6px; font-size: 16px; font-weight: 600; color: ${COLORS.text};">${date}</div>
+         ${projectSubtitle ? `<div style="${STYLES.coverSubtitle}">${projectSubtitle}</div>` : ''}
+         <div style="${STYLES.coverMeta}">
+           <div>
+             <div style="${STYLES.coverMetaLabel}">Fecha</div>
+             <div style="${STYLES.coverMetaValue}">${date}</div>
+           </div>
+           <div>
+             <div style="${STYLES.coverMetaLabel}">Duración</div>
+             <div style="${STYLES.coverMetaValue}">${displayDuration}</div>
+           </div>
+         </div>
        </div>
     </div>
 
@@ -260,7 +279,7 @@ export const generateAnalysisHTML = (data, sourceTitle, reportMeta = {}) => {
 
     <!-- Footer -->
     <footer style="${STYLES.footer}">
-       <span>BrainStudio Intelligence</span>
+       <span>Brainstudio Intelligence</span>
        <span>Confidencial</span>
     </footer>
   </div>
