@@ -11,32 +11,17 @@ export const buildSummaryReportContent = (data, reportMeta = {}) => {
   const lines = [];
   const reportTitle = reportMeta.reportTitle?.trim();
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
+  const reportDate = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  const meetingDuration = data.meeting_duration || '';
 
-  if (reportTitle) {
-    lines.push(`Reporte: ${reportTitle}`);
-    lines.push('');
-  }
-
-  if (projectSubtitle) {
-    lines.push(`Proyecto: ${projectSubtitle}`);
-    lines.push('');
-  }
-
-  if (data.meeting_title) {
-    lines.push(`Título de la reunión: ${data.meeting_title}`);
-  }
-
-  if (data.meeting_date) {
-    lines.push(`Fecha: ${data.meeting_date}`);
-  }
-
-  if (data.meeting_duration) {
-    lines.push(`Duración: ${data.meeting_duration}`);
-  }
-
-  if (lines.length > 0) {
-    lines.push('');
-  }
+  lines.push('[COVER]');
+  lines.push(`TITULO_DOCUMENTO: ${reportTitle || ''}`);
+  lines.push(`SUBTITULO_PROYECTO: ${projectSubtitle || ''}`);
+  lines.push('TIPO_REPORTE: Resumen general');
+  lines.push(`FECHA_GENERACION: ${reportDate}`);
+  lines.push(`DURACION_REUNION: ${meetingDuration}`);
+  lines.push('[/COVER]');
+  lines.push('');
 
   if (Array.isArray(data.participants) && data.participants.length > 0) {
     appendSection(lines, 'Participantes:', formatBulletList(data.participants).split('\n'));
@@ -73,16 +58,17 @@ export const buildAnalysisReportContent = (data, reportMeta = {}) => {
   const lines = [];
   const reportTitle = reportMeta.reportTitle?.trim();
   const projectSubtitle = reportMeta.projectSubtitle?.trim();
+  const reportDate = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+  const meetingDuration = data.meeting_duration || '';
 
-  if (reportTitle) {
-    lines.push(`Reporte: ${reportTitle}`);
-    lines.push('');
-  }
-
-  if (projectSubtitle) {
-    lines.push(`Proyecto: ${projectSubtitle}`);
-    lines.push('');
-  }
+  lines.push('[COVER]');
+  lines.push(`TITULO_DOCUMENTO: ${reportTitle || ''}`);
+  lines.push(`SUBTITULO_PROYECTO: ${projectSubtitle || ''}`);
+  lines.push('TIPO_REPORTE: Análisis estratégico');
+  lines.push(`FECHA_GENERACION: ${reportDate}`);
+  lines.push(`DURACION_REUNION: ${meetingDuration}`);
+  lines.push('[/COVER]');
+  lines.push('');
 
   if (Array.isArray(data.meeting_topics) && data.meeting_topics.length > 0) {
     appendSection(lines, 'Temas clave:', formatBulletList(data.meeting_topics).split('\n'));
