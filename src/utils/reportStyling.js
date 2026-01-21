@@ -130,6 +130,7 @@ export const getBrainStudioLogoSVG = (variant = 'default') => {
       src="${logoUrl}"
       alt="BrainStudio"
       style="display:block; width: ${width}; height: auto;"
+      onerror="this.onerror=null;this.src='${getLogoDataUri()}';"
     />
   `;
 };
