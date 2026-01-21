@@ -56,7 +56,7 @@ export const STYLES = {
   container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #f8faf5; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
   
   // Header / Cover
-  coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
+  coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(180deg, #fbfbf6 0%, #f7f5ef 100%); position: relative;`,
   coverHeader: "display: flex; justify-content: space-between; align-items: flex-start;",
   coverTitle: `${TYPOGRAPHY.h1} margin-top: ${SPACING.lg}; max-width: 85%;`,
   coverSubtitle: `font-size: 28px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: ${COLORS.primary}; margin-top: ${SPACING.xs};`,
