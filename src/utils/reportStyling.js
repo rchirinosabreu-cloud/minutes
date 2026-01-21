@@ -57,10 +57,14 @@ export const STYLES = {
   container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #f8faf5; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
   
   // Header / Cover
-  coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
+  coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(180deg, #fbfbf6 0%, #f7f5ef 100%); position: relative;`,
   coverHeader: "display: flex; justify-content: space-between; align-items: flex-start;",
   coverTitle: `${TYPOGRAPHY.h1} margin-top: ${SPACING.lg}; max-width: 85%;`,
+  coverBadge: `display: inline-flex; align-items: center; padding: 6px 14px; border-radius: 999px; background: ${COLORS.accentLime}; color: ${COLORS.textDark}; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;`,
+  coverSubtitle: `font-size: 28px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: ${COLORS.primary}; margin-top: ${SPACING.xs};`,
   coverMeta: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.lg}; margin-top: ${SPACING.lg}; border-top: 1px solid ${COLORS.border}; padding-top: ${SPACING.md};`,
+  coverMetaLabel: `font-size: 13px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;`,
+  coverMetaValue: `margin-top: 6px; font-size: 16px; font-weight: 600; color: ${COLORS.text};`,
   
   // Standard Header
   header: `background: ${COLORS.white}; padding: ${SPACING.lg} ${SPACING.xl}; border-bottom: 1px solid ${COLORS.border}; display: flex; justify-content: space-between; align-items: center;`,
@@ -131,11 +135,13 @@ const getLogoDataUri = () => {
 
 export const getBrainStudioLogoSVG = (variant = 'default') => {
   const width = variant === 'small' ? '140px' : '220px';
+  const logoUrl = 'https://brainstudioagencia.com/wp-content/uploads/2026/01/Recurso-1.svg';
   return `
     <img
-      src="${getLogoDataUri()}"
+      src="${logoUrl}"
       alt="BrainStudio"
       style="display:block; width: ${width}; height: auto;"
+      onerror="this.onerror=null;this.src='${getLogoDataUri()}';"
     />
   `;
 };
