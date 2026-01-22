@@ -4,7 +4,7 @@ const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   (typeof window !== 'undefined' ? window.location.origin : 'https://delightful-nourishment-production.up.railway.app');
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
-const FIREFLIES_API_URL = `${API_BASE_URL}/api/fireflies/graphql`;
+const getFirefliesApiUrl = (baseUrl) => `${baseUrl}/api/fireflies/graphql`;
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -110,16 +110,18 @@ const frontendApiService = {
 
   // Fireflies GraphQL Call
   fetchFirefliesData: async (query, variables = {}) => {
-    try {
-      const response = await axios.post(
-        FIREFLIES_API_URL,
-        { query, variables },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+    const postFireflies = async (baseUrl) => axios.post(
+      getFirefliesApiUrl(baseUrl),
+      { query, variables },
+      {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
+      }
+    );
+
+    try {
+      const response = await postFireflies(API_BASE_URL);
 
       if (response.data.errors) {
         throw new Error(response.data.errors[0].message);
