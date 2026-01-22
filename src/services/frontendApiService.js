@@ -163,7 +163,7 @@ const frontendApiService = {
 
     try {
       const response = await axios.post(
-        FIREFLIES_API_URL,
+        getFirefliesApiUrl(API_BASE_URL),
         { query, variables: { limit: 1, skip: 0 } },
         {
           headers: {
