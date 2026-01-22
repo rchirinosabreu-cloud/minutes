@@ -1,8 +1,32 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://delightful-nourishment-production.up.railway.app';
+const FALLBACK_API_BASE_URL = 'https://delightful-nourishment-production.up.railway.app';
+
+const getDefaultApiBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return FALLBACK_API_BASE_URL;
+  }
+
+  const hostname = window.location.hostname;
+  const isLocalhost =
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '0.0.0.0' ||
+    hostname === '[::1]';
+
+  if (isLocalhost) {
+    return window.location.origin;
+  }
+
+  return FALLBACK_API_BASE_URL;
+};
+
+const envApiBaseUrl = typeof import.meta.env.VITE_API_BASE_URL === 'string'
+  ? import.meta.env.VITE_API_BASE_URL.trim()
+  : '';
+const API_BASE_URL = envApiBaseUrl || getDefaultApiBaseUrl();
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
-const FIREFLIES_API_URL = `${API_BASE_URL}/api/fireflies/graphql`;
+const getFirefliesApiUrl = (baseUrl) => `${baseUrl}/api/fireflies/graphql`;
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -108,16 +132,18 @@ const frontendApiService = {
 
   // Fireflies GraphQL Call
   fetchFirefliesData: async (query, variables = {}) => {
-    try {
-      const response = await axios.post(
-        FIREFLIES_API_URL,
-        { query, variables },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+    const postFireflies = async (baseUrl) => axios.post(
+      getFirefliesApiUrl(baseUrl),
+      { query, variables },
+      {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
+      }
+    );
+
+    try {
+      const response = await postFireflies(API_BASE_URL);
 
       if (response.data.errors) {
         throw new Error(response.data.errors[0].message);
@@ -125,12 +151,46 @@ const frontendApiService = {
 
       return response.data.data;
     } catch (error) {
-        console.error("Fireflies API Error:", error);
-        // CORS errors are common in frontend-only calls to some APIs.
-        if (error.message === 'Network Error' && !error.response) {
-            throw new Error("Network Error: This may be due to CORS restrictions on the Fireflies API when called directly from the browser. In a production environment, a proxy server is required.");
+      console.error("Fireflies API Error:", error);
+      // CORS errors are common in frontend-only calls to some APIs.
+      if (error.message === 'Network Error' && !error.response) {
+        throw new Error(
+          "Network Error: This may be due to CORS restrictions on the Fireflies API when called directly from the browser. In a production environment, a proxy server is required."
+        );
+      }
+
+      if (error.response?.status === 504) {
+        throw new Error(
+          "El proxy de Fireflies no respondió (504). Verifica que el backend esté en línea y que VITE_API_BASE_URL apunte a tu servidor."
+        );
+      }
+
+      if (error.response?.status === 404) {
+        const canRetryWithFallback =
+          typeof window !== 'undefined' &&
+          API_BASE_URL === window.location.origin &&
+          FALLBACK_API_BASE_URL !== API_BASE_URL;
+
+        if (canRetryWithFallback) {
+          const fallbackResponse = await postFireflies(FALLBACK_API_BASE_URL);
+          if (fallbackResponse.data.errors) {
+            throw new Error(fallbackResponse.data.errors[0].message);
+          }
+          return fallbackResponse.data.data;
         }
-        throw new Error(error.response?.data?.message || error.message || "Failed to fetch data from Fireflies");
+
+        throw new Error(
+          "No se encontró el endpoint /api/fireflies/graphql (404). Asegúrate de que el backend proxy esté activo en el mismo origen o configura VITE_API_BASE_URL con la URL del backend."
+        );
+      }
+
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        throw new Error(
+          "No autorizado para Fireflies. Revisa que FIREFLIES_API_KEY esté configurada en el backend."
+        );
+      }
+
+      throw new Error(error.response?.data?.message || error.message || "Failed to fetch data from Fireflies");
     }
   },
 
