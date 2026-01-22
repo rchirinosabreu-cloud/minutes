@@ -8,6 +8,7 @@ Este servicio funciona como proxy para las llamadas a OpenAI y evita CORS en el 
 - `FIREFLIES_API_KEY` (opcional): clave de Fireflies para las integraciones.
 - `GEMINI_API_KEY` (obligatoria para reportes HTML): clave de Gemini.
 - `PORT` (opcional): Railway lo asigna automáticamente.
+- `CORS_ORIGIN` (opcional): lista separada por comas de orígenes permitidos. Si se omite, permite todos.
 
 ## Endpoints
 

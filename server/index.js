@@ -10,8 +10,17 @@ const port = process.env.PORT || 8080;
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const firefliesApiKey = process.env.FIREFLIES_API_KEY;
 const geminiApiKey = process.env.GEMINI_API_KEY;
+const corsOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean)
+  : true;
+const corsOptions = {
+  origin: corsOrigins,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-goog-api-key'],
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 if (!openaiApiKey) {
   console.warn('[minutes-backend] OPENAI_API_KEY is not set. OpenAI proxy calls will fail.');
