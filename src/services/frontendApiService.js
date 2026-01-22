@@ -141,12 +141,6 @@ const frontendApiService = {
         );
       }
 
-      if (error.response?.status === 404) {
-        throw new Error(
-          "No se encontró el endpoint /api/fireflies/graphql (404). Asegúrate de que el backend proxy esté activo en el mismo origen o configura VITE_API_BASE_URL con la URL del backend."
-        );
-      }
-
       if (error.response?.status === 401 || error.response?.status === 403) {
         throw new Error(
           "No autorizado para Fireflies. Revisa que FIREFLIES_API_KEY esté configurada en el backend."
