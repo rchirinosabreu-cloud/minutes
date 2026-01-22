@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://delightful-nourishment-production.up.railway.app';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : 'https://delightful-nourishment-production.up.railway.app');
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
 const FIREFLIES_API_URL = `${API_BASE_URL}/api/fireflies/graphql`;
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
@@ -125,12 +127,27 @@ const frontendApiService = {
 
       return response.data.data;
     } catch (error) {
-        console.error("Fireflies API Error:", error);
-        // CORS errors are common in frontend-only calls to some APIs.
-        if (error.message === 'Network Error' && !error.response) {
-            throw new Error("Network Error: This may be due to CORS restrictions on the Fireflies API when called directly from the browser. In a production environment, a proxy server is required.");
-        }
-        throw new Error(error.response?.data?.message || error.message || "Failed to fetch data from Fireflies");
+      console.error("Fireflies API Error:", error);
+      // CORS errors are common in frontend-only calls to some APIs.
+      if (error.message === 'Network Error' && !error.response) {
+        throw new Error(
+          "Network Error: This may be due to CORS restrictions on the Fireflies API when called directly from the browser. In a production environment, a proxy server is required."
+        );
+      }
+
+      if (error.response?.status === 504) {
+        throw new Error(
+          "El proxy de Fireflies no respondió (504). Verifica que el backend esté en línea y que VITE_API_BASE_URL apunte a tu servidor."
+        );
+      }
+
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        throw new Error(
+          "No autorizado para Fireflies. Revisa que FIREFLIES_API_KEY esté configurada en el backend."
+        );
+      }
+
+      throw new Error(error.response?.data?.message || error.message || "Failed to fetch data from Fireflies");
     }
   },
 
