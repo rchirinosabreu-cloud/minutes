@@ -1,30 +1,8 @@
 import axios from 'axios';
 
-const FALLBACK_API_BASE_URL = 'https://delightful-nourishment-production.up.railway.app';
-
-const getDefaultApiBaseUrl = () => {
-  if (typeof window === 'undefined') {
-    return FALLBACK_API_BASE_URL;
-  }
-
-  const hostname = window.location.hostname;
-  const isLocalhost =
-    hostname === 'localhost' ||
-    hostname === '127.0.0.1' ||
-    hostname === '0.0.0.0' ||
-    hostname === '[::1]';
-
-  if (isLocalhost) {
-    return window.location.origin;
-  }
-
-  return FALLBACK_API_BASE_URL;
-};
-
-const envApiBaseUrl = typeof import.meta.env.VITE_API_BASE_URL === 'string'
-  ? import.meta.env.VITE_API_BASE_URL.trim()
-  : '';
-const API_BASE_URL = envApiBaseUrl || getDefaultApiBaseUrl();
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : 'https://delightful-nourishment-production.up.railway.app');
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
 const getFirefliesApiUrl = (baseUrl) => `${baseUrl}/api/fireflies/graphql`;
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
@@ -162,25 +140,6 @@ const frontendApiService = {
       if (error.response?.status === 504) {
         throw new Error(
           "El proxy de Fireflies no respondió (504). Verifica que el backend esté en línea y que VITE_API_BASE_URL apunte a tu servidor."
-        );
-      }
-
-      if (error.response?.status === 404) {
-        const canRetryWithFallback =
-          typeof window !== 'undefined' &&
-          API_BASE_URL === window.location.origin &&
-          FALLBACK_API_BASE_URL !== API_BASE_URL;
-
-        if (canRetryWithFallback) {
-          const fallbackResponse = await postFireflies(FALLBACK_API_BASE_URL);
-          if (fallbackResponse.data.errors) {
-            throw new Error(fallbackResponse.data.errors[0].message);
-          }
-          return fallbackResponse.data.data;
-        }
-
-        throw new Error(
-          "No se encontró el endpoint /api/fireflies/graphql (404). Asegúrate de que el backend proxy esté activo en el mismo origen o configura VITE_API_BASE_URL con la URL del backend."
         );
       }
 
