@@ -152,6 +152,45 @@ const frontendApiService = {
       throw new Error(error.response?.data?.message || error.message || "Failed to fetch data from Fireflies");
     }
   },
+  checkFirefliesConnection: async () => {
+    const query = `
+      query FirefliesHealth($limit: Int, $skip: Int) {
+        transcripts(limit: $limit, skip: $skip) {
+          id
+        }
+      }
+    `;
+
+    try {
+      const response = await axios.post(
+        FIREFLIES_API_URL,
+        { query, variables: { limit: 1, skip: 0 } },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      if (response.data.errors) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.warn("Fireflies Health Check Error:", error);
+      return false;
+    }
+  },
+  checkOpenAiConnection: async () => {
+    try {
+      await axios.get(`${API_BASE_URL}/api/openai/v1/models`);
+      return true;
+    } catch (error) {
+      console.warn("OpenAI Health Check Error:", error);
+      return false;
+    }
+  },
 
   // Specific Fireflies Queries
   getTranscripts: async (limit = 50, skip = 0) => {
