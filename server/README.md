@@ -23,7 +23,7 @@ Este servicio funciona como proxy para las llamadas a OpenAI y evita CORS en el 
 En el frontend, define la URL base del backend (Railway) con:
 
 ```
-VITE_API_BASE_URL=https://<tu-backend>.railway.app
+VITE_API_BASE_URL=https://minutes-production.up.railway.app
 ```
 
 Con esto, el frontend enviará las solicitudes a `https://<tu-backend>.railway.app/api/openai/...`.
