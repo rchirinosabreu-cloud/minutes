@@ -70,7 +70,7 @@ REGLAS CRÍTICAS DE PROCESAMIENTO:
 3. PALETA DE COLORES:
    - Fondo general: #F5F6FA
    - Púrpura estratégico: #635bff (texto blanco, usar en Estrategia y Acción)
-   - Verde Neón: #66CFFF (texto oscuro, usar en Contexto y Temas)
+   - Aqua Neón: #66FFED (texto oscuro, usar en Contexto y Temas)
    - Texto oscuro: #0C111C
 4. TIPOGRAFÍA: Usa 'Plus Jakarta Sans' vía Google Fonts.
 5. ICONOGRAFÍA: Utiliza SVGs simples de trazo fino para los iconos superiores de las tarjetas, basándote en los ejemplos de las referencias.
