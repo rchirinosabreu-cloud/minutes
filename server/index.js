@@ -61,10 +61,17 @@ app.use(
     secure: true,
     pathRewrite: (path) => path.replace(/^\/api\/fireflies/, ''),
     onProxyReq: (proxyReq) => {
+      // Add User-Agent to avoid blocking by some APIs/Firewalls (Cloudflare)
+      proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
+
       if (firefliesApiKey) {
         proxyReq.setHeader('Authorization', `Bearer ${firefliesApiKey}`);
       }
     },
+    onError: (err, req, res) => {
+      console.error('[minutes-backend] Fireflies Proxy Error:', err);
+      res.status(500).send('Proxy Error');
+    }
   })
 );
 

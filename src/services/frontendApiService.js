@@ -1,12 +1,8 @@
 import axios from 'axios';
 
-const DEFAULT_API_BASE_URL = 'https://delightful-nourishment-production.up.railway.app';
-
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  (typeof window !== 'undefined' && import.meta.env.DEV
-    ? window.location.origin
-    : DEFAULT_API_BASE_URL);
+  'https://minutes-production.up.railway.app';
 const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
 const getFirefliesApiUrl = (baseUrl) => `${baseUrl}/api/fireflies/graphql`;
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
