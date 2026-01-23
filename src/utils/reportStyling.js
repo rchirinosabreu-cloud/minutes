@@ -4,19 +4,19 @@
 export const COLORS = {
   primary: '#635bff',
   primaryLight: '#E6E4FF',
-  secondary: '#f8faf5',
+  secondary: '#F5FAF9',
   secondaryLight: '#f3f6ef',
   dark: '#131127',
   textDark: '#131127',
   text: '#221f37',
   textLight: '#6B7280',
   border: '#E5E7EB',
-  bg: '#EBF2F2',
+  bg: '#f0f7f6',
   white: '#FFFFFF',
   accentLavender: '#E9E7FF',
   accentPurple: '#6D5CE7',
   accentBlue: '#D6E3FF',
-  accentLime: '#00C1C4',
+  accentLime: '#00c4a0',
   title: '#131127',
   cardGradient: '#F0EEFF',
 };
@@ -28,8 +28,8 @@ export const GRADIENTS = {
   limeSoft: `linear-gradient(135deg, ${COLORS.accentLime} 0%, ${COLORS.bg} 85%)`,
   purpleSoft: `linear-gradient(135deg, ${COLORS.cardGradient} 0%, ${COLORS.bg} 85%)`,
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
-  cover: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #F2F6EC 100%)`,
-  canvas: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #F2F6EC 100%)`,
+  cover: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #ECF5F6 100%)`,
+  canvas: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #ECF5F6 100%)`,
 };
 
 export const TYPOGRAPHY = {
@@ -53,7 +53,7 @@ export const SPACING = {
 export const STYLES = {
   // Global
   body: `font-family: ${TYPOGRAPHY.fontFamily}; background: ${GRADIENTS.canvas}; margin: 0; padding: 32px; color: ${COLORS.text}; -webkit-font-smoothing: antialiased; print-color-adjust: exact; -webkit-print-color-adjust: exact;`,
-  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #f8faf5; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
+  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #F5FAF9; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
   
   // Header / Cover
   coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(180deg, #fbfbf6 0%, #f7f5ef 100%); position: relative;`,
