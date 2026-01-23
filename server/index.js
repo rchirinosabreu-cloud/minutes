@@ -62,7 +62,7 @@ app.use(
     pathRewrite: (path) => path.replace(/^\/api\/fireflies/, ''),
     onProxyReq: (proxyReq, req) => {
       // Add User-Agent to avoid blocking by some APIs/Firewalls (Cloudflare)
-      proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
+      proxyReq.setHeader('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
       proxyReq.setHeader('Content-Type', 'application/json');
 
       if (firefliesApiKey) {
