@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://brainstudio-minutes-production.up.railway.app';
+const BASE_URL = 'https://minutes-production.up.railway.app';
 
 // API Service for all backend communications
 const apiService = {
