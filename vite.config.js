@@ -261,6 +261,34 @@ export default defineConfig({
 					});
 				},
 			},
+			'/api/fireflies': {
+				target: 'https://api.fireflies.ai',
+				changeOrigin: true,
+				secure: true,
+				rewrite: (path) => path.replace(/^\/api\/fireflies/, ''),
+				configure: (proxy) => {
+					proxy.on('proxyReq', (proxyReq) => {
+						const apiKey = process.env.FIREFLIES_API_KEY;
+						if (apiKey) {
+							proxyReq.setHeader('Authorization', `Bearer ${apiKey}`);
+						}
+					});
+				},
+			},
+			'/api/gemini': {
+				target: 'https://generativelanguage.googleapis.com',
+				changeOrigin: true,
+				secure: true,
+				rewrite: (path) => path.replace(/^\/api\/gemini/, ''),
+				configure: (proxy) => {
+					proxy.on('proxyReq', (proxyReq) => {
+						const apiKey = process.env.GEMINI_API_KEY;
+						if (apiKey) {
+							proxyReq.setHeader('x-goog-api-key', apiKey);
+						}
+					});
+				},
+			},
 		},
 	},
 	preview: {
@@ -278,6 +306,34 @@ export default defineConfig({
 						const apiKey = process.env.OPENAI_API_KEY;
 						if (apiKey) {
 							proxyReq.setHeader('Authorization', `Bearer ${apiKey}`);
+						}
+					});
+				},
+			},
+			'/api/fireflies': {
+				target: 'https://api.fireflies.ai',
+				changeOrigin: true,
+				secure: true,
+				rewrite: (path) => path.replace(/^\/api\/fireflies/, ''),
+				configure: (proxy) => {
+					proxy.on('proxyReq', (proxyReq) => {
+						const apiKey = process.env.FIREFLIES_API_KEY;
+						if (apiKey) {
+							proxyReq.setHeader('Authorization', `Bearer ${apiKey}`);
+						}
+					});
+				},
+			},
+			'/api/gemini': {
+				target: 'https://generativelanguage.googleapis.com',
+				changeOrigin: true,
+				secure: true,
+				rewrite: (path) => path.replace(/^\/api\/gemini/, ''),
+				configure: (proxy) => {
+					proxy.on('proxyReq', (proxyReq) => {
+						const apiKey = process.env.GEMINI_API_KEY;
+						if (apiKey) {
+							proxyReq.setHeader('x-goog-api-key', apiKey);
 						}
 					});
 				},
