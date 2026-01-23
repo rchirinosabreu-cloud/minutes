@@ -68,10 +68,10 @@ REGLAS CRÍTICAS DE PROCESAMIENTO:
 1. INTEGRIDAD TOTAL: Prohibido resumir. No recortes, no omitas y no modifiques absolutamente ningún texto, título o viñeta del contenido proporcionado. Tu trabajo es DIAGRAMAR, no editar.
 2. SISTEMA VISUAL: Usa exclusivamente el estilo Bento Grid con tarjetas (.card) y clases de expansión (.span-2, .span-4).
 3. PALETA DE COLORES:
-   - Fondo general: #f8faf5
+   - Fondo general: #F5F6FA
    - Púrpura estratégico: #635bff (texto blanco, usar en Estrategia y Acción)
-   - Verde Neón: #d9ff66 (texto oscuro, usar en Contexto y Temas)
-   - Texto oscuro: #111827
+   - Verde Neón: #66CFFF (texto oscuro, usar en Contexto y Temas)
+   - Texto oscuro: #0C111C
 4. TIPOGRAFÍA: Usa 'Plus Jakarta Sans' vía Google Fonts.
 5. ICONOGRAFÍA: Utiliza SVGs simples de trazo fino para los iconos superiores de las tarjetas, basándote en los ejemplos de las referencias.
 
