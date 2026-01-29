@@ -5,9 +5,11 @@ import WorkspacePanel from './WorkspacePanel';
 
 const MainLayout = () => {
   const [selectedSource, setSelectedSource] = useState(null);
+  const [analysisReady, setAnalysisReady] = useState(false);
 
   const handleSelectSource = useCallback((source) => {
     setSelectedSource(source);
+    setAnalysisReady(false);
   }, []);
 
   return (
@@ -17,9 +19,11 @@ const MainLayout = () => {
           <SourcePanel
             selectedSource={selectedSource}
             onSelectSource={handleSelectSource}
+            analysisReady={analysisReady}
+            onStartAnalysis={() => setAnalysisReady(true)}
           />
           
-          <WorkspacePanel selectedSource={selectedSource} />
+          <WorkspacePanel selectedSource={selectedSource} analysisReady={analysisReady} />
         </div>
       </div>
     </div>

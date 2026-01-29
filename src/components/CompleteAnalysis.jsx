@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Brain, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
+import { Brain, Loader2, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
-import { generateAnalysisPDF } from '@/utils/pdfExport';
-import { generateAnalysisHTML } from '@/utils/htmlExport';
+import { buildAnalysisReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
+import { generateAnalysisPDF } from '@/utils/pdfExport';
 import { toast } from 'react-hot-toast';
-import { ANALYSIS_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
+import { ANALYSIS_PROMPT_TEMPLATE, GEMINI_BENTO_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
-const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
+const CompleteAnalysis = ({ files, content, reportMeta }) => {
   const [analysisData, setAnalysisData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [htmlLoading, setHtmlLoading] = useState(false);
 
   const handleGenerate = async () => {
     if ((!files || files.length === 0) && !content) return;
@@ -45,18 +46,34 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
     }
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadHTML = async () => {
     if (!analysisData) return;
-    toast.loading("Generando PDF...", { duration: 2000 });
-    generateAnalysisPDF(analysisData, sourceTitle, reportMeta);
+    const toastId = toast.loading("Generando HTML con Gemini...");
+    setHtmlLoading(true);
+    try {
+      const reportContent = buildAnalysisReportContent(analysisData, reportMeta);
+      const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
+      const htmlContent = await frontendApiService.generateGeminiHtmlReport(prompt);
+      const filename = `Analisis_BrainStudio_${Date.now()}.html`;
+      downloadHTML(htmlContent, filename);
+      toast.success("Descargando reporte HTML...", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    } finally {
+      setHtmlLoading(false);
+    }
   };
 
-  const handleDownloadHTML = () => {
+  const handleDownloadPDF = () => {
     if (!analysisData) return;
-    const htmlContent = generateAnalysisHTML(analysisData, sourceTitle, reportMeta);
-    const filename = `Analisis_BrainStudio_${Date.now()}.html`;
-    downloadHTML(htmlContent, filename);
-    toast.success("Descargando reporte HTML...");
+    try {
+      generateAnalysisPDF(analysisData, sourceTitle, reportMeta);
+      toast.success("Descargando PDF...");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al generar el PDF");
+    }
   };
 
   return (
@@ -103,20 +120,26 @@ const CompleteAnalysis = ({ files, content, sourceTitle, reportMeta }) => {
             <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
                <Button 
                 onClick={handleDownloadHTML} 
+                disabled={htmlLoading}
                 className="flex-1 bg-indigo-900/50 hover:bg-indigo-800/50 text-indigo-100 border border-indigo-500/30"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Descargar HTML
-              </Button>
-              <Button 
-                onClick={handleDownloadPDF} 
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Descargar PDF
+                {htmlLoading ? 'Generando HTML...' : 'Descargar HTML'}
               </Button>
             </div>
           </div>
+
+          {htmlLoading && (
+            <div className="bg-indigo-950/40 border border-indigo-800/40 rounded-lg p-4">
+              <div className="flex items-center justify-between text-xs text-indigo-200 mb-2">
+                <span>Generando reporte con Gemini</span>
+                <span>Procesando...</span>
+              </div>
+              <div className="h-2 bg-indigo-900/60 rounded-full overflow-hidden">
+                <div className="h-full w-full bg-gradient-to-r from-indigo-500 to-violet-400 animate-pulse" />
+              </div>
+            </div>
+          )}
           
           <div className="text-left text-sm text-gray-300 space-y-2">
              <p><strong className="text-indigo-400">Insight:</strong> {analysisData.consulting_insights?.[0]?.substring(0, 100) || 'Análisis generado'}...</p>

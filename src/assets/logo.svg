@@ -1,16 +1,18 @@
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" fill="none">
-  <!-- Abstract Brain Icon -->
-  <g transform="translate(10, 10) scale(1.2)">
-    <path d="M25 10C21 10 17 12 15 15C13 12 9 10 5 10C2.2 10 0 12.2 0 15V35C0 37.8 2.2 40 5 40C9 40 13 38 15 35C17 38 21 40 25 40C27.8 40 30 37.8 30 35V15C30 12.2 27.8 10 25 10ZM25 35C22 35 19 33 17 30V20C19 22 22 24 25 24V35ZM5 35V24C8 24 11 22 13 20V30C11 33 8 35 5 35Z" fill="#111827"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brainstudio">
+  <defs>
+    <linearGradient id="brainstudio-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#635bff" />
+      <stop offset="100%" stop-color="#6D5CE7" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="200" fill="none" />
+  <g transform="translate(40,40)">
+    <rect width="120" height="120" rx="28" fill="url(#brainstudio-gradient)" />
+    <path d="M52 40h34c14 0 24 8 24 22 0 8-4 14-10 18 8 4 12 10 12 20 0 16-12 24-28 24H52V40zm30 34c8 0 12-4 12-10 0-6-4-10-12-10H74v20h8zm2 46c10 0 14-4 14-12 0-8-4-12-14-12H74v24h10z" fill="#ffffff" />
   </g>
-  
-  <!-- Main Text -->
-  <text x="60" y="45" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="32" fill="#111827" letter-spacing="1">BRAIN STUDIO</text>
-  
-  <!-- Subtitle -->
-  <text x="62" y="65" font-family="Arial, Helvetica, sans-serif" font-weight="normal" font-size="12" fill="#6B7280" letter-spacing="3" text-transform="uppercase">Agencia Creativa</text>
-  
-  <!-- Accent Dot -->
-  <circle cx="290" cy="45" r="4" fill="#7C3AED"/>
+  <g transform="translate(190,75)">
+    <text x="0" y="0" font-family="'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif" font-size="48" font-weight="700" fill="#111827">Brainstudio</text>
+    <text x="2" y="40" font-family="'Plus Jakarta Sans', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="500" fill="#6B7280">Intelligence</text>
+  </g>
 </svg>

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { FileText, Loader2, Download, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
+import { FileText, Loader2, AlertTriangle, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import frontendApiService from '@/services/frontendApiService';
-import { generateSummaryPDF } from '@/utils/pdfExport';
-import { generateSummaryHTML } from '@/utils/htmlExport';
+import { buildSummaryReportContent } from '@/utils/reportContent';
 import { downloadHTML } from '@/utils/downloadUtils';
+import { generateSummaryPDF } from '@/utils/pdfExport';
 import { toast } from 'react-hot-toast';
-import { SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
+import { GEMINI_BENTO_PROMPT_TEMPLATE, SUMMARY_PROMPT_TEMPLATE } from '@/utils/promptTemplates';
 
-const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
+const GeneralSummary = ({ files, content, reportMeta }) => {
   const [summaryData, setSummaryData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [htmlLoading, setHtmlLoading] = useState(false);
 
   const handleGenerate = async () => {
     // Check inputs
@@ -49,18 +50,34 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
     }
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadHTML = async () => {
     if (!summaryData) return;
-    toast.loading("Generando PDF...", { duration: 2000 });
-    generateSummaryPDF(summaryData, sourceTitle, reportMeta);
+    const toastId = toast.loading("Generando HTML con Gemini...");
+    setHtmlLoading(true);
+    try {
+      const reportContent = buildSummaryReportContent(summaryData, reportMeta);
+      const prompt = GEMINI_BENTO_PROMPT_TEMPLATE.replace('{{CONTENT}}', reportContent);
+      const htmlContent = await frontendApiService.generateGeminiHtmlReport(prompt);
+      const filename = `Resumen_BrainStudio_${Date.now()}.html`;
+      downloadHTML(htmlContent, filename);
+      toast.success("Descargando reporte HTML...", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Error al generar el HTML con Gemini", { id: toastId });
+    } finally {
+      setHtmlLoading(false);
+    }
   };
 
-  const handleDownloadHTML = () => {
+  const handleDownloadPDF = () => {
     if (!summaryData) return;
-    const htmlContent = generateSummaryHTML(summaryData, sourceTitle, reportMeta);
-    const filename = `Resumen_BrainStudio_${Date.now()}.html`;
-    downloadHTML(htmlContent, filename);
-    toast.success("Descargando reporte HTML...");
+    try {
+      generateSummaryPDF(summaryData, sourceTitle, reportMeta);
+      toast.success("Descargando PDF...");
+    } catch (err) {
+      console.error(err);
+      toast.error("Error al generar el PDF");
+    }
   };
 
   return (
@@ -107,20 +124,26 @@ const GeneralSummary = ({ files, content, sourceTitle, reportMeta }) => {
             <div className="flex flex-col sm:flex-row gap-3 w-full mt-2">
                <Button 
                 onClick={handleDownloadHTML} 
+                disabled={htmlLoading}
                 className="flex-1 bg-purple-900/50 hover:bg-purple-800/50 text-purple-100 border border-purple-500/30"
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                Descargar HTML
-              </Button>
-              <Button 
-                onClick={handleDownloadPDF} 
-                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Descargar PDF
+                {htmlLoading ? 'Generando HTML...' : 'Descargar HTML'}
               </Button>
             </div>
           </div>
+
+          {htmlLoading && (
+            <div className="bg-purple-950/40 border border-purple-800/40 rounded-lg p-4">
+              <div className="flex items-center justify-between text-xs text-purple-200 mb-2">
+                <span>Generando reporte con Gemini</span>
+                <span>Procesando...</span>
+              </div>
+              <div className="h-2 bg-purple-900/60 rounded-full overflow-hidden">
+                <div className="h-full w-full bg-gradient-to-r from-purple-500 to-violet-400 animate-pulse" />
+              </div>
+            </div>
+          )}
           
           <div className="text-left text-sm text-gray-300 space-y-2">
             <p><strong className="text-purple-400">Temas:</strong> {summaryData.meeting_topics?.join(", ")}</p>

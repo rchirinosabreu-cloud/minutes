@@ -6,13 +6,16 @@ Este servicio funciona como proxy para las llamadas a OpenAI y evita CORS en el 
 
 - `OPENAI_API_KEY` (obligatoria): clave de OpenAI.
 - `FIREFLIES_API_KEY` (opcional): clave de Fireflies para las integraciones.
+- `GEMINI_API_KEY` (obligatoria para reportes HTML): clave de Gemini.
 - `PORT` (opcional): Railway lo asigna automáticamente.
+- `CORS_ORIGIN` (opcional): lista separada por comas de orígenes permitidos. Si se omite, permite todos.
 
 ## Endpoints
 
 - `POST /api/openai/v1/chat/completions`
 - `POST /api/openai/v1/audio/transcriptions`
 - `POST /api/fireflies/graphql`
+- `POST /api/gemini/v1beta/models/gemini-1.5-pro:generateContent`
 - `GET /health`
 
 ## Configuración del frontend
@@ -20,7 +23,7 @@ Este servicio funciona como proxy para las llamadas a OpenAI y evita CORS en el 
 En el frontend, define la URL base del backend (Railway) con:
 
 ```
-VITE_API_BASE_URL=https://<tu-backend>.railway.app
+VITE_API_BASE_URL=https://minutes-production.up.railway.app
 ```
 
 Con esto, el frontend enviará las solicitudes a `https://<tu-backend>.railway.app/api/openai/...`.

@@ -1,9 +1,40 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
+import frontendApiService from '@/services/frontendApiService';
 
 const Header = () => {
+  const [firefliesStatus, setFirefliesStatus] = useState('checking');
+  const [openAiStatus, setOpenAiStatus] = useState('checking');
+
+  useEffect(() => {
+    const checkConnections = async () => {
+      const [firefliesOk, openAiOk] = await Promise.all([
+        frontendApiService.checkFirefliesConnection(),
+        frontendApiService.checkOpenAiConnection()
+      ]);
+
+      setFirefliesStatus(firefliesOk ? 'connected' : 'disconnected');
+      setOpenAiStatus(openAiOk ? 'connected' : 'disconnected');
+    };
+
+    checkConnections();
+  }, []);
+
+  const statusStyles = {
+    connected: 'bg-emerald-500/15 text-emerald-200 border-emerald-400/40',
+    disconnected: 'bg-red-500/10 text-red-200 border-red-400/40',
+    checking: 'bg-yellow-500/10 text-yellow-200 border-yellow-400/40'
+  };
+
+  const StatusBadge = ({ label, status }) => (
+    <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${statusStyles[status]}`}>
+      <span className={`h-2 w-2 rounded-full ${status === 'connected' ? 'bg-emerald-400' : status === 'disconnected' ? 'bg-red-400' : 'bg-yellow-400'}`} />
+      {label}: {status === 'checking' ? 'verificando' : status === 'connected' ? 'conectada' : 'sin conexión'}
+    </span>
+  );
+
   return (
     <>
       <Helmet>
@@ -50,6 +81,16 @@ const Header = () => {
           >
             Herramienta integral para el procesamiento de transcripciones y documentos, generando resúmenes y análisis estratégicos impulsados por IA.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-6 flex flex-wrap items-center justify-center gap-3"
+          >
+            <StatusBadge label="Fireflies" status={firefliesStatus} />
+            <StatusBadge label="OpenAI" status={openAiStatus} />
+          </motion.div>
         </div>
       </motion.header>
     </>

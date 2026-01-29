@@ -2,21 +2,23 @@
 // Utilities for HTML and PDF Report Styling
 
 export const COLORS = {
-  primary: '#5B5CE6',
-  primaryLight: '#E9E7FF',
-  secondary: '#D7FF6A',
-  secondaryLight: '#E9E7FF',
-  dark: '#1f2124',
-  textDark: '#1f2124',
-  text: '#393d42',
+  primary: '#635bff',
+  primaryLight: '#E6E4FF',
+  secondary: '#F5FAF9',
+  secondaryLight: '#f3f6ef',
+  dark: '#131127',
+  textDark: '#131127',
+  text: '#221f37',
   textLight: '#6B7280',
   border: '#E5E7EB',
-  bg: '#F6F7FB',
+  bg: '#f0f7f6',
   white: '#FFFFFF',
   accentLavender: '#E9E7FF',
-  accentLime: '#D7FF6A',
-  title: '#1f2124',
-  cardGradient: '#f3d9ff',
+  accentPurple: '#6D5CE7',
+  accentBlue: '#D6E3FF',
+  accentLime: '#00c4a0',
+  title: '#131127',
+  cardGradient: '#F0EEFF',
 };
 
 export const GRADIENTS = {
@@ -26,16 +28,16 @@ export const GRADIENTS = {
   limeSoft: `linear-gradient(135deg, ${COLORS.accentLime} 0%, ${COLORS.bg} 85%)`,
   purpleSoft: `linear-gradient(135deg, ${COLORS.cardGradient} 0%, ${COLORS.bg} 85%)`,
   graySoft: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.white} 100%)`,
-  cover: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.cardGradient} 45%, ${COLORS.bg} 100%)`,
-  canvas: `linear-gradient(135deg, ${COLORS.bg} 0%, ${COLORS.cardGradient} 45%, ${COLORS.bg} 100%)`,
+  cover: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #ECF5F6 100%)`,
+  canvas: `linear-gradient(135deg, #F7F5FF 0%, ${COLORS.cardGradient} 55%, #ECF5F6 100%)`,
 };
 
 export const TYPOGRAPHY = {
-  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-  h1: `font-size: 38px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; color: ${COLORS.title};`,
-  h2: `font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; color: ${COLORS.title};`,
+  fontFamily: "'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+  h1: `font-size: 40px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: ${COLORS.title};`,
+  h2: `font-size: 24px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; color: ${COLORS.title};`,
   h3: `font-size: 18px; font-weight: 600; line-height: 1.4; color: ${COLORS.title};`,
-  body: `font-size: 15px; line-height: 1.7; color: ${COLORS.text};`,
+  body: `font-size: 15px; line-height: 1.6; color: ${COLORS.text};`,
   small: `font-size: 12px; line-height: 1.6; color: ${COLORS.textLight};`
 };
 
@@ -43,40 +45,44 @@ export const SPACING = {
   xs: '8px',
   sm: '16px',
   md: '24px',
-  lg: '32px',
-  xl: '48px',
-  xxl: '64px'
+  lg: '28px',
+  xl: '40px',
+  xxl: '56px'
 };
 
 export const STYLES = {
   // Global
   body: `font-family: ${TYPOGRAPHY.fontFamily}; background: ${GRADIENTS.canvas}; margin: 0; padding: 32px; color: ${COLORS.text}; -webkit-font-smoothing: antialiased; print-color-adjust: exact; -webkit-print-color-adjust: exact;`,
-  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #F6F7FB; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
+  container: "width: 100%; max-width: 1400px; margin: 0 auto; background: #F5FAF9; border-radius: 28px; border: 1px solid #E5E7EB; overflow: hidden; position: relative; box-shadow: 0 24px 48px rgba(17, 24, 39, 0.08);",
   
   // Header / Cover
-  coverPage: `min-height: 620px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: ${GRADIENTS.cover}; position: relative;`,
+  coverPage: `min-height: 520px; padding: ${SPACING.xxl}; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(180deg, #fbfbf6 0%, #f7f5ef 100%); position: relative;`,
   coverHeader: "display: flex; justify-content: space-between; align-items: flex-start;",
-  coverTitle: `${TYPOGRAPHY.h1} margin-top: ${SPACING.xl}; max-width: 85%;`,
-  coverMeta: `display: flex; gap: ${SPACING.md}; margin-top: ${SPACING.lg}; border-top: 1px solid ${COLORS.border}; padding-top: ${SPACING.md};`,
+  coverTitle: `${TYPOGRAPHY.h1} margin-top: ${SPACING.lg}; max-width: 85%;`,
+  coverSubtitle: `font-size: 28px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.25; color: ${COLORS.primary}; margin-top: ${SPACING.xs};`,
+  coverMeta: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: ${SPACING.lg}; margin-top: ${SPACING.lg}; border-top: 1px solid ${COLORS.border}; padding-top: ${SPACING.md};`,
+  coverMetaLabel: `font-size: 13px; font-weight: 600; color: ${COLORS.textLight}; text-transform: uppercase; letter-spacing: 0.12em;`,
+  coverMetaValue: `margin-top: 6px; font-size: 16px; font-weight: 600; color: ${COLORS.text};`,
   
   // Standard Header
   header: `background: ${COLORS.white}; padding: ${SPACING.lg} ${SPACING.xl}; border-bottom: 1px solid ${COLORS.border}; display: flex; justify-content: space-between; align-items: center;`,
   reportBadge: `background: ${COLORS.accentLavender}; color: ${COLORS.primary}; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;`,
+  documentHeader: `background: ${COLORS.white}; padding: ${SPACING.md} ${SPACING.xl}; border-radius: 18px; border: 1px solid ${COLORS.border}; display: flex; justify-content: space-between; align-items: center; margin-bottom: ${SPACING.lg};`,
   
   // Sections
-  content: `padding: ${SPACING.xl};`,
-  section: `margin-bottom: ${SPACING.xl}; page-break-inside: avoid; break-inside: avoid;`,
-  sectionTitleBox: `margin-bottom: ${SPACING.md}; display: flex; align-items: center; gap: ${SPACING.sm}; padding: ${SPACING.xs} ${SPACING.sm}; background: ${COLORS.white}; border-radius: 999px; border: 1px solid ${COLORS.border}; width: fit-content;`,
+  content: `padding: ${SPACING.xl}; background: ${COLORS.secondary};`,
+  section: `margin-bottom: ${SPACING.xl}; padding: ${SPACING.lg}; background: ${COLORS.white}; border-radius: 16px; border: 1px solid ${COLORS.border}; box-shadow: 0 12px 22px rgba(17, 24, 39, 0.06); page-break-inside: avoid; break-inside: avoid;`,
+  sectionTitleBox: `margin-bottom: ${SPACING.md}; display: inline-flex; align-items: center; gap: ${SPACING.sm}; padding: ${SPACING.xs} ${SPACING.sm}; background: ${COLORS.white}; border-radius: 999px; border: 1px solid ${COLORS.border};`,
   sectionTitle: `${TYPOGRAPHY.h2} margin: 0;`,
   
   // Cards
   cardGrid: "display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px;",
-  card: `background: ${COLORS.white}; border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
-  cardSoft: `background: ${COLORS.bg}; border-radius: 18px; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.accentLavender}; page-break-inside: avoid; break-inside: avoid;`,
+  card: `background: ${COLORS.white}; border-radius: 16px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; transition: all 0.2s; page-break-inside: avoid; break-inside: avoid;`,
+  cardSoft: `background: ${COLORS.bg}; border-radius: 16px; box-shadow: 0 10px 22px rgba(17, 24, 39, 0.06); border: 1px solid ${COLORS.accentLavender}; page-break-inside: avoid; break-inside: avoid;`,
   cardLime: `background: ${GRADIENTS.limeSoft}; border: 1px solid ${COLORS.accentLime};`,
   cardPurple: `background: ${GRADIENTS.purpleSoft}; color: ${COLORS.text}; border: 1px solid ${COLORS.accentLavender};`,
   listGrid: `display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px;`,
-  listCard: `border-radius: 18px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; background: ${COLORS.white}; page-break-inside: avoid; break-inside: avoid;`,
+  listCard: `border-radius: 16px; padding: ${SPACING.lg}; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); border: 1px solid ${COLORS.border}; background: ${COLORS.white}; page-break-inside: avoid; break-inside: avoid;`,
   
   // Typography helpers
   cardTitle: `${TYPOGRAPHY.h3} margin-bottom: ${SPACING.xs}; display: block;`,
@@ -91,10 +97,9 @@ export const formatList = (items) => {
   const listItems = Array.isArray(items) ? items : [items];
   
   return `
-    <ul style="list-style: none; padding: 0; margin: 0;">
+    <ul class="two-column-list" style="list-style: disc; padding-left: 20px; margin: 0; column-count: 2; column-gap: 22px;">
       ${listItems.map(item => `
-        <li style="position: relative; padding-left: 16px; margin-bottom: 8px; font-size: 14px; color: ${COLORS.text};">
-          <span style="position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: ${COLORS.primary};"></span>
+        <li style="margin-bottom: 8px; font-size: 15px; color: ${COLORS.text}; break-inside: avoid;">
           ${item}
         </li>
       `).join('')}
@@ -117,9 +122,18 @@ export const formatListAsCards = (items) => {
   `;
 };
 
-export const getBrainStudioLogoSVG = () => `
-<img src="https://horizons-cdn.hostinger.com/1af5ba22-48aa-4ebb-9e41-db8e711d6980/f994308f948d72e8aace1a0365fab777.png" alt="Brain Studio" style="width: 140px; height: auto; display: block;" />
-`;
+export const getBrainStudioLogoSVG = (variant = 'default') => {
+  const width = variant === 'small' ? '140px' : '220px';
+  const logoUrl = 'https://brainstudioagencia.com/wp-content/uploads/2026/01/Recurso-1.svg';
+  return `
+    <img
+      src="${logoUrl}"
+      alt="BrainStudio"
+      style="display:block; width: ${width}; height: auto;"
+      onerror="this.onerror=null;this.src='${getLogoDataUri()}';"
+    />
+  `;
+};
 
 export const ICONS = {
   logoSmall: `<div style="width:24px; height:24px; background:${COLORS.primary}; border-radius:4px;"></div>`, // Placeholder if needed
