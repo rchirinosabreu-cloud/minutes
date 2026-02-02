@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
+import { LogOut } from 'lucide-react';
 import frontendApiService from '@/services/frontendApiService';
 
-const Header = () => {
+const Header = ({ onLogout }) => {
   const [firefliesStatus, setFirefliesStatus] = useState('checking');
   const [openAiStatus, setOpenAiStatus] = useState('checking');
 
@@ -92,6 +92,14 @@ const Header = () => {
             <StatusBadge label="OpenAI" status={openAiStatus} />
           </motion.div>
         </div>
+
+        <button
+          onClick={onLogout}
+          className="absolute top-8 right-8 p-2 text-purple-300 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+          title="Cerrar sesión"
+        >
+          <LogOut size={20} />
+        </button>
       </motion.header>
     </>
   );

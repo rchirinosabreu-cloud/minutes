@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import MainLayout from './components/MainLayout';
+import Login from './components/Login';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -43,10 +44,64 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Check for token on mount
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+
+    // Listen for auth errors (401) from axios interceptor
+    const handleAuthError = () => {
+      setIsAuthenticated(false);
+      sessionStorage.removeItem('authToken');
+    };
+
+    window.addEventListener('auth-error', handleAuthError);
+    return () => window.removeEventListener('auth-error', handleAuthError);
+  }, []);
+
+  const handleLogin = (token) => {
+    sessionStorage.setItem('authToken', token);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('authToken');
+    setIsAuthenticated(false);
+  };
+
+  if (isLoading) {
+    return null; // Or a loading spinner
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Login onLogin={handleLogin} />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#1e1633',
+              color: '#fff',
+              border: '1px solid rgba(139, 92, 246, 0.3)',
+            },
+          }}
+        />
+      </>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-[#0f0a1a]">
-        <Header />
+        <Header onLogout={handleLogout} />
         <MainLayout />
         <Toaster
           position="top-right"
