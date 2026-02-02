@@ -39,7 +39,7 @@ const Login = ({ onLogin }) => {
       <div className="w-full max-w-md bg-[#1e1633] rounded-2xl border border-purple-900/50 shadow-2xl p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-            Brain Studio
+            BrainStudio Minutes
           </h1>
           <p className="text-purple-300 mt-2">Ingresa para continuar</p>
         </div>
@@ -54,7 +54,7 @@ const Login = ({ onLogin }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full px-4 py-3 bg-[#0f0a1a] border border-purple-900/50 rounded-lg text-white placeholder-purple-600/50 focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all"
-              placeholder="admin"
+              placeholder="usuario"
               required
             />
           </div>
