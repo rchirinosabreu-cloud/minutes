@@ -1,0 +1,40 @@
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Host localhost:8080 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying [::1]:8080...
+* Connected to localhost (::1) port 8080
+> POST /api/login HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.5.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 42
+>
+} [42 bytes data]
+< HTTP/1.1 404 Not Found
+< X-Powered-By: Express
+< Vary: Origin
+< Content-Security-Policy: default-src 'none'
+< X-Content-Type-Options: nosniff
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 149
+< Date: Mon, 02 Feb 2026 21:14:05 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+<
+{ [149 bytes data]
+100   191  100   149  100    42  33207   9360 --:--:-- --:--:-- --:--:-- 47750
+* Connection #0 to host localhost left intact
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/login</pre>
+</body>
+</html>

@@ -1,11 +1,9 @@
-import axios from 'axios';
+import axiosInstance from '../lib/axios';
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  'https://minutes-production.up.railway.app';
-const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
-const getFirefliesApiUrl = (baseUrl) => `${baseUrl}/api/fireflies/graphql`;
-const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
+const OPENAI_API_URL = '/api/openai/v1/chat/completions';
+const FIREFLIES_API_URL = '/api/fireflies/graphql';
+const GEMINI_API_URL = '/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent';
+
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -34,7 +32,7 @@ const frontendApiService = {
 
     while (attempt < retries) {
       try {
-        const response = await axios.post(OPENAI_API_URL, {
+        const response = await axiosInstance.post(OPENAI_API_URL, {
           model: "gpt-5.1",
           messages: [
             { role: "system", content: finalSystemMessage },
@@ -82,7 +80,7 @@ const frontendApiService = {
 
   generateGeminiHtmlReport: async (prompt) => {
     try {
-      const response = await axios.post(GEMINI_API_URL, {
+      const response = await axiosInstance.post(GEMINI_API_URL, {
         contents: [
           {
             role: "user",
@@ -110,18 +108,16 @@ const frontendApiService = {
 
   // Fireflies GraphQL Call
   fetchFirefliesData: async (query, variables = {}) => {
-    const postFireflies = async (baseUrl) => axios.post(
-      getFirefliesApiUrl(baseUrl),
-      { query, variables },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
     try {
-      const response = await postFireflies(API_BASE_URL);
+      const response = await axiosInstance.post(
+        FIREFLIES_API_URL,
+        { query, variables },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
       if (response.data.errors) {
         throw new Error(response.data.errors[0].message);
@@ -162,8 +158,8 @@ const frontendApiService = {
     `;
 
     try {
-      const response = await axios.post(
-        getFirefliesApiUrl(API_BASE_URL),
+      const response = await axiosInstance.post(
+        FIREFLIES_API_URL,
         { query, variables: { limit: 1, skip: 0 } },
         {
           headers: {
@@ -184,7 +180,7 @@ const frontendApiService = {
   },
   checkOpenAiConnection: async () => {
     try {
-      await axios.get(`${API_BASE_URL}/api/openai/v1/models`);
+      await axiosInstance.get('/api/openai/v1/models');
       return true;
     } catch (error) {
       console.warn("OpenAI Health Check Error:", error);

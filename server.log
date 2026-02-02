@@ -1,0 +1,7 @@
+[minutes-backend] OPENAI_API_KEY is not set. OpenAI proxy calls will fail.
+[minutes-backend] FIREFLIES_API_KEY is not set. Fireflies proxy calls will fail.
+[minutes-backend] GEMINI_API_KEY is not set. Gemini proxy calls will fail.
+[HPM] Proxy created: /  -> https://api.openai.com
+[HPM] Proxy created: /  -> https://api.fireflies.ai
+[HPM] Proxy created: /  -> https://generativelanguage.googleapis.com
+[minutes-backend] Proxy listening on port 8080

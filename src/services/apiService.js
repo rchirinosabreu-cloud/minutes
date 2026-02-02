@@ -1,13 +1,11 @@
-import axios from 'axios';
-
-const BASE_URL = 'https://minutes-production.up.railway.app';
+import axiosInstance from '../lib/axios';
 
 // API Service for all backend communications
 const apiService = {
   // Fetch transcripts from Fireflies API (Backend handles auth)
   fetchTranscripts: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/fireflies/transcripts`);
+      const response = await axiosInstance.get('/api/fireflies/transcripts');
       // Adjust based on actual response structure, assuming array or { data: [] }
       return response.data;
     } catch (error) {
@@ -22,7 +20,7 @@ const apiService = {
       const formData = new FormData();
       formData.append('document', file);
 
-      const response = await axios.post(`${BASE_URL}/api/upload`, formData, {
+      const response = await axiosInstance.post('/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -44,7 +42,7 @@ const apiService = {
   // Analyze meeting (Used for both Summary and Full Analysis based on prompt requirements)
   analyzeMeeting: async (id, focus = 'general') => {
     try {
-      const response = await axios.post(`${BASE_URL}/api/analyze/${id}`, {
+      const response = await axiosInstance.post(`/api/analyze/${id}`, {
         focus
       });
       return response.data;
