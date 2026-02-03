@@ -36,6 +36,13 @@ axiosInstance.interceptors.response.use(
         requestUrl.includes('/api/gemini') ||
         requestUrl.includes('/api/fireflies');
 
+      const isAuthRequest = requestUrl.includes('/api/login');
+
+      if (isAuthRequest) {
+        console.warn(`[Axios] Ignored ${error.response.status} from Auth Endpoint: ${requestUrl}. No logout triggered.`);
+        return Promise.reject(error);
+      }
+
       // Debugging for production issues
       if (isExternalApi) {
         console.warn(`[Axios] Ignored ${error.response.status} from External API: ${requestUrl}. No logout triggered.`);
