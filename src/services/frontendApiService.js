@@ -55,6 +55,9 @@ const frontendApiService = {
           if (error.message === 'Network Error' && !error.response) {
             throw new Error("Network Error: La llamada a OpenAI necesita un proxy/servidor para evitar CORS. Configura el backend /api/openai o VITE_API_BASE_URL.");
           }
+          if (error.response?.status === 502) {
+             throw new Error("Error de autenticación con el servicio de OpenAI. Por favor contacta al soporte.");
+          }
           throw new Error(error.response?.data?.error?.message || "Failed to generate completion from OpenAI");
         }
       }
@@ -102,6 +105,9 @@ const frontendApiService = {
       if (error.message === 'Network Error' && !error.response) {
         throw new Error("Network Error: La llamada a Gemini necesita un proxy/servidor para evitar CORS. Configura el backend /api/gemini o VITE_API_BASE_URL.");
       }
+      if (error.response?.status === 502) {
+         throw new Error("Error de autenticación con el servicio de IA (Gemini). Por favor contacta al soporte.");
+      }
       throw new Error(error.response?.data?.error?.message || error.message || "Failed to generate HTML from Gemini");
     }
   },
@@ -137,6 +143,10 @@ const frontendApiService = {
         throw new Error(
           "El proxy de Fireflies no respondió (504). Verifica que el backend esté en línea y que VITE_API_BASE_URL apunte a tu servidor."
         );
+      }
+
+      if (error.response?.status === 502) {
+         throw new Error("Error de autenticación con el servicio de Fireflies. Por favor contacta al soporte.");
       }
 
       if (error.response?.status === 401 || error.response?.status === 403) {
