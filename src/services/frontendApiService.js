@@ -105,8 +105,11 @@ const frontendApiService = {
       if (error.message === 'Network Error' && !error.response) {
         throw new Error("Network Error: La llamada a Gemini necesita un proxy/servidor para evitar CORS. Configura el backend /api/gemini o VITE_API_BASE_URL.");
       }
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        throw new Error("No autorizado para Gemini. Verifica la configuración del API Key en el backend.");
+      }
       if (error.response?.status === 502) {
-         throw new Error("Error de autenticación con el servicio de IA (Gemini). Por favor contacta al soporte.");
+        throw new Error("El proxy de Gemini no respondió correctamente (502). Verifica el backend o el API Key.");
       }
       throw new Error(error.response?.data?.error?.message || error.message || "Failed to generate HTML from Gemini");
     }
