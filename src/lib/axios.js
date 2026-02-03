@@ -27,19 +27,26 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      const requestUrl = error.config.url;
-      // Ignore 401s from upstream AI/External APIs to prevent auto-logout
-      // These should be handled by the specific service calls (e.g. frontendApiService)
+      const requestUrl = error.config?.url || '';
+
+      // Determine if this is an external AI API call via our proxy
+      // These paths match the backend proxy routes
       const isExternalApi =
         requestUrl.includes('/api/openai') ||
         requestUrl.includes('/api/gemini') ||
         requestUrl.includes('/api/fireflies');
 
-      if (!isExternalApi) {
-        // Clear token and redirect to login only if it's an app-level auth error
-        sessionStorage.removeItem('authToken');
-        window.dispatchEvent(new Event('auth-error'));
+      // Debugging for production issues
+      if (isExternalApi) {
+        console.warn(`[Axios] Ignored ${error.response.status} from External API: ${requestUrl}. No logout triggered.`);
+        return Promise.reject(error);
       }
+
+      // If we are here, it's a legitimate application-level auth error (e.g., token expired)
+      console.warn(`[Axios] Auth Error ${error.response.status} on ${requestUrl}. Triggering logout.`);
+
+      sessionStorage.removeItem('authToken');
+      window.dispatchEvent(new Event('auth-error'));
     }
     return Promise.reject(error);
   }

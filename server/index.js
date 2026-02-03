@@ -80,14 +80,17 @@ app.use(
     secure: true,
     pathRewrite: (path) => path.replace(/^\/api\/openai/, ''),
     onProxyReq: (proxyReq) => {
+      // Add User-Agent to avoid blocking by some APIs/Firewalls
+      proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
+
       if (openaiApiKey) {
         proxyReq.setHeader('Authorization', `Bearer ${openaiApiKey}`);
       }
     },
     onProxyRes: (proxyRes, req, res) => {
-      if (proxyRes.statusCode === 401) {
+      if (proxyRes.statusCode === 401 || proxyRes.statusCode === 403) {
         proxyRes.statusCode = 502;
-        console.error('[Proxy] OpenAI API 401 Unauthorized - Converting to 502 to avoid frontend logout');
+        console.error(`[Proxy] OpenAI API ${proxyRes.statusCode} - Converting to 502 to avoid frontend logout`);
       }
     },
   })
@@ -117,9 +120,9 @@ app.use(
         if (proxyRes.statusCode >= 400) {
             console.error(`[Proxy] Fireflies API Error: ${proxyRes.statusCode} ${proxyRes.statusMessage}`);
         }
-        if (proxyRes.statusCode === 401) {
+        if (proxyRes.statusCode === 401 || proxyRes.statusCode === 403) {
             proxyRes.statusCode = 502;
-            console.error('[Proxy] Fireflies API 401 Unauthorized - Converting to 502 to avoid frontend logout');
+            console.error(`[Proxy] Fireflies API ${proxyRes.statusCode} - Converting to 502 to avoid frontend logout`);
         }
     },
     onError: (err, req, res) => {
@@ -138,14 +141,17 @@ app.use(
     secure: true,
     pathRewrite: (path) => path.replace(/^\/api\/gemini/, ''),
     onProxyReq: (proxyReq) => {
+      // Add User-Agent to avoid blocking by some APIs/Firewalls
+      proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
+
       if (geminiApiKey) {
         proxyReq.setHeader('x-goog-api-key', geminiApiKey);
       }
     },
     onProxyRes: (proxyRes, req, res) => {
-      if (proxyRes.statusCode === 401) {
+      if (proxyRes.statusCode === 401 || proxyRes.statusCode === 403) {
         proxyRes.statusCode = 502;
-        console.error('[Proxy] Gemini API 401 Unauthorized - Converting to 502 to avoid frontend logout');
+        console.error(`[Proxy] Gemini API ${proxyRes.statusCode} - Converting to 502 to avoid frontend logout`);
       }
     },
   })
