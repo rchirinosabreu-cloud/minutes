@@ -2,7 +2,7 @@ import axiosInstance from '../lib/axios';
 
 const OPENAI_API_URL = '/api/openai/v1/chat/completions';
 const FIREFLIES_API_URL = '/api/fireflies/graphql';
-const GEMINI_API_URL = '/api/gemini/v1beta/models/gemini-2.5-flash:generateContent';
+const GEMINI_API_URL = '/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent';
 
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
