@@ -84,6 +84,12 @@ app.use(
         proxyReq.setHeader('Authorization', `Bearer ${openaiApiKey}`);
       }
     },
+    onProxyRes: (proxyRes, req, res) => {
+      if (proxyRes.statusCode === 401) {
+        proxyRes.statusCode = 502;
+        console.error('[Proxy] OpenAI API 401 Unauthorized - Converting to 502 to avoid frontend logout');
+      }
+    },
   })
 );
 
@@ -111,6 +117,10 @@ app.use(
         if (proxyRes.statusCode >= 400) {
             console.error(`[Proxy] Fireflies API Error: ${proxyRes.statusCode} ${proxyRes.statusMessage}`);
         }
+        if (proxyRes.statusCode === 401) {
+            proxyRes.statusCode = 502;
+            console.error('[Proxy] Fireflies API 401 Unauthorized - Converting to 502 to avoid frontend logout');
+        }
     },
     onError: (err, req, res) => {
       console.error('[minutes-backend] Fireflies Proxy Error:', err);
@@ -130,6 +140,12 @@ app.use(
     onProxyReq: (proxyReq) => {
       if (geminiApiKey) {
         proxyReq.setHeader('x-goog-api-key', geminiApiKey);
+      }
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      if (proxyRes.statusCode === 401) {
+        proxyRes.statusCode = 502;
+        console.error('[Proxy] Gemini API 401 Unauthorized - Converting to 502 to avoid frontend logout');
       }
     },
   })
