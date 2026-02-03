@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import axiosInstance from '../lib/axios';
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  'https://minutes-production.up.railway.app';
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/login`, {
+      const response = await axiosInstance.post('/api/login', {
         username,
         password,
       });
