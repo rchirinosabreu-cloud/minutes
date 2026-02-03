@@ -27,10 +27,19 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-      // Clear token and redirect to login if unauthorized
-      // We'll dispatch a custom event that App.jsx can listen to
-      sessionStorage.removeItem('authToken');
-      window.dispatchEvent(new Event('auth-error'));
+      const requestUrl = error.config.url;
+      // Ignore 401s from upstream AI/External APIs to prevent auto-logout
+      // These should be handled by the specific service calls (e.g. frontendApiService)
+      const isExternalApi =
+        requestUrl.includes('/api/openai') ||
+        requestUrl.includes('/api/gemini') ||
+        requestUrl.includes('/api/fireflies');
+
+      if (!isExternalApi) {
+        // Clear token and redirect to login only if it's an app-level auth error
+        sessionStorage.removeItem('authToken');
+        window.dispatchEvent(new Event('auth-error'));
+      }
     }
     return Promise.reject(error);
   }
