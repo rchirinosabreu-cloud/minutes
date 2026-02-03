@@ -150,8 +150,7 @@ app.use(
     },
     onProxyRes: (proxyRes, req, res) => {
       if (proxyRes.statusCode === 401 || proxyRes.statusCode === 403) {
-        proxyRes.statusCode = 502;
-        console.error(`[Proxy] Gemini API ${proxyRes.statusCode} - Converting to 502 to avoid frontend logout`);
+        console.error(`[Proxy] Gemini API Auth Error: ${proxyRes.statusCode} ${proxyRes.statusMessage}`);
       }
     },
   })
