@@ -2,8 +2,6 @@ import axiosInstance from '../lib/axios';
 
 const OPENAI_API_URL = '/api/openai/v1/chat/completions';
 const FIREFLIES_API_URL = '/api/fireflies/graphql';
-const API_KEY = "AIzaSyDhterTLJmZLsP8_HOg1CuikD4T0Vtc4XY";
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models//gemini-3-pro-preview:generateContent?key=${API_KEY}`;
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
 
 // Helper for delay
