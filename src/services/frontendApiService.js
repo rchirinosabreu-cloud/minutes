@@ -1,5 +1,7 @@
 import axiosInstance from '../lib/axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://minutes-production.up.railway.app';
+
 const OPENAI_API_URL = '/api/openai/v1/chat/completions';
 const FIREFLIES_API_URL = '/api/fireflies/graphql';
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
