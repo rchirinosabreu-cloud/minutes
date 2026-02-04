@@ -83,6 +83,9 @@ app.use(
       // Add User-Agent to avoid blocking by some APIs/Firewalls
       proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
 
+      // Remove the frontend's JWT Authorization header
+      proxyReq.removeHeader('Authorization');
+
       if (openaiApiKey) {
         proxyReq.setHeader('Authorization', `Bearer ${openaiApiKey}`);
       }
@@ -108,6 +111,9 @@ app.use(
       // Add User-Agent to avoid blocking by some APIs/Firewalls (Cloudflare)
       proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
       proxyReq.setHeader('Content-Type', 'application/json');
+
+      // Remove the frontend's JWT Authorization header
+      proxyReq.removeHeader('Authorization');
 
       if (firefliesApiKey) {
         proxyReq.setHeader('Authorization', `Bearer ${firefliesApiKey}`);
@@ -143,6 +149,9 @@ app.use(
     onProxyReq: (proxyReq) => {
       // Add User-Agent to avoid blocking by some APIs/Firewalls
       proxyReq.setHeader('User-Agent', 'BrainStudioMinutes/1.0');
+
+      // Remove the frontend's JWT Authorization header to avoid 401 from Google
+      proxyReq.removeHeader('Authorization');
 
       if (geminiApiKey) {
         proxyReq.setHeader('x-goog-api-key', geminiApiKey);
