@@ -1,7 +1,8 @@
 node_modules/
 server/node_modules/
-*.log
 .env
+.env.production
 .DS_Store
 dist/
 coverage/
+*.log

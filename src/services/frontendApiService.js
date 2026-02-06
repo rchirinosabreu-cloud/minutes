@@ -1,11 +1,11 @@
-import axios from 'axios';
+import axiosInstance from '../lib/axios';
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  'https://minutes-production.up.railway.app';
-const OPENAI_API_URL = `${API_BASE_URL}/api/openai/v1/chat/completions`;
-const getFirefliesApiUrl = (baseUrl) => `${baseUrl}/api/fireflies/graphql`;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://minutes-production.up.railway.app';
+
+const OPENAI_API_URL = '/api/openai/v1/chat/completions';
+const FIREFLIES_API_URL = '/api/fireflies/graphql';
 const GEMINI_API_URL = `${API_BASE_URL}/api/gemini/v1beta/models/gemini-3-pro-preview:generateContent`;
+
 // Helper for delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -34,7 +34,7 @@ const frontendApiService = {
 
     while (attempt < retries) {
       try {
-        const response = await axios.post(OPENAI_API_URL, {
+        const response = await axiosInstance.post(OPENAI_API_URL, {
           model: "gpt-5.1",
           messages: [
             { role: "system", content: finalSystemMessage },
@@ -57,6 +57,9 @@ const frontendApiService = {
           if (error.message === 'Network Error' && !error.response) {
             throw new Error("Network Error: La llamada a OpenAI necesita un proxy/servidor para evitar CORS. Configura el backend /api/openai o VITE_API_BASE_URL.");
           }
+          if (error.response?.status === 502) {
+             throw new Error("Error de autenticación con el servicio de OpenAI. Por favor contacta al soporte.");
+          }
           throw new Error(error.response?.data?.error?.message || "Failed to generate completion from OpenAI");
         }
       }
@@ -70,19 +73,20 @@ const frontendApiService = {
     if (!files || files.length === 0) throw new Error("No files provided for analysis");
 
     // Concatenate contents
-    let combinedContext = "A continuación se presentan los contenidos de múltiples fuentes para su análisis integrado:\n\n";
+    const parts = ["A continuación se presentan los contenidos de múltiples fuentes para su análisis integrado:\n\n"];
     
     files.forEach((file, index) => {
-      combinedContext += `--- FUENTE ${index + 1}: ${file.title} (${file.type}) ---\n`;
-      combinedContext += `${file.text.substring(0, 20000)} \n\n`; // Limit per file to avoid context window explosion
+      parts.push(`--- FUENTE ${index + 1}: ${file.title} (${file.type}) ---\n`);
+      parts.push(file.text.substring(0, 20000));
+      parts.push(' \n\n'); // Limit per file to avoid context window explosion
     });
 
-    return combinedContext;
+    return parts.join('');
   },
 
   generateGeminiHtmlReport: async (prompt) => {
     try {
-      const response = await axios.post(GEMINI_API_URL, {
+      const response = await axiosInstance.post(GEMINI_API_URL, {
         contents: [
           {
             role: "user",
@@ -104,24 +108,28 @@ const frontendApiService = {
       if (error.message === 'Network Error' && !error.response) {
         throw new Error("Network Error: La llamada a Gemini necesita un proxy/servidor para evitar CORS. Configura el backend /api/gemini o VITE_API_BASE_URL.");
       }
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        throw new Error("No autorizado para Gemini. Verifica la configuración del API Key en el backend.");
+      }
+      if (error.response?.status === 502) {
+        throw new Error("El proxy de Gemini no respondió correctamente (502). Verifica el backend o el API Key.");
+      }
       throw new Error(error.response?.data?.error?.message || error.message || "Failed to generate HTML from Gemini");
     }
   },
 
   // Fireflies GraphQL Call
   fetchFirefliesData: async (query, variables = {}) => {
-    const postFireflies = async (baseUrl) => axios.post(
-      getFirefliesApiUrl(baseUrl),
-      { query, variables },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
-
     try {
-      const response = await postFireflies(API_BASE_URL);
+      const response = await axiosInstance.post(
+        FIREFLIES_API_URL,
+        { query, variables },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
       if (response.data.errors) {
         throw new Error(response.data.errors[0].message);
@@ -143,6 +151,10 @@ const frontendApiService = {
         );
       }
 
+      if (error.response?.status === 502) {
+         throw new Error("Error de autenticación con el servicio de Fireflies. Por favor contacta al soporte.");
+      }
+
       if (error.response?.status === 401 || error.response?.status === 403) {
         throw new Error(
           "No autorizado para Fireflies. Revisa que FIREFLIES_API_KEY esté configurada en el backend."
@@ -162,8 +174,8 @@ const frontendApiService = {
     `;
 
     try {
-      const response = await axios.post(
-        getFirefliesApiUrl(API_BASE_URL),
+      const response = await axiosInstance.post(
+        FIREFLIES_API_URL,
         { query, variables: { limit: 1, skip: 0 } },
         {
           headers: {
@@ -184,7 +196,7 @@ const frontendApiService = {
   },
   checkOpenAiConnection: async () => {
     try {
-      await axios.get(`${API_BASE_URL}/api/openai/v1/models`);
+      await axiosInstance.get('/api/openai/v1/models');
       return true;
     } catch (error) {
       console.warn("OpenAI Health Check Error:", error);
