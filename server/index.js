@@ -70,7 +70,9 @@ app.use(
       }
 
       // Log request details for debugging
-      console.log(`[Proxy] Proxying ${req.method} request to: ${proxyReq.path}`);
+      if (process.env.DEBUG === 'true') {
+        console.log(`[Proxy] Proxying ${req.method} request to: ${proxyReq.path}`);
+      }
     },
     onProxyRes: (proxyRes, req, res) => {
         if (proxyRes.statusCode >= 400) {
