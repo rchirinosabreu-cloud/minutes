@@ -73,14 +73,15 @@ const frontendApiService = {
     if (!files || files.length === 0) throw new Error("No files provided for analysis");
 
     // Concatenate contents
-    let combinedContext = "A continuación se presentan los contenidos de múltiples fuentes para su análisis integrado:\n\n";
+    const parts = ["A continuación se presentan los contenidos de múltiples fuentes para su análisis integrado:\n\n"];
     
     files.forEach((file, index) => {
-      combinedContext += `--- FUENTE ${index + 1}: ${file.title} (${file.type}) ---\n`;
-      combinedContext += `${file.text.substring(0, 20000)} \n\n`; // Limit per file to avoid context window explosion
+      parts.push(`--- FUENTE ${index + 1}: ${file.title} (${file.type}) ---\n`);
+      parts.push(file.text.substring(0, 20000));
+      parts.push(' \n\n'); // Limit per file to avoid context window explosion
     });
 
-    return combinedContext;
+    return parts.join('');
   },
 
   generateGeminiHtmlReport: async (prompt) => {
