@@ -1,0 +1,9 @@
+
+> web-app@0.0.0 dev
+> vite --host :: --port 3000
+
+Port 3000 is in use, trying another one...
+
+  VITE v4.5.5  ready in 541 ms
+
+  ➜  Local:   http://localhost:30018:32:27 PM [vite] hmr update /src/App.jsx, /src/index.css
